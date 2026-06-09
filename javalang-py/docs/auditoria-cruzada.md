@@ -1,0 +1,1 @@
+Este documento será utilizado na fase final do cronograma para a realização da auditoria externa. Nele, a nossa equipe registrará a avaliação feita sobre o repositório e o processo de uma outra equipe da turma, que será definida por sorteio. Este arquivo compõe os documentos finais obrigatórios que devem ser entregues junto com a nossa própria auditoria interna na release final.

@@ -1,0 +1,48 @@
+# =========================
+# Python
+# =========================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# =========================
+# Ambientes Virtuais
+# =========================
+venv/
+.venv/
+env/
+.env/
+
+# =========================
+# Editor
+# =========================
+.vscode/
+*.code-workspace
+
+# =========================
+# Testes e Relatórios
+# =========================
+.pytest_cache/
+
+# Builds e metadados de pacotes Python
+*.egg-info/
+.eggs/
+build/
+dist/
+
+# Arquivos do Coverage
+.coverage
+coverage.xml
+htmlcov/
+*.cover
+
+# Cache de Linters e Type Checkers
+.ruff_cache/
+.mypy_cache/
+
+# =========================
+# Sistema Operacional
+# =========================
+.DS_Store
+Thumbs.db

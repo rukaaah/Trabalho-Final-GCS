@@ -1,0 +1,22 @@
+# ==============================================================================
+# Arquivo de Integracao Continua (CI) - GitHub Actions
+#
+# RESPONSAVEL: Engenheiro de Qualidade - Yan Victor Gomes 
+#
+# OBJETIVO:
+# Este arquivo garante que nenhum codigo quebrado ou fora do padrao seja
+# mesclado na branch principal (main). Ele e acionado automaticamente a
+# cada Pull Request ou push na main.
+#
+# O QUE ESTE FLUXO FAZ:
+# 1. Prepara uma maquina virtual (Ubuntu) no servidor do GitHub.
+# 2. Instala a versao do Python definida no projeto (3.10).
+# 3. Instala as bibliotecas do pyproject.toml (pytest, ruff, coverage).
+# 4. Executa o linter (Ruff) para verificar a padronizacao do codigo.
+# 5. Executa a suite de testes (Pytest) com verificacao de cobertura.
+#
+# AVISO:
+# Se qualquer um dos passos (linter ou testes) falhar, o GitHub Actions
+# marcara o Pull Request com um "X" vermelho e o Mantenedor nao podera
+# aprovar o merge.
+# ==============================================================================

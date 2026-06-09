@@ -1,0 +1,31 @@
+[project]
+name = "javalang-py"
+version = "0.1.0"
+description = "Implementação das classes String, Integer e Float da especificação Java SE 8 em Python."
+requires-python = ">=3.10"
+dependencies = []
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "pytest-cov",
+    "coverage",
+    "ruff",
+    "mypy"
+]
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+addopts = "-ra -q --cov=javalang"
+testpaths = [
+    "tests",
+]
+
+[tool.ruff]
+line-length = 88
+# Ignorar as regras de snake_case exigidas pelo Python,
+# pois o professor determinou o uso de camelCase (ex: charAt)
+lint.ignore = ["N802", "N803", "N815"] 
+
+[tool.mypy]
+strict = true
