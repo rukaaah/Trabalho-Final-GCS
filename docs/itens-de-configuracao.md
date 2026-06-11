@@ -2,7 +2,7 @@
 
 ## Sobre este documento
 
-Este documento é de manutenção obrigatória e de responsabilidade do **Gerente de Configuração**, [Angelo Antônio](https://github.com/angelo-acds), da equipe. Seu objetivo é identificar, catalogar e rastrear o estado de todos os artefatos essenciais que compõem o repositório deste projeto.
+Este documento é de manutenção obrigatória e de responsabilidade do **Gerente de Configuração**, [Angelo Antonio](https://github.com/angelo-acds), da equipe. Seu objetivo é identificar, catalogar e rastrear o estado de todos os artefatos essenciais que compõem o repositório deste projeto.
 
 De acordo com as regras estabelecidas para a disciplina, este catálogo deve conter, no mínimo, a identificação dos seguintes elementos:
 * Os três módulos de classe principais (`JString`, `JInteger`, `JFloat`) e suas respectivas suítes de testes.
