@@ -12,8 +12,6 @@ De acordo com as regras estabelecidas para a disciplina, este catálogo deve con
 
 Para garantir a rastreabilidade correta, cada item de configuração deve listar os seguintes atributos vitais: **responsável, formato, periodicidade de mudança e dependências**.
 
-Essa explicação pode ser retirada posteriormente, de acordo com a organização do Gerente de Configuração.
-
 ---
 ## Catálogo de Itens
 
