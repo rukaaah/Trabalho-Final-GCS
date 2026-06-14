@@ -1,7 +1,7 @@
 # ==============================================================================
 # Arquivo de Integracao Continua (CI) - GitHub Actions
 #
-# RESPONSAVEL: Engenheiro de Qualidade - Yan Victor Gomes 
+# RESPONSAVEL: Engenheiro de Qualidade - Yan Victor Gomes
 #
 # OBJETIVO:
 # Este arquivo garante que nenhum codigo quebrado ou fora do padrao seja
@@ -19,4 +19,42 @@
 # Se qualquer um dos passos (linter ou testes) falhar, o GitHub Actions
 # marcara o Pull Request com um "X" vermelho e o Mantenedor nao podera
 # aprovar o merge.
+#
+# AVISO IMPORTANTE (ADR-0004 - TDD/Test-First):
+# Durante os sprints iniciais, e ESPERADO que a etapa de testes (pytest)
+# falhe, pois os testes foram escritos antes da implementacao das classes
+# JInteger, JFloat e JString. Isso e intencional e nao representa um erro
+# de configuracao da CI. A equipe deve acompanhar a evolucao dos testes de
+# RED (falhando) para GREEN (passando) ao longo dos sprints.
 # ==============================================================================
+
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  qualidade:
+    name: Lint e Testes
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Baixar codigo do repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Python 3.10
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Instalar dependencias do projeto (modo dev)
+        run: pip install -e ".[dev]"
+
+      - name: Executar linter (Ruff)
+        run: ruff check .
+
+      - name: Executar suite de testes (Pytest + cobertura)
+        run: pytest
