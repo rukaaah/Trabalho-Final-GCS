@@ -30,3 +30,12 @@ Conforme as regras de GCS, a utilização de IA não exime o desenvolvedor da re
 * **Ferramenta Utilizada:** Gemini
 * **Prompt Representativo:**
   > "Preciso implementar o método codePointBefore do Java em Python. Como o Python lida com surrogate pairs em strings unicode internamente comparado ao char do Java?"
+  
+
+### Módulo: `JInteger`, `JFloat`, `JString`, `Interop` - Suíte de Testes Base
+* **Data:** 14/06/2026
+* **Desenvolvedor Responsável:** @GomesYV
+* **Métodos Implementados/Auxiliados:** Suíte completa de testes (tests/test_jinteger.py, tests/test_jfloat.py, tests/test_jstring.py, tests/test_interop.py) - aproximadamente 158 casos de teste cobrindo o contrato público das três classes, conforme a especificação Java SE 8.
+* **Ferramenta Utilizada:** Claude (Anthropic)
+* **Prompt Representativo:**
+  > "Preciso de um arquivo de teste-base para os devs usarem como referência (TDD/Test-First conforme ADR-0004), cobrindo construtores, métodos de instância e estáticos das classes JInteger, JFloat e JString conforme a especificação Java SE 8, organizados em blocos pequenos compatíveis com as regras anti-atalho do projeto (máx. 7 testes por PR, máx. 3 por commit)."
