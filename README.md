@@ -85,7 +85,11 @@ A equipe adota estritamente o GitHub Flow:
 
 4. A integração é feita via **Pull Request (PR)**, exigindo aprovação de pelo menos um membro além do autor e aprovação documentada antes de ser mesclada.
 
+5. O time de Quality (QA) é responsável por iniciar o ciclo de cada funcionalidade, escrevendo os testes automatizados com base na documentação oficial do Java SE 8.
 
+6. O desenvolvimento do código só poderá ser iniciado em cima da suíte de testes já criada pelo QA.
+
+7. Os desenvolvedores utilizarão os testes (inicialmente falhos) como guia estrito de implementação e deverão escrever o código apenas com o objetivo de fazê-los passar.
 
 ---
 
