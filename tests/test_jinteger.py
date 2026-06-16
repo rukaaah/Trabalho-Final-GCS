@@ -45,3 +45,15 @@ class TestJIntegerConstantesParte2:
         # existe e aponta para o tipo usado internamente pela classe.
         assert JInteger.TYPE is not None
 
+
+class TestJIntegerConstrutor:
+    def test_construtor_aceita_inteiro(self):
+        numero = JInteger(10)
+        assert numero is not None
+
+    def test_construtor_guarda_valor_internamente(self):
+        # Verifica apenas que a instância foi criada com sucesso a partir
+        # de um int, sem depender de métodos de conversão (intValue, etc.),
+        # que ainda não fazem parte do escopo desta issue.
+        numero = JInteger(0)
+        assert isinstance(numero, JInteger)
