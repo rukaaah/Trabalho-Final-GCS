@@ -4,28 +4,25 @@
 # RESPONSAVEL: Engenheiro de Qualidade - Yan Victor Gomes
 #
 # OBJETIVO:
-# Este arquivo garante que nenhum codigo quebrado ou fora do padrao seja
-# mesclado na branch principal (main). Ele e acionado automaticamente a
-# cada Pull Request ou push na main.
+# Este workflow protege a branch principal (main) contra quebras de codigo
+# e falhas de padronizacao, conforme a Secao 4.5 do enunciado do trabalho.
+# Ele e acionado automaticamente a cada push na main e a cada Pull Request
+# aberto contra a main.
 #
 # O QUE ESTE FLUXO FAZ:
 # 1. Prepara uma maquina virtual (Ubuntu) no servidor do GitHub.
-# 2. Instala a versao do Python definida no projeto (3.10).
+# 2. Instala a versao do Python definida no projeto (3.10+).
 # 3. Instala as bibliotecas do pyproject.toml (pytest, ruff, coverage).
 # 4. Executa o linter (Ruff) para verificar a padronizacao do codigo.
-# 5. Executa a suite de testes (Pytest) com verificacao de cobertura.
+# 5. Executa a suite de testes (Pytest) com geracao de relatorio de
+#    cobertura (Coverage).
 #
-# AVISO:
-# Se qualquer um dos passos (linter ou testes) falhar, o GitHub Actions
-# marcara o Pull Request com um "X" vermelho e o Mantenedor nao podera
-# aprovar o merge.
-#
-# AVISO IMPORTANTE (ADR-0004 - TDD/Test-First):
-# Durante os sprints iniciais, e ESPERADO que a etapa de testes (pytest)
-# falhe, pois os testes foram escritos antes da implementacao das classes
-# JInteger, JFloat e JString. Isso e intencional e nao representa um erro
-# de configuracao da CI. A equipe deve acompanhar a evolucao dos testes de
-# RED (falhando) para GREEN (passando) ao longo dos sprints.
+# REGRA DO PROJETO:
+# Nenhum Pull Request deve ser mesclado na main com checks em vermelho.
+# Testes e implementacao devem ser desenvolvidos e validados localmente
+# (ou em branch de trabalho) antes da abertura do Pull Request contra a
+# main. Cada Pull Request deve conter, juntos, o codigo e os testes que o
+# validam, de modo que a CI permaneca verde no momento do merge.
 # ==============================================================================
 
 name: CI
@@ -57,4 +54,4 @@ jobs:
         run: ruff check .
 
       - name: Executar suite de testes (Pytest + cobertura)
-        run: pytest
+        run: pytest --cov=javalang --cov-report=term-missing
