@@ -21,4 +21,6 @@ class JInteger:
     # constantes de limite e tamanho do tipo int em Java
     MAX_VALUE = 2147483647    
     MIN_VALUE = -2147483648   
-    SIZE = 32                 
+    SIZE = 32   
+    BYTES = SIZE // 8
+    TYPE = int              
