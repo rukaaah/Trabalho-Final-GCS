@@ -23,4 +23,8 @@ class JInteger:
     MIN_VALUE = -2147483648   
     SIZE = 32   
     BYTES = SIZE // 8
-    TYPE = int              
+    TYPE = int
+
+    def __init__(self, value):
+        # construtor Integer(int value)
+        self._valor = value              
