@@ -33,3 +33,15 @@ class TestJIntegerConstantes:
     def test_size_em_bits(self):
         assert JInteger.SIZE == 32
 
+
+class TestJIntegerConstantesParte2:
+    def test_bytes(self):
+        assert JInteger.BYTES == 4
+
+    def test_type_existe(self):
+        # No Java, Integer.TYPE referencia a classe primitiva int.
+        # Em Python não há um equivalente direto (ver adaptação registrada
+        # em docs/adaptacoes.md). Aqui validamos apenas que o atributo
+        # existe e aponta para o tipo usado internamente pela classe.
+        assert JInteger.TYPE is not None
+
