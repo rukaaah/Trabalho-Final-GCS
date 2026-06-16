@@ -18,10 +18,7 @@ Um commit não pode conter mais de 3 métodos de teste.
 """
 
 class JInteger:
-    # TODO: Implementar constantes (MAX_VALUE, MIN_VALUE, SIZE, BYTES, TYPE)
-    
-    def __init__(self, value):
-        # TODO: Implementar lógica do construtor
-        pass
-
-    # TODO: Implementar métodos de instância e estáticos
+    # constantes de limite e tamanho do tipo int em Java
+    MAX_VALUE = 2147483647    
+    MIN_VALUE = -2147483648   
+    SIZE = 32                 
