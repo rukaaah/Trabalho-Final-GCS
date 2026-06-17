@@ -5,7 +5,7 @@ Este arquivo é um Registro de Decisão Arquitetural (ADR). Ele documenta o flux
 **Responsável pela manutenção:** Gerente de Configuração, [Angelo Antônio](https://github.com/angelo-acds).
 
 ## Status
-Aceitação pendente
+Aceito
 
 ## Contexto
 A disciplina de GCS exige rastreabilidade total entre o código produzido e as tarefas planejadas, proibindo o desenvolvimento direto na branch principal após o término do setup inicial. A equipe precisava escolher um modelo de ramificação que suportasse integração contínua frequente e garantisse revisões de código obrigatórias antes da submissão final.
@@ -16,7 +16,7 @@ A equipe adota estritamente o **GitHub Flow** com restrições adicionais de GCS
 2. Todo novo desenvolvimento (funcionalidade, correção, documentação) deve ocorrer em uma ramificação temporária criada a partir da `main`, utilizando prefixos semânticos (`feature/`, `fix/`, `docs/`, `chore/`).
 3. A mesclagem de código só ocorrerá através de Pull Requests.
 4. Todo Pull Request exigirá obrigatoriamente a aprovação em todos os testes automatizados da CI e a revisão de pelo menos um outro membro da equipe.
-5. Toda Pull Request devidamente aprovada a merge precisa ser realizada pelo desenvolvedor que fez a Pull Request.
+5. A aprovação e mesclagem (merge) final das Pull Requests na branch `main` é de responsabilidade exclusiva do Mantenedor / Gerente de Configuração, garantindo a integridade e rastreabilidade das baselines.
 
 ## Consequências
 * Mitiga o risco de quebras de código na versão entregável do projeto.
