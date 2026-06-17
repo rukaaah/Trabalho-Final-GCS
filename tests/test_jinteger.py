@@ -57,3 +57,13 @@ class TestJIntegerConstrutor:
         # que ainda não fazem parte do escopo desta issue.
         numero = JInteger(0)
         assert isinstance(numero, JInteger)
+
+class TestJIntegerConstrutorString:
+    def test_construtor_string_resulta_no_mesmo_valor_que_int(self):
+        a = JInteger("42")
+        b = JInteger(42)
+        assert a.intValue() == b.intValue()
+
+    def test_construtor_string_negativa(self):
+        numero = JInteger("-10")
+        assert numero.intValue() == -10
