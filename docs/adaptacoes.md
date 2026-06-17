@@ -37,7 +37,39 @@ Para guiar as decisões da equipe, as seguintes restrições intrínsecas já es
 ---
 
 ### Módulo JInteger
-*(Nenhuma adaptação registrada até o momento)*
+## JInteger (java.lang.Integer, Java SE 8)
+
+### Constantes de limite e tamanho
+Assinatura Java:
+
+                public static final int MAX_VALUE = 2147483647
+                public static final int MIN_VALUE =
+                -2147483648
+                public static final int SIZE = 32
+                public static final int BYTES = 4
+Situação: implementadas como constantes de classe, valores idênticos ao Java.
+Adaptação: o int do Python é de precisão arbitrária e não sofre overflow. As
+constantes são informativas e não são aplicadas
+automaticamente — JInteger não impõe a faixa de 32 bits.
+
+### TYPE
+Assinatura Java: public static final Class<Integer> TYPE
+Motivo da não-implementação: TYPE referencia o objeto Class do primitivo int.
+Python não possui tipos primitivos nem um Class<T> equivalente para eles.
+Alternativa: TYPE = int, análogo idiomático que aponta para o tipo
+usado internamente pela classe. Não é um Class<Integer>; é a aproximação
+possível na linguagem.
+
+### Construtores
+Assinatura Java:
+
+            public Integer(int value)
+            public Integer(String s) throws NumberFormatException
+Situação: Integer(int value) implementado, armazenando o valor recebido. A faixa
+de 32 bits não é imposta — o int do Python é de precisão arbitrária.
+Adaptação: Python não tem sobrecarga de métodos; os dois construtores não podem
+coexistir como assinaturas distintas. Integer(String s) será unificado no mesmo
+__init__ via dispatch por tipo na issue de parsing, delegando a parseInt.
 
 ### Módulo JFloat
 *(Nenhuma adaptação registrada até o momento)*
