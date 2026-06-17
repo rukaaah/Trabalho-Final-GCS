@@ -5,7 +5,7 @@ Este arquivo é um Registro de Decisão Arquitetural (ADR). Ele documenta como a
 **Responsável pela manutenção:** Gerente de Configuração, [Angelo Antônio](https://github.com/angelo-acds).
 
 ## Status
-Aceitação pendente
+Aceito
 
 ## Contexto
 Na especificação do Java SE 8, especificamente na classe `String`, existem métodos que dependem diretamente de configurações regionais ou de objetos externos para funcionar corretamente, como `toLowerCase(Locale locale)` ou `toUpperCase(Locale locale)`. O ecossistema Python lida com localização de maneira atrelada ao sistema operacional ou através de módulos distintos, sem correspondência direta ao objeto `Locale` da JVM.

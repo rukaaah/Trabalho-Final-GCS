@@ -6,7 +6,7 @@ Este arquivo é um Registro de Decisão Arquitetural (ADR). Ele documenta uma es
 
 
 ## Status
-Aceitação pendente
+Aceito
 
 
 ## Contexto
