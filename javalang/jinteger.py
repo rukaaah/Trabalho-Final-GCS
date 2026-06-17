@@ -17,6 +17,15 @@ Faça PRs curtos e frequentes!
 Um commit não pode conter mais de 3 métodos de teste.
 """
 
+def _para_int8(bits):
+    # interpreta os 8 bits baixos como signed
+    return bits - 256 if bits >= 128 else bits
+
+def _para_int16(bits):
+    # interpreta os 16 bits baixos como signed
+    return bits - 65536 if bits >= 32768 else bits
+
+
 class JInteger:
     # constantes de limite e tamanho do tipo int em Java
     MAX_VALUE = 2147483647    
@@ -27,4 +36,16 @@ class JInteger:
 
     def __init__(self, value):
         # construtor Integer(int value)
-        self._valor = value              
+        self._valor = value 
+
+    def intValue(self):
+        # java: Integer.intValue() devolve o int encapsulado diretamente
+        return self._valor
+
+    def byteValue(self):
+        # java: (byte) value -> 8 bits baixos como signed; trunca/faz wrap, nunca lança
+        return _para_int8(self._valor & 0xFF)
+
+    def shortValue(self):
+        # java: (short) value -> 16 bits baixos como signed; trunca/faz wrap, nunca lança
+        return _para_int16(self._valor & 0xFFFF)             
