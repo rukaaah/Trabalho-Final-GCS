@@ -67,3 +67,17 @@ class TestJIntegerConstrutorString:
     def test_construtor_string_negativa(self):
         numero = JInteger("-10")
         assert numero.intValue() == -10
+
+class TestJIntegerConversoesParte1:
+    def test_int_value(self):
+        numero = JInteger(10)
+        assert numero.intValue() == 10
+
+    def test_long_value(self):
+        numero = JInteger(10)
+        assert numero.longValue() == 10
+
+    def test_float_value(self):
+        numero = JInteger(10)
+        assert numero.floatValue() == 10.0
+
