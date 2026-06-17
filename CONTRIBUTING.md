@@ -13,35 +13,42 @@ Este documento define as regras obrigatórias para qualquer contribuição ao re
 
 ## 2. Modelo de Ramificação
 
-O repositório adota o **GitHub Flow**.
+O repositório adota o **GitHub Flow** com restrições adicionais de GCS, conforme a [ADR 0002](docs/adr/0002-modelo-ramificacao.md).
 
-* Nenhum commit direto na branch `main` é permitido após a finalização do primeiro sprint (Setup).
+* A branch `main` é estritamente protegida. Nenhuma alteração pode ser feita diretamente nela.
 * As branches de desenvolvimento devem possuir nomes descritivos com prefixos claros, como `feature/nome-da-feature`, `fix/nome-do-bug` ou `docs/nome-da-documentacao`.
+* A mesclagem de código ocorre exclusivamente via Pull Request, exigindo aprovação da CI e revisão de pares.
 
-> **Aviso de Atualização Pendente:** A formalização deste modelo de ramificação está aguardando a aprovação da equipe na issue correspondente à **ADR 0002**. Após a aprovação, esta seção deverá referenciar diretamente o documento finalizado em `docs/adr/0002-modelo-ramificacao.md`.
+## 3. Fluxo de Desenvolvimento (TDD/Test-First)
 
-## 3. Controle de Mudanças (Issues)
+Seguimos a metodologia **Test-Driven Development (TDD)**, conforme definido na ADR 0004:
+
+1. **Ciclo RED:** O Engenheiro de Qualidade (QA) inicia a funcionalidade escrevendo os testes automatizados baseados na especificação Java SE 8.
+2. **Ciclo GREEN:** O desenvolvedor implementa o código estritamente necessário para fazer os testes passarem.
+3. **Bloqueio:** O desenvolvimento lógico não deve ser iniciado sem que a suíte de testes correspondente já esteja presente na branch.
+
+## 4. Controle de Mudanças (Issues)
 
 * Toda mudança não-trivial deve nascer primeiramente em uma Issue.
 * As descrições das issues devem seguir os **Templates Oficiais** configurados no repositório (Feature, Bug ou Decision).
 * Toda issue deve receber *labels* apropriadas (`feature`, `bug`, `docs`, `decision`, `good-first-issue`, `refactor`).
 * A issue deve ser atribuída a um responsável (*assignee*) e vinculada a um *milestone* correspondente à baseline atual.
 
-## 4. Padrões de Commit
+## 5. Padrões de Commit
 
 Os commits devem ser semânticos e obrigatoriamente referenciar a issue de origem.
 
 * **Prefixos Aceitos:** `feat:`, `fix:`, `refactor:`, `test:`, `docs:`, `chore:`.
 * **Exemplo de Mensagem Correta:** `feat: add JString.substring(int) refs #14`.
 
-## 5. Fluxo de Pull Requests (PRs)
+## 6. Fluxo de Pull Requests (PRs)
 
 * A abertura de um PR acionará automaticamente o nosso **Template de Pull Request**. O autor é obrigado a preencher o checklist de regras anti-atalho e referenciar a issue (ex: `Closes #N`).
 * O autor deve fornecer um resumo do impacto da mudança, listando arquivos modificados, testes adicionados e se há quebra de contrato.
 * O *code review* exige a ocorrência de discussão técnica registrada nos comentários.
 * A integração contínua (CI) executará o linter (`ruff`) e os testes (`pytest`). Todos os *checks* devem passar (verde) antes do *merge*.
 
-## 6. Uso de Inteligência Artificial
+## 7. Uso de Inteligência Artificial
 
 A utilização de IA generativa para auxílio na implementação técnica é permitida, contanto que seja estritamente declarada.
 
@@ -51,7 +58,7 @@ A utilização de IA generativa para auxílio na implementação técnica é per
 
 ---
 
-## 7. Comandos Locais de Teste e Linter
+## 8. Comandos Locais de Teste e Linter
 
 Antes de enviar qualquer commit ou abrir um Pull Request, os desenvolvedores devem rodar as verificações localmente utilizando o ambiente virtual configurado via `pyproject.toml`.
 
@@ -61,13 +68,13 @@ Antes de enviar qualquer commit ou abrir um Pull Request, os desenvolvedores dev
 3. Para executar a suíte de testes e validar o comportamento das classes, execute:
 `pytest`
 
-## 8. Padrões Específicos de Python Adotados (Aguardando ADRs)
+## 9. Padrões Específicos de Python Adotados
 
-> **Aviso de Atualização Pendente:** A equipe está em processo de votação/discussão das seguintes Regras Arquiteturais. O texto abaixo **deverá ser modificado e atualizado** pelo Gerente de Configuração assim que os respectivos PRs de decisão forem aprovados:
+As decisões técnicas abaixo foram oficializadas para garantir conformidade com a especificação Java SE 8:
 
-* **Nomenclatura (Aguardando ADR 0001):** Se aprovada, documentar aqui que a equipe decidiu violar a PEP 8 e adotar o padrão `camelCase` para métodos, ignorando os alertas do Ruff (N802 e N803), a fim de manter o contrato visual do Java SE 8.
-* **Tratamento de Locale (Aguardando ADR 0003):** Se aprovada, documentar aqui que métodos que dependem de instâncias de `Locale` não serão implementados e devem ser direcionados diretamente para o catálogo do arquivo `docs/adaptacoes.md`.
+* **Nomenclatura (ADR 0001):** Adotamos o padrão `camelCase` para métodos das classes `JString`, `JInteger` e `JFloat`. Esta é uma violação intencional da PEP 8 para preservar a paridade com a API Java. O linter está configurado para ignorar os alertas `N802` e `N803`.
+* **Tratamento de Locale (ADR 0003):** Métodos que exigem instâncias de `Locale` como parâmetro não serão implementados devido à falta de correspondência direta no Python. Estas assinaturas devem ser registradas obrigatoriamente em `docs/adaptacoes.md`.
 
-## 9. Gestão de Conflitos
+## 10. Gestão de Conflitos
 
-[INSERIR: Acordo da equipe sobre como lidar com rebase, mesclagem e os "pelo menos três conflitos reais" obrigatórios descritos na disciplina. Esta seção deverá ser preenchida via PR em sprints futuros.]
+Eventuais conflitos de sincronização devem ser resolvidos localmente na branch de trabalho utilizando prioritariamente o comando `git merge main`. É responsabilidade do desenvolvedor garantir que a branch esteja atualizada antes de solicitar a revisão. Pelo menos três casos de conflitos reais enfrentados pela equipe devem ser documentados para auditoria de GCS.
