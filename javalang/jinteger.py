@@ -16,6 +16,7 @@ Um Pull Request NÃO pode conter mais do que 7 casos de testes implementados.
 Faça PRs curtos e frequentes!
 Um commit não pode conter mais de 3 métodos de teste.
 """
+import struct as _struct
 
 def _para_int8(bits):
     # interpreta os 8 bits baixos como signed
@@ -24,6 +25,10 @@ def _para_int8(bits):
 def _para_int16(bits):
     # interpreta os 16 bits baixos como signed
     return bits - 65536 if bits >= 32768 else bits
+
+def _para_float32(valor):
+    # coage para precisão simples IEEE 754 (32 bits), como o (float) do Java
+    return _struct.unpack(">f", _struct.pack(">f", valor))[0]
 
 
 class JInteger:
@@ -35,8 +40,10 @@ class JInteger:
     TYPE = int
 
     def __init__(self, value):
-        # construtor Integer(int value)
-        self._valor = value 
+        if isinstance(value, str):
+            self._valor = int(value)
+        else:
+            self._valor = value
 
     def intValue(self):
         # java: Integer.intValue() devolve o int encapsulado diretamente
@@ -48,4 +55,12 @@ class JInteger:
 
     def shortValue(self):
         # java: (short) value -> 16 bits baixos como signed; trunca/faz wrap, nunca lança
-        return _para_int16(self._valor & 0xFFFF)             
+        return _para_int16(self._valor & 0xFFFF)
+
+    def longValue(self):
+        # java: (long) value -> widening para long; numericamente idêntico
+        return self._valor
+
+    def floatValue(self):
+        # java: (float) value -> widening para float de 32 bits (precisão simples)
+        return _para_float32(self._valor)             
