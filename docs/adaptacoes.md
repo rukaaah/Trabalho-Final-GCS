@@ -71,6 +71,34 @@ Adaptação: Python não tem sobrecarga de métodos; os dois construtores não p
 coexistir como assinaturas distintas. Integer(String s) será unificado no mesmo
 __init__ via dispatch por tipo na issue de parsing, delegando a parseInt.
 
+### JInteger(String s)
+Assinatura Java:
+
+    public Integer(String s) throws NumberFormatException
+Situação: implementado unificando o __init__ por dispatch de tipo (str -> parse).
+
+Adaptação: Python não tem sobrecarga; Integer(int) e Integer(String) compartilham
+o mesmo __init__. A conversão usa int(value), que lança ValueError em entrada
+inválida (análogo do NumberFormatException). A gramática estrita do parseInt
+(rejeição de espaços/underscores) será centralizada quando o método estático
+parseInt for implementado; o construtor passará a delegar a ele.
+
+### JInteger.floatValue()
+Assinatura Java: 
+
+                public float floatValue()
+
+Adaptação: o float do Python é double (64 bits). Como Java retorna float de 32
+bits, o valor é coagido para precisão simples via struct, reproduzindo a perda de
+precisão de (float)int para inteiros grandes.
+
+### JInteger.longValue()
+Assinatura Java:
+
+                public long longValue()
+                
+Situação: widening int->long; numericamente idêntico em Python (int ilimitado).
+
 ### Módulo JFloat
 *(Nenhuma adaptação registrada até o momento)*
 
