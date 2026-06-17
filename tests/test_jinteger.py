@@ -40,10 +40,8 @@ class TestJIntegerConstantesParte2:
 
     def test_type_existe(self):
         # No Java, Integer.TYPE referencia a classe primitiva int.
-        # Em Python não há um equivalente direto (ver adaptação registrada
-        # em docs/adaptacoes.md). Aqui validamos apenas que o atributo
-        # existe e aponta para o tipo usado internamente pela classe.
-        assert JInteger.TYPE is not None
+        # Em Python validamos que o atributo existe e aponta para o tipo builtin.
+        assert JInteger.TYPE is int
 
 
 class TestJIntegerConstrutor:
@@ -52,8 +50,7 @@ class TestJIntegerConstrutor:
         assert numero is not None
 
     def test_construtor_guarda_valor_internamente(self):
-        # Verifica apenas que a instância foi criada com sucesso a partir
-        # de um int, sem depender de métodos de conversão (intValue, etc.),
-        # que ainda não fazem parte do escopo desta issue.
+        # Correção contra falso positivo sugerida no Code Review:
+        # Verifica se o valor passado (0) foi realmente injetado e armazenado.
         numero = JInteger(0)
-        assert isinstance(numero, JInteger)
+        assert getattr(numero, '_valor', None) == 0
