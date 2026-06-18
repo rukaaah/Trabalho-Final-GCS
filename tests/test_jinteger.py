@@ -69,3 +69,17 @@ class TestJIntegerValueOf:
     def test_value_of_string_com_radix(self):
         numero = JInteger.valueOf("ff", 16)
         assert numero.intValue() == 255
+
+
+class TestJIntegerDecode:
+    def test_decode_decimal(self):
+        numero = JInteger.decode("123")
+        assert numero.intValue() == 123
+
+    def test_decode_hexadecimal_com_prefixo_0x(self):
+        numero = JInteger.decode("0x1A")
+        assert numero.intValue() == 26
+
+    def test_decode_octal_com_prefixo_0(self):
+        numero = JInteger.decode("010")
+        assert numero.intValue() == 8
