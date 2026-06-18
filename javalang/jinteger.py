@@ -30,6 +30,16 @@ class JInteger:
     # Adaptação idiomática para Python (justificada em docs/adaptacoes.md)
     TYPE = int
 
+    @staticmethod
+    def parseInt(s: str, radix: int = 10) -> int:
+        #Implemeta os métodos parseInt com e sem radix
+        if not (2 <= radix <= 36):
+            raise ValueError(f"radix {radix} está fora do intervalo válido (2-36)")
+        try:
+            return int(s, radix)
+        except ValueError:
+            raise ValueError(f"Formato inválido: '{s}' com radix {radix}")
+        
     def __init__(self, value):
         """
         Construtor correspondente a Integer(int value).
