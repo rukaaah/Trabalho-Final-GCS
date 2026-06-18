@@ -42,6 +42,16 @@ class JInteger:
         # java: Integer.hashCode() devolve o proprio valor encapsulado, nao um hash derivado
         return self._valor
     
+    def equals(self, other):
+        # java: Integer.equals so retorna True se other for Integer com mesmo valor
+        if not isinstance(other, JInteger):
+            return False
+        return self._valor == other._valor
+
+    def compareTo(self, other):
+        # java: Integer.compareTo -> negativo/zero/positivo por comparacao numerica
+        return (self._valor > other._valor) - (self._valor < other._valor)
+    
     def __init__(self, value):
         """
         Construtor correspondente a Integer(int value).
