@@ -124,6 +124,12 @@ Aritmética Unsigned
 * **Motivo da não-implementação:** Python não suporta sobrecarga; esta assinatura não pode coexistir com `Integer(int value)` como construtor separado.
 * **Alternativa Proposta:** unificada no mesmo `__init__` via dispatch por tipo (`isinstance(value, str)`), delegando a conversão a `int(value)`.
 
+### Zeros e Rotação de Bits
+
+- **Assinatura do Método:** `public static int numberOfLeadingZeros(int i)`, `public static int numberOfTrailingZeros(int i)`, `public static int rotateLeft(int i, int distance)` e `public static int rotateRight(int i, int distance)`
+- **Motivo da não-implementação:** Em Java, operações bitwise ocorrem num espaço rígido de 32 bits em complemento de dois. No Python, inteiros possuem precisão arbitrária (tamanho dinâmico), fazendo com que um bit-shift para a esquerda (`<<`) cresça o número infinitamente em vez de rotacionar os bits excedentes de volta para o início.
+- **Alternativa Proposta:** Apliquei a máscara `& 0xFFFFFFFF` para isolar os 32 bits. Na contagem de zeros à esquerda, usamos `32 - i.bit_length()`. Nas rotações, Apliquei o módulo `% 32` na distância para garantir a ciclicidade e combinamos máscaras de deslocamento composto (`(val << dist) | (val >> (32 - dist))`). Ao final, se o bit `0x80000000` estiver ativo, subtraímos `0x100000000` para converter o número de volta para o formato signed (com sinal) exigido pelo Java SE 8.
+
 ### Módulo JFloat
 *(Nenhuma adaptação registrada até o momento)*
 

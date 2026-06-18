@@ -111,3 +111,13 @@ Conforme as regras de GCS, a utilização de IA não exime o desenvolvedor da re
 * **Prompt Representativo:**
   > "Para JInteger, implemente longValue() (widening), floatValue() coagindo para float de 32 bits como o (float) do Java, e estenda o __init__ para aceitar str (Integer(String s)), fazendo passar os testes da QA."
 * **Observação:** Uso da IA apenas para agilizar. Conferi as asserções da QA (string "42" == int 42, floatValue de 10 == 10.0) e entendo por que floatValue coage para 32 bits.
+
+
+  ### Módulo: JInteger - Métodos: Rotação de Bits e Contagem de Zeros
+
+- **Data:** 18/06/2026
+- **Desenvolvedor Responsável:** @GabrielMattosA
+- **Métodos Implementados/Auxiliados:** `JInteger.numberOfLeadingZeros`, `JInteger.numberOfTrailingZeros`, `JInteger.rotateLeft` e `JInteger.rotateRight`
+- **Ferramenta Utilizada:** Gemini
+- **Prompt Representativo:**
+  "Como implementar os métodos rotateLeft e rotateRight do Java 8 em Python garantindo que distâncias maiores que 32 funcionem de forma circular e aplicando máscara para simular estouro em complemento de dois?"

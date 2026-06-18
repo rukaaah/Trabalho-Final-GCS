@@ -237,3 +237,22 @@ class TestJIntegerConversoesParte2:
     def test_short_value_dentro_da_faixa(self):
         numero = JInteger(1000)
         assert numero.shortValue() == 1000
+
+
+class TestJIntegerContagemDeZeros:
+    def test_number_of_leading_zeros(self):
+        assert JInteger.numberOfLeadingZeros(1) == 31
+
+    def test_number_of_trailing_zeros(self):
+        assert JInteger.numberOfTrailingZeros(16) == 4
+
+
+class TestJIntegerRotacao:
+    def test_rotate_left(self):
+        assert JInteger.rotateLeft(1, 4) == 16
+
+    def test_rotate_right(self):
+        assert JInteger.rotateRight(16, 4) == 1
+
+    def test_rotate_left_circular_passando_de_32_bits(self):
+        assert JInteger.rotateLeft(1, 33) == JInteger.rotateLeft(1, 1)

@@ -228,6 +228,47 @@ class JInteger:
         if divisor_unsigned == 0:
             raise ZeroDivisionError("Divisão por zero")
         return dividend_unsigned % divisor_unsigned
+    @staticmethod
+    def numberOfLeadingZeros(i: int) -> int:
+        i_unsigned = i & 0xFFFFFFFF
+        if i_unsigned == 0:
+            return 32
+        return 32 - i_unsigned.bit_length()
+    
+    @staticmethod
+    def numberOfTrailingZeros(i: int) -> int:
+        i_unsigned = i & 0xFFFFFFFF
+        if i_unsigned == 0:
+            return 32
+        lsb = i_unsigned & -i_unsigned
+        return lsb.bit_length() - 1
+    
+    @staticmethod
+    def rotateLeft(i: int, distance: int) -> int:
+        i_unsigned = i & 0xFFFFFFFF
+        distance = distance % 32
+        if distance == 0:
+            return i if i <= 0x7FFFFFFF else i - 0x100000000
+        
+        resultado = ((i_unsigned << distance) | (i_unsigned >> (32 - distance))) & 0xFFFFFFFF
+
+        if resultado & 0x80000000:
+            return resultado - 0x100000000
+        return resultado
+    
+    @staticmethod
+    def rotateRight(i: int, distance: int) -> int:
+        i_unsigned = i & 0xFFFFFFFF
+        distance = distance % 32
+        if distance == 0:
+            return i if i <= 0x7FFFFFFF else i - 0x100000000
+        
+        resultado = ((i_unsigned >> distance) | (i_unsigned << (32 - distance))) & 0xFFFFFFFF
+
+        if resultado & 0x80000000:
+            return resultado - 0x100000000
+        return resultado
+    
     def __init__(self, value):
         if isinstance(value, str):
             self._valor = int(value)
