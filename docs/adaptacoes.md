@@ -71,6 +71,12 @@ Adaptação: Python não tem sobrecarga de métodos; os dois construtores não p
 coexistir como assinaturas distintas. Integer(String s) será unificado no mesmo
 __init__ via dispatch por tipo na issue de parsing, delegando a parseInt.
 
+### Reversão de Bits e Bytes
+
+- **Assinatura do Método:** `public static int reverse(int i)` e `public static int reverseBytes(int i)`
+- **Motivo da não-implementação:** O Python gerencia inteiros com tamanho dinâmico na memória. Operações de reversão de bits estruturais ou inversão de ordem de bytes (*endianness*) exigem delimitação estrita de palavra de máquina (32 bits), caso contrário, os bits seriam invertidos considerando tamanhos indefinidos ou preservando o sinal incorretamente.
+- **Alternativa Proposta:** Para o método `reverse`, extraímos a string binária de 32 bits formatada com `zfill(32)`, invertemos a cadeia de caracteres nativamente e reconfiguramos o valor numérico. Para o `reverseBytes`, aplicamos máscaras de segmentação byte a byte (`0xFF`, `0xFF00`, etc.) combinadas com bit-shifts de reposicionamento simétrico. Em ambos os casos, validamos o bit `0x80000000` para restabelecer o sinal negativo em formato signed de 32 bits.
+
 ### Módulo JFloat
 *(Nenhuma adaptação registrada até o momento)*
 
