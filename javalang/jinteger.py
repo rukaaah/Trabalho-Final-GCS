@@ -19,14 +19,31 @@ Um commit não pode conter mais de 3 métodos de teste.
 """
 Módulo da classe JInteger, representando o wrapper java.lang.Integer.
 """
+import struct as _struct # noqa: E402
+
+
+def _para_int8(bits):
+    # interpreta os 8 bits baixos como signed
+    return bits - 256 if bits >= 128 else bits
+
+
+def _para_int16(bits):
+    # interpreta os 16 bits baixos como signed
+    return bits - 65536 if bits >= 32768 else bits
+
+
+def _para_float32(valor):
+    # coage para precisão simples IEEE 754 (32 bits), como o (float) do Java
+    return _struct.unpack(">f", _struct.pack(">f", valor))[0]
+
 
 class JInteger:
     # Constantes de limite e tamanho do tipo int em Java
-    MAX_VALUE = 2147483647    
-    MIN_VALUE = -2147483648   
-    SIZE = 32   
+    MAX_VALUE = 2147483647
+    MIN_VALUE = -2147483648
+    SIZE = 32
     BYTES = SIZE // 8
-    
+
     # Adaptação idiomática para Python (justificada em docs/adaptacoes.md)
     TYPE = int
 
@@ -48,9 +65,73 @@ class JInteger:
             resultado.append(digitos[valor_unsigned % radix])
             valor_unsigned //= radix
         return "".join(reversed(resultado))
+    def doubleValue(self):
+        # java: (double) value -> widening exato; double tem mantissa suficiente para int de 32 bits
+        return float(self._valor)
+    
+    def toString(self):
+        # java: Integer.toString() -> representação decimal com sinal
+        return str(self._valor)
+    
+    def hashCode(self):
+        # java: Integer.hashCode() devolve o proprio valor encapsulado, nao um hash derivado
+        return self._valor
+    
+    def equals(self, other):
+        # java: Integer.equals so retorna True se other for Integer com mesmo valor
+        if not isinstance(other, JInteger):
+            return False
+        return self._valor == other._valor
+
+    def compareTo(self, other):
+        # java: Integer.compareTo -> negativo/zero/positivo por comparacao numerica
+        return (self._valor > other._valor) - (self._valor < other._valor)
+    
+    @staticmethod
+    def parseInt(s: str, radix: int = 10) -> int:
+        #Implementa os métodos parseInt com e sem radix
+        if not (2 <= radix <= 36):
+            raise ValueError(f"radix {radix} está fora do intervalo válido (2-36)")
+        try:
+            return int(s, radix)
+        except ValueError:
+            raise ValueError(f"Formato inválido: '{s}' com radix {radix}")
+        
+    @staticmethod
+    def parseUnsignedInt(s: str, radix: int = 10) -> int:
+        #Implementa os métodos parseUnsignedInt com e sem radix
+        if not (2 <= radix <= 36):
+            raise ValueError(f"radix {radix} está fora do intervalo válido (2-36)")
+        s_clean =s.strip()
+        if s_clean.startswith('-'):
+            raise ValueError(f"Número negativo não permitido: '{s}'")
+        try:
+            return int(s_clean, radix)
+        except ValueError:
+            raise ValueError(f"Formato inválido: '{s}' com radix {radix}")
+
     def __init__(self, value):
-        """
-        Construtor correspondente a Integer(int value).
-        Armazena o valor recebido sem impor a faixa de 32 bits por decisão de design.
-        """
-        self._valor = value
+        if isinstance(value, str):
+            self._valor = int(value)
+        else:
+            self._valor = value
+
+    def intValue(self):
+        # java: Integer.intValue() devolve o int encapsulado diretamente
+        return self._valor
+
+    def byteValue(self):
+        # java: (byte) value -> 8 bits baixos como signed; trunca/faz wrap, nunca lança
+        return _para_int8(self._valor & 0xFF)
+
+    def shortValue(self):
+        # java: (short) value -> 16 bits baixos como signed; trunca/faz wrap, nunca lança
+        return _para_int16(self._valor & 0xFFFF)
+
+    def longValue(self):
+        # java: (long) value -> widening para long; numericamente idêntico
+        return self._valor
+
+    def floatValue(self):
+        # java: (float) value -> widening para float de 32 bits (precisão simples)
+        return _para_float32(self._valor)

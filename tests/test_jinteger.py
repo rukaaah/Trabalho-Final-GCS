@@ -65,3 +65,94 @@ class TestJIntegerToUnsignedString:
 
     def test_to_unsigned_string_com_radix(self):
         assert JInteger.toUnsignedString(255, 16) == "ff"
+class TestJIntegerDoubleValueEToString:
+    def test_double_value(self):
+        numero = JInteger(10)
+        assert numero.doubleValue() == 10.0
+
+    def test_to_string_valor_positivo(self):
+        numero = JInteger(123)
+        assert numero.toString() == "123"
+
+    def test_to_string_valor_negativo(self):
+        numero = JInteger(-123)
+        assert numero.toString() == "-123"
+
+class TestJIntegerHashCodeEEquals:
+    def test_hash_code_consistente_para_mesmo_valor(self):
+        a = JInteger(5)
+        b = JInteger(5)
+        assert a.hashCode() == b.hashCode()
+
+    def test_equals_valor_diferente_retorna_false(self):
+        assert JInteger(5).equals(JInteger(6)) is False
+
+class TestJIntegerCompareTo:
+    def test_compare_to_maior(self):
+        assert JInteger(10).compareTo(JInteger(5)) > 0
+
+    def test_compare_to_menor(self):
+        assert JInteger(5).compareTo(JInteger(10)) < 0
+
+class TestJIntegerParseInt:
+    def test_parse_int_decimal(self):
+        assert JInteger.parseInt("10") == 10
+
+    def test_parse_int_negativo(self):
+        assert JInteger.parseInt("-10") == -10
+
+    def test_parse_int_com_radix(self):
+        assert JInteger.parseInt("ff", 16) == 255
+
+
+class TestJIntegerParseIntInvalido:
+    def test_parse_int_string_invalida_lanca_exception(self):
+        import pytest
+        with pytest.raises(ValueError):
+            JInteger.parseInt("abc")
+
+
+class TestJIntegerParseUnsignedInt:
+    def test_parse_unsigned_int_decimal(self):
+        assert JInteger.parseUnsignedInt("10") == 10
+
+    def test_parse_unsigned_int_com_radix(self):
+        assert JInteger.parseUnsignedInt("ff", 16) == 255
+
+    def test_parse_unsigned_int_string_invalida_lanca_exception(self):
+        import pytest
+        with pytest.raises(ValueError):
+            JInteger.parseUnsignedInt("-1")
+class TestJIntegerConstrutorString:
+    def test_construtor_string_resulta_no_mesmo_valor_que_int(self):
+        a = JInteger("42")
+        b = JInteger(42)
+        assert a.intValue() == b.intValue()
+
+    def test_construtor_string_negativa(self):
+        numero = JInteger("-10")
+        assert numero.intValue() == -10
+
+
+class TestJIntegerConversoesParte1:
+    def test_int_value(self):
+        numero = JInteger(10)
+        assert numero.intValue() == 10
+
+    def test_long_value(self):
+        numero = JInteger(10)
+        assert numero.longValue() == 10
+
+    def test_float_value(self):
+        numero = JInteger(10)
+        assert numero.floatValue() == 10.0
+
+
+class TestJIntegerConversoesParte2:
+    def test_byte_value_dentro_da_faixa(self):
+        numero = JInteger(100)
+        assert numero.byteValue() == 100
+
+    def test_short_value_dentro_da_faixa(self):
+        numero = JInteger(1000)
+        assert numero.shortValue() == 1000
