@@ -56,6 +56,25 @@ class TestJIntegerConstrutor:
         assert getattr(numero, '_valor', None) == 0
 
 
+class TestJIntegerCompareUnsigned:
+    def test_compare_unsigned_ambos_positivos(self):
+        assert JInteger.compareUnsigned(10, 5) > 0
+
+    def test_compare_unsigned_negativo_eh_maior_como_unsigned(self):
+        assert JInteger.compareUnsigned(-1, 5) > 0
+
+
+class TestJIntegerDivideERemainderUnsigned:
+    def test_divide_unsigned_valores_positivos(self):
+        assert JInteger.divideUnsigned(10, 3) == 3
+
+    def test_remainder_unsigned_valores_positivos(self):
+        assert JInteger.remainderUnsigned(10, 3) == 1
+
+    def test_divide_unsigned_por_zero_lanca_exception(self):
+        import pytest
+        with pytest.raises(ArithmeticError):
+            JInteger.divideUnsigned(10, 0)
 class TestJIntegerAritmeticaBasica:
     def test_sum(self):
         assert JInteger.sum(2, 3) == 5

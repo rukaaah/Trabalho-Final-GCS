@@ -77,6 +77,11 @@ Adaptação: Python não tem sobrecarga de métodos; os dois construtores não p
 coexistir como assinaturas distintas. Integer(String s) será unificado no mesmo
 __init__ via dispatch por tipo na issue de parsing, delegando a parseInt.
 
+Aritmética Unsigned
+
+- **Assinatura do Método:** `public static int compareUnsigned(int x, int y)`, `public static int divideUnsigned(int dividend, int divisor)` e `public static int remainderUnsigned(int dividend, int divisor)`
+- **Motivo da não-implementação:** O comportamento nativo de divisão, resto e comparação no Python considera o sinal dos operandos e precisão infinita. No Java SE 8, esses métodos interpretam os padrões de bits de inteiros com sinal de 32 bits como inteiros estritamente positivos antes de computar o resultado.
+- **Alternativa Proposta:** Adotei o uso sistemático da máscara bitwise `& 0xFFFFFFFF` em todas as entradas de dados. Isso força o truncamento e a conversão dos números (especialmente os negativos) para o intervalo positivo equivalente de 32 bits antes de realizar as operações aritméticas (`//`, `%` e operadores lógicos). Tratei manualmente o divisor igual a zero lançando `ZeroDivisionError` para se alinhar à expectativa de `ArithmeticError` da suíte de testes.
 ### Operações e Comparações Básicas
 
 - **Assinatura do Método:** `public static int sum(int a, int b)`, `public static int max(int a, int b)`, `public static int min(int a, int b)` e `public static int compare(int x, int y)`

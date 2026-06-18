@@ -168,6 +168,31 @@ class JInteger:
         except ValueError:
             raise ValueError(f"Formato inválido: '{s}' com radix {radix}")
 
+    @staticmethod
+    def compareUnsigned(a: int, b: int) -> int:
+        x_unsigned = a & 0xFFFFFFFF
+        y_unsigned = b & 0xFFFFFFFF
+        if x_unsigned < y_unsigned:
+            return -1
+        elif x_unsigned > y_unsigned:
+            return 1
+        else:
+            return 0
+    
+    def divideUnsigned(dividend: int, divisor: int) -> int:
+        dividend_unsigned = dividend & 0xFFFFFFFF
+        divisor_unsigned = divisor & 0xFFFFFFFF
+        if divisor_unsigned == 0:
+            raise ZeroDivisionError("Divisão por zero")
+        return dividend_unsigned // divisor_unsigned
+    
+    @staticmethod
+    def remainderUnsigned(dividend: int, divisor: int) -> int:
+        dividend_unsigned = dividend & 0xFFFFFFFF
+        divisor_unsigned = divisor & 0xFFFFFFFF
+        if divisor_unsigned == 0:
+            raise ZeroDivisionError("Divisão por zero")
+        return dividend_unsigned % divisor_unsigned
     def __init__(self, value):
         if isinstance(value, str):
             self._valor = int(value)
