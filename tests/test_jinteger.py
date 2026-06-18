@@ -76,3 +76,10 @@ class TestJIntegerHashCodeEEquals:
 
     def test_equals_valor_diferente_retorna_false(self):
         assert JInteger(5).equals(JInteger(6)) is False
+
+class TestJIntegerCompareTo:
+    def test_compare_to_maior(self):
+        assert JInteger(10).compareTo(JInteger(5)) > 0
+
+    def test_compare_to_menor(self):
+        assert JInteger(5).compareTo(JInteger(10)) < 0
