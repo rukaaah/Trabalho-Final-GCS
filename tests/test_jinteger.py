@@ -85,3 +85,36 @@ class TestJIntegerParseUnsignedInt:
         import pytest
         with pytest.raises(ValueError):
             JInteger.parseUnsignedInt("-1")
+class TestJIntegerConstrutorString:
+    def test_construtor_string_resulta_no_mesmo_valor_que_int(self):
+        a = JInteger("42")
+        b = JInteger(42)
+        assert a.intValue() == b.intValue()
+
+    def test_construtor_string_negativa(self):
+        numero = JInteger("-10")
+        assert numero.intValue() == -10
+
+
+class TestJIntegerConversoesParte1:
+    def test_int_value(self):
+        numero = JInteger(10)
+        assert numero.intValue() == 10
+
+    def test_long_value(self):
+        numero = JInteger(10)
+        assert numero.longValue() == 10
+
+    def test_float_value(self):
+        numero = JInteger(10)
+        assert numero.floatValue() == 10.0
+
+
+class TestJIntegerConversoesParte2:
+    def test_byte_value_dentro_da_faixa(self):
+        numero = JInteger(100)
+        assert numero.byteValue() == 100
+
+    def test_short_value_dentro_da_faixa(self):
+        numero = JInteger(1000)
+        assert numero.shortValue() == 1000
