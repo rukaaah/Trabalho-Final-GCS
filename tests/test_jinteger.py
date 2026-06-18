@@ -54,3 +54,14 @@ class TestJIntegerConstrutor:
         # Verifica se o valor passado (0) foi realmente injetado e armazenado.
         numero = JInteger(0)
         assert getattr(numero, '_valor', None) == 0
+
+
+class TestJIntegerToStringComRadix:
+    def test_to_string_decimal(self):
+        assert JInteger.toString(123) == "123"
+
+    def test_to_string_negativo(self):
+        assert JInteger.toString(-123) == "-123"
+
+    def test_to_string_com_radix(self):
+        assert JInteger.toString(255, 16) == "ff"
