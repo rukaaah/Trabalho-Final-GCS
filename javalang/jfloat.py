@@ -18,10 +18,38 @@ Um commit não pode conter mais de 3 métodos de teste.
 """
 
 class JFloat:
-    # TODO: Implementar constantes IEEE 754
+    # ==========================================
+    # CONSTANTES 
+    # ==========================================
     
-    def __init__(self, value):
-        # TODO: Implementar lógica do construtor
-        pass
-
-    # TODO: Implementar verificações, parsing e operações de comparação
+    
+    
+    # ==========================================
+    # CONSTRUTORES E CONVERSÃO NUMÉRICA 
+    # (Ex: __init__, byteValue, intValue, etc)
+    # ==========================================
+    
+    
+    
+    
+    # ==========================================
+    # MÉTODOS DE OBJECT 
+    # (Ex: hashCode, equals, toString)
+    # ==========================================
+    
+    
+    
+    
+    # ==========================================
+    # VERIFICAÇÕES IEEE 754 E PARSING 
+    # (Ex: isNaN, isInfinite, parseFloat)
+    # ==========================================
+    
+    
+    
+    
+    # ==========================================
+    # CONVERSÃO BINÁRIA E ARITMÉTICA 
+    # (Ex: floatToIntBits, compare, sum)
+    # ==========================================
+    pass
