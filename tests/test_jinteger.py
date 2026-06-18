@@ -65,3 +65,14 @@ class TestJIntegerAritmeticaBasica:
 
     def test_min(self):
         assert JInteger.min(2, 3) == 2
+
+
+class TestJIntegerCompareEstatico:
+    def test_compare_maior(self):
+        assert JInteger.compare(10, 5) > 0
+
+    def test_compare_menor(self):
+        assert JInteger.compare(5, 10) < 0
+
+    def test_compare_igual(self):
+        assert JInteger.compare(5, 5) == 0
