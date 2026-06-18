@@ -54,3 +54,14 @@ class TestJIntegerConstrutor:
         # Verifica se o valor passado (0) foi realmente injetado e armazenado.
         numero = JInteger(0)
         assert getattr(numero, '_valor', None) == 0
+
+
+class TestJIntegerBitCountESignum:
+    def test_bit_count(self):
+        assert JInteger.bitCount(7) == 3
+
+    def test_signum_positivo(self):
+        assert JInteger.signum(10) == 1
+
+    def test_signum_negativo(self):
+        assert JInteger.signum(-10) == -1
