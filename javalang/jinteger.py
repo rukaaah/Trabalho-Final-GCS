@@ -37,7 +37,18 @@ class JInteger:
     def max(a: int, b: int) -> int:
         # Implementação de máximo básico
         return max(a, b)
-    
+    @staticmethod
+    def min(a: int, b: int) -> int:
+        # Implementação de mínimo básico
+        return min(a, b)
+    @staticmethod
+    def compare(a: int, b: int) -> int:
+        # Implementação de comparação básica
+        if a < b:
+            return -1
+        elif a > b:
+            return 1
+        return 0
     def __init__(self, value):
         """
         Construtor correspondente a Integer(int value).
