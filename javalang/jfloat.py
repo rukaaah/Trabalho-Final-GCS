@@ -52,3 +52,4 @@ class JFloat:
     # CONVERSÃO BINÁRIA E ARITMÉTICA 
     # (Ex: floatToIntBits, compare, sum)
     # ==========================================
+    pass
