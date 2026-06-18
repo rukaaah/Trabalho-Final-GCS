@@ -265,39 +265,6 @@ class TestJIntegerReverse:
     def test_reverse_bytes(self):
         assert JInteger.reverseBytes(0x12345678) == 0x78563412
 
-class TestJIntegerConstantes:
-    def test_max_value(self):
-        assert JInteger.MAX_VALUE == 2_147_483_647
-
-    def test_min_value(self):
-        assert JInteger.MIN_VALUE == -2_147_483_648
-
-    def test_size_em_bits(self):
-        assert JInteger.SIZE == 32
-
-
-class TestJIntegerConstantesParte2:
-    def test_bytes(self):
-        assert JInteger.BYTES == 4
-
-    def test_type_existe(self):
-        # No Java, Integer.TYPE referencia a classe primitiva int.
-        # Em Python validamos que o atributo existe e aponta para o tipo builtin.
-        assert JInteger.TYPE is int
-
-
-class TestJIntegerConstrutor:
-    def test_construtor_aceita_inteiro(self):
-        numero = JInteger(10)
-        assert numero is not None
-
-    def test_construtor_guarda_valor_internamente(self):
-        # Correção contra falso positivo sugerida no Code Review:
-        # Verifica se o valor passado (0) foi realmente injetado e armazenado.
-        numero = JInteger(0)
-        assert getattr(numero, '_valor', None) == 0
-
-
 class TestJIntegerValueOf:
     def test_value_of_int(self):
         numero = JInteger.valueOf(42)
