@@ -30,3 +30,12 @@ Conforme as regras de GCS, a utilização de IA não exime o desenvolvedor da re
 * **Ferramenta Utilizada:** Claude (Anthropic)
 * **Prompt Representativo:**
   > "Escreva os testes em pytest para as constantes estáticas e o construtor primário da classe JInteger, cobrindo o contrato da Issue #11, em blocos de até 3 testes por commit, seguindo o fluxo TDD descrito (testes em RED, sem abrir PR contra a main)."
+
+  ### Módulo: JInteger - Métodos: Aritmética Unsigned
+
+- **Data:** 18/06/2026
+- **Desenvolvedor Responsável:** @GabrielMattosA
+- **Métodos Implementados/Auxiliados:** `JInteger.compareUnsigned`, `JInteger.divideUnsigned` e `JInteger.remainderUnsigned`
+- **Ferramenta Utilizada:** Gemini
+- **Prompt Representativo:**
+  "Como implementar operações aritméticas de divisão, resto e comparação interpretando os inteiros como unsigned de 32 bits em Python através de máscaras binárias?"
