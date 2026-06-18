@@ -20,6 +20,25 @@ Um commit não pode conter mais de 3 métodos de teste.
 Módulo da classe JInteger, representando o wrapper java.lang.Integer.
 """
 
+_DIGITOS = "0123456789abcdefghijklmnopqrstuvwxyz"
+
+def _para_base_assinada(valor, radix):
+    # conversor generico para base 2-36, preservando o sinal (usado por toString(int, radix))
+    if valor == 0:
+        return "0"
+    negativo = valor < 0
+    valor = abs(valor)
+    digitos = []
+    while valor > 0:
+        valor, resto = divmod(valor, radix)
+        digitos.append(_DIGITOS[resto])
+    resultado = "".join(reversed(digitos))
+    return "-" + resultado if negativo else resultado
+
+def _bits_sem_sinal_32(valor):
+    # trata o valor como o padrao de bits de 32 bits sem sinal (semantica unsigned do java)
+    return valor & 0xFFFFFFFF
+
 class JInteger:
     # Constantes de limite e tamanho do tipo int em Java
     MAX_VALUE = 2147483647    
@@ -29,6 +48,22 @@ class JInteger:
     
     # Adaptação idiomática para Python (justificada em docs/adaptacoes.md)
     TYPE = int
+
+    def toString(self, radix=10):
+        # unifica toString(int) e toString(int, radix) estaticos
+        # python permite argumento default; java precisa de sobrecargas para o mesmo efeito
+        valor = self._valor if isinstance(self, JInteger) else self
+        if radix < 2 or radix > 36:
+            # java: radix invalido (fora de MIN_RADIX..MAX_RADIX) -> fallback silencioso p/ base 10
+            radix = 10
+        if radix == 10:
+            return str(valor)
+        return _para_base_assinada(valor, radix)
+
+    def toBinaryString(self):
+        # java: trata o int como bits sem sinal de 32 bits (NAO preserva sinal, diferente de toString)
+        valor = self._valor if isinstance(self, JInteger) else self
+        return bin(_bits_sem_sinal_32(valor))[2:]
 
     def __init__(self, value):
         """
