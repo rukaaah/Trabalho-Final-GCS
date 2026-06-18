@@ -38,6 +38,41 @@ Para guiar as decisões da equipe, as seguintes restrições intrínsecas já es
 
 ### Módulo JInteger
 ## JInteger (java.lang.Integer, Java SE 8)
+### JInteger.doubleValue()
+Assinatura Java: 
+
+                    public double doubleValue()
+Situação: widening exato int->double; double do Python (53 bits de mantissa)
+representa qualquer int de 32 bits sem perda de precisão, diferente do
+floatValue() (32 bits), que exige coerção via struct.
+
+### JInteger.toString()
+Assinatura Java: 
+
+                public String toString()
+Situação: implementado retornando a representação decimal com sinal (str(valor)).
+
+### JInteger.hashCode()
+Assinatura Java: 
+
+                public int hashCode()
+Situação: implementado retornando o valor int encapsulado, exatamente como
+Integer.hashCode() no Java (não é um hash derivado, é o próprio valor).
+
+### JInteger.equals(Object)
+Assinatura Java: 
+    
+                public boolean equals(Object obj)
+Situação: implementado fielmente ao Java — retorna True apenas se o outro objeto
+for instância de JInteger com o mesmo valor encapsulado. Não há coerção com int
+puro (JInteger(5).equals(5) é False, assim como em Java).
+
+### JInteger.compareTo(Integer)
+Assinatura Java: 
+
+                public int compareTo(Integer anotherInteger)
+Situação: implementado via comparação numérica direta, retornando -1/0/1 segundo
+o sinal da diferença, equivalente a Integer.compare(this.value, other.value).
 
 ### Constantes de limite e tamanho
 Assinatura Java:
