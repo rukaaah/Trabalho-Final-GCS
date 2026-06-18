@@ -19,8 +19,7 @@ Um commit não pode conter mais de 3 métodos de teste.
 """
 Módulo da classe JInteger, representando o wrapper java.lang.Integer.
 """
-
-import struct as _struct
+import struct as _struct # noqa: E402
 
 
 def _para_int8(bits):
