@@ -56,6 +56,35 @@ class TestJIntegerConstrutor:
         assert getattr(numero, '_valor', None) == 0
 
 
+class TestJIntegerParseInt:
+    def test_parse_int_decimal(self):
+        assert JInteger.parseInt("10") == 10
+
+    def test_parse_int_negativo(self):
+        assert JInteger.parseInt("-10") == -10
+
+    def test_parse_int_com_radix(self):
+        assert JInteger.parseInt("ff", 16) == 255
+
+
+class TestJIntegerParseIntInvalido:
+    def test_parse_int_string_invalida_lanca_exception(self):
+        import pytest
+        with pytest.raises(ValueError):
+            JInteger.parseInt("abc")
+
+
+class TestJIntegerParseUnsignedInt:
+    def test_parse_unsigned_int_decimal(self):
+        assert JInteger.parseUnsignedInt("10") == 10
+
+    def test_parse_unsigned_int_com_radix(self):
+        assert JInteger.parseUnsignedInt("ff", 16) == 255
+
+    def test_parse_unsigned_int_string_invalida_lanca_exception(self):
+        import pytest
+        with pytest.raises(ValueError):
+            JInteger.parseUnsignedInt("-1")
 class TestJIntegerConstrutorString:
     def test_construtor_string_resulta_no_mesmo_valor_que_int(self):
         a = JInteger("42")
