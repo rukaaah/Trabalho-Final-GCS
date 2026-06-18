@@ -64,6 +64,14 @@ class JInteger:
         # java: trata o int como bits sem sinal de 32 bits (NAO preserva sinal, diferente de toString)
         valor = self._valor if isinstance(self, JInteger) else self
         return bin(_bits_sem_sinal_32(valor))[2:]
+    
+    def toOctalString(self):
+        valor = self._valor if isinstance(self, JInteger) else self
+        return oct(_bits_sem_sinal_32(valor))[2:]
+
+    def toHexString(self):
+        valor = self._valor if isinstance(self, JInteger) else self
+        return hex(_bits_sem_sinal_32(valor))[2:]
 
     def __init__(self, value):
         """
