@@ -65,3 +65,11 @@ class TestJIntegerToStringComRadix:
 
     def test_to_string_com_radix(self):
         assert JInteger.toString(255, 16) == "ff"
+
+
+class TestJIntegerFormatacaoBinariaOctal:
+    def test_to_binary_string(self):
+        assert JInteger.toBinaryString(10) == "1010"
+
+    def test_to_octal_string(self):
+        assert JInteger.toOctalString(8) == "10"
