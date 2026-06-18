@@ -54,3 +54,11 @@ class TestJIntegerConstrutor:
         # Verifica se o valor passado (0) foi realmente injetado e armazenado.
         numero = JInteger(0)
         assert getattr(numero, '_valor', None) == 0
+
+
+class TestJIntegerReverse:
+    def test_reverse(self):
+        assert JInteger.reverse(1) == JInteger.MIN_VALUE
+
+    def test_reverse_bytes(self):
+        assert JInteger.reverseBytes(0x12345678) == 0x78563412
