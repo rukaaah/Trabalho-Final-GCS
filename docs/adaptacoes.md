@@ -37,6 +37,13 @@ Para guiar as decisões da equipe, as seguintes restrições intrínsecas já es
 ---
 
 ### Módulo JInteger
+**Assinatura do Método:** `public static String toString(int i)` / `public static String toString(int i, int radix)`
+* **Motivo da não-implementação:** Python não suporta sobrecarga de métodos; as duas assinaturas não podem existir como métodos estáticos distintos com o mesmo nome.
+* **Alternativa Proposta:** método único `toString(self, radix=10)`, unificando via argumento default e dispatch híbrido instância/estático (`isinstance(self, JInteger)`). Conversão para base arbitrária (2–36) implementada manualmente, via divisão sucessiva, já que Python só converte nativamente em base 2/8/10/16. Radix fora de `[2, 36]` recebe fallback silencioso para base 10, replicando o comportamento documentado do Java.
+
+**Assinatura do Método:** `public static String toBinaryString(int i)` / `public static String toOctalString(int i)` / `public static String toHexString(int i)`
+* **Motivo da não-implementação:** `bin()`/`oct()`/`hex()` do Python incluem prefixos (`0b`/`0o`/`0x`) que o Java não usa, e convertem o valor **com sinal**, enquanto o Java trata o `int` como padrão de bits **sem sinal** de 32 bits (ex.: `toBinaryString(-1)` produz 32 uns, não `"-1"`).
+* **Alternativa Proposta:** mascaramento com `& 0xFFFFFFFF` antes da conversão (válido porque o `int` do Python representa negativos em complemento de dois "infinito"), com o prefixo removido via slice `[2:]`.
 ## JInteger (java.lang.Integer, Java SE 8)
 
 ### Constantes de limite e tamanho

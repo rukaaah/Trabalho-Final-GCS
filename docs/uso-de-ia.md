@@ -22,6 +22,23 @@ Conforme as regras de GCS, a utilização de IA não exime o desenvolvedor da re
 ## 🗄️ Logs de Utilização
 
 *(Adicione os novos registros abaixo desta linha)*
+### Módulo: `JInteger` - Método: `toString(int, radix), toBinaryString`
+* **Data:** 17/06/2026
+* **Desenvolvedor Responsável:** @JhonnPA
+* **Métodos Implementados/Auxiliados:** `JInteger.toString` (estendido), `JInteger.toBinaryString`
+* **Ferramenta Utilizada:** `Claude (Anthropic)`
+* **Prompt Representativo:**
+  > "Unifique toString(int)/toString(int, radix) estáticos do Java usando argumento default em Python. Implemente um conversor genérico para base 2-36 e replique o fallback do Java para radix inválido (volta a base 10). Implemente toBinaryString tratando o valor como bits sem sinal de 32 bits."
+* **Observação:** A IA acelerou a escrita do conversor de base. Validei manualmente o fallback de radix inválido (conferido contra o Javadoc) e o comportamento unsigned de toBinaryString(-1).
+
+### Módulo: `JInteger` - Método: `toOctalString, toHexString`
+* **Data:** 17/06/2026
+* **Desenvolvedor Responsável:** @JhonnPA
+* **Métodos Implementados/Auxiliados:** `JInteger.toOctalString`, `JInteger.toHexString`
+* **Ferramenta Utilizada:** `Claude (Anthropic)`
+* **Prompt Representativo:**
+  > "Implemente toOctalString e toHexString para JInteger, reaproveitando a lógica de bits sem sinal de 32 bits usada em toBinaryString."
+* **Observação:** Conferi que toHexString(-1) retorna "ffffffff" e toOctalString(-1) retorna "37777777777", batendo com a saída real do javac.
 
 ### Módulo: `JInteger` - Constantes e Construtor (Issue #11)
 * **Data:** 16/06/2026
