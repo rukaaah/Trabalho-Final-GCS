@@ -29,7 +29,15 @@ class JInteger:
     
     # Adaptação idiomática para Python (justificada em docs/adaptacoes.md)
     TYPE = int
-
+    @staticmethod
+    def sum(a: int, b: int) -> int:
+        # Implementação de soma básica
+        return a + b
+    @staticmethod
+    def max(a: int, b: int) -> int:
+        # Implementação de máximo básico
+        return max(a, b)
+    
     def __init__(self, value):
         """
         Construtor correspondente a Integer(int value).
