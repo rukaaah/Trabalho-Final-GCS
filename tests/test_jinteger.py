@@ -54,3 +54,16 @@ class TestJIntegerConstrutor:
         # Verifica se o valor passado (0) foi realmente injetado e armazenado.
         numero = JInteger(0)
         assert getattr(numero, '_valor', None) == 0
+
+class TestJIntegerDoubleValueEToString:
+    def test_double_value(self):
+        numero = JInteger(10)
+        assert numero.doubleValue() == 10.0
+
+    def test_to_string_valor_positivo(self):
+        numero = JInteger(123)
+        assert numero.toString() == "123"
+
+    def test_to_string_valor_negativo(self):
+        numero = JInteger(-123)
+        assert numero.toString() == "-123"
