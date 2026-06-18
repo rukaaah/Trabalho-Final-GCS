@@ -54,3 +54,14 @@ class TestJIntegerConstrutor:
         # Verifica se o valor passado (0) foi realmente injetado e armazenado.
         numero = JInteger(0)
         assert getattr(numero, '_valor', None) == 0
+
+
+class TestJIntegerAritmeticaBasica:
+    def test_sum(self):
+        assert JInteger.sum(2, 3) == 5
+
+    def test_max(self):
+        assert JInteger.max(2, 3) == 3
+
+    def test_min(self):
+        assert JInteger.min(2, 3) == 2
