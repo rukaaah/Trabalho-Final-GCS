@@ -54,3 +54,18 @@ class TestJIntegerConstrutor:
         # Verifica se o valor passado (0) foi realmente injetado e armazenado.
         numero = JInteger(0)
         assert getattr(numero, '_valor', None) == 0
+
+
+class TestJIntegerValueOf:
+    def test_value_of_int(self):
+        numero = JInteger.valueOf(42)
+        assert isinstance(numero, JInteger)
+        assert numero.intValue() == 42
+
+    def test_value_of_string(self):
+        numero = JInteger.valueOf("42")
+        assert numero.intValue() == 42
+
+    def test_value_of_string_com_radix(self):
+        numero = JInteger.valueOf("ff", 16)
+        assert numero.intValue() == 255
