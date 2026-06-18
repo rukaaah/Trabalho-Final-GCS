@@ -347,3 +347,24 @@ class JInteger:
                 _cache_valueof[valor] = JInteger(valor)
             return _cache_valueof[valor]
         return JInteger(valor)
+    
+    @staticmethod
+    def decode(nm):
+        # java: sinal opcional + prefixo 0x/0X/# (hex), zero lider (octal), sem prefixo (decimal)
+        if not isinstance(nm, str) or nm == "":
+            raise ValueError(f'For input string: "{nm}"')
+        negativo = nm[0] == "-"
+        indice = 1 if nm[0] in "+-" else 0
+        resto = nm[indice:]
+        if resto[:2].lower() == "0x":
+            radix, digitos = 16, resto[2:]
+        elif resto[:1] == "#":
+            radix, digitos = 16, resto[1:]
+        elif resto[:1] == "0" and len(resto) > 1:
+            radix, digitos = 8, resto[1:]
+        else:
+            radix, digitos = 10, resto
+        if digitos == "":
+            raise ValueError(f'For input string: "{nm}"')
+        valor = int(digitos, radix)
+        return JInteger.valueOf(-valor if negativo else valor)
