@@ -30,6 +30,18 @@ class JInteger:
     # Adaptação idiomática para Python (justificada em docs/adaptacoes.md)
     TYPE = int
 
+    @staticmethod
+    def bitCount(i: int) -> int:
+        return bin(i & 0xFFFFFFFF).count('1')
+    
+    @staticmethod
+    def signum(i: int) -> int:
+        if i < 0:
+            return -1
+        elif i > 0:
+            return 1
+        else:
+            return 0
     def __init__(self, value):
         """
         Construtor correspondente a Integer(int value).
