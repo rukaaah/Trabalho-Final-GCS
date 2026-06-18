@@ -77,6 +77,11 @@ Adaptação: Python não tem sobrecarga de métodos; os dois construtores não p
 coexistir como assinaturas distintas. Integer(String s) será unificado no mesmo
 __init__ via dispatch por tipo na issue de parsing, delegando a parseInt.
 
+### Operações e Comparações Básicas
+
+- **Assinatura do Método:** `public static int sum(int a, int b)`, `public static int max(int a, int b)`, `public static int min(int a, int b)` e `public static int compare(int x, int y)`
+- **Motivo da não-implementação:** Não houve impedimento linguístico. O Python possui funções built-in equivalentes (`sum`, `max`, `min`) e operadores relacionais diretos que tornam a transposição de contrato simples e direta.
+- **Alternativa Proposta:** Os métodos foram mapeados utilizando as funções nativas do Python. Para o método `compare`, foi estruturada uma condicional simples para replicar fielmente o retorno binário/ternário (`-1`, `1`, `0`) esperado pelo contrato do Java SE 8.
 ### Formatação Unsigned
 
 - **Assinatura do Método:** `public static String toUnsignedString(int i)` e `public static String toUnsignedString(int i, int radix)`

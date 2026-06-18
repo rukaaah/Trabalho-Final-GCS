@@ -56,6 +56,26 @@ class TestJIntegerConstrutor:
         assert getattr(numero, '_valor', None) == 0
 
 
+class TestJIntegerAritmeticaBasica:
+    def test_sum(self):
+        assert JInteger.sum(2, 3) == 5
+
+    def test_max(self):
+        assert JInteger.max(2, 3) == 3
+
+    def test_min(self):
+        assert JInteger.min(2, 3) == 2
+
+
+class TestJIntegerCompareEstatico:
+    def test_compare_maior(self):
+        assert JInteger.compare(10, 5) > 0
+
+    def test_compare_menor(self):
+        assert JInteger.compare(5, 10) < 0
+
+    def test_compare_igual(self):
+        assert JInteger.compare(5, 5) == 0
 class TestJIntegerToStringComRadix:
     def test_to_string_decimal(self):
         assert JInteger.toString(123) == "123"
