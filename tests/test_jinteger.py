@@ -73,3 +73,11 @@ class TestJIntegerFormatacaoBinariaOctal:
 
     def test_to_octal_string(self):
         assert JInteger.toOctalString(8) == "10"
+
+
+class TestJIntegerFormatacaoHex:
+    def test_to_hex_string(self):
+        assert JInteger.toHexString(255) == "ff"
+
+    def test_to_binary_string_negativo_representacao_32_bits(self):
+        assert JInteger.toBinaryString(-1) == "1" * 32
