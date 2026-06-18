@@ -65,3 +65,11 @@ class TestJIntegerBitCountESignum:
 
     def test_signum_negativo(self):
         assert JInteger.signum(-10) == -1
+
+
+class TestJIntegerHighestELowestOneBit:
+    def test_highest_one_bit(self):
+        assert JInteger.highestOneBit(10) == 8
+
+    def test_lowest_one_bit(self):
+        assert JInteger.lowestOneBit(10) == 2
