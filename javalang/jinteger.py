@@ -45,6 +45,32 @@ class JInteger:
         lsb = i_unsigned & -i_unsigned
         return lsb.bit_length() - 1
     
+    @staticmethod
+    def rotateLeft(i: int, distance: int) -> int:
+        i_unsigned = i & 0xFFFFFFFF
+        distance = distance % 32
+        if distance == 0:
+            return i if i <= 0x7FFFFFFF else i - 0x100000000
+        
+        resultado = ((i_unsigned << distance) | (i_unsigned >> (32 - distance))) & 0xFFFFFFFF
+
+        if resultado & 0x80000000:
+            return resultado - 0x100000000
+        return resultado
+    
+    @staticmethod
+    def rotateRight(i: int, distance: int) -> int:
+        i_unsigned = i & 0xFFFFFFFF
+        distance = distance % 32
+        if distance == 0:
+            return i if i <= 0x7FFFFFFF else i - 0x100000000
+        
+        resultado = ((i_unsigned >> distance) | (i_unsigned << (32 - distance))) & 0xFFFFFFFF
+
+        if resultado & 0x80000000:
+            return resultado - 0x100000000
+        return resultado
+    
     def __init__(self, value):
         """
         Construtor correspondente a Integer(int value).
