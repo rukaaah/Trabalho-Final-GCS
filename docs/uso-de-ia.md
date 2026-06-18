@@ -23,10 +23,10 @@ Conforme as regras de GCS, a utilização de IA não exime o desenvolvedor da re
 
 *(Adicione os novos registros abaixo desta linha)*
 
-### Módulo: `JString` - Método: `Exemplo`
-* **Data:** 10/06/2026
-* **Desenvolvedor Responsável:** @exemplo
-* **Métodos Implementados/Auxiliados:** `JString.codePointBefore(int)`
-* **Ferramenta Utilizada:** Gemini
+### Módulo: `JInteger` - Constantes e Construtor (Issue #11)
+* **Data:** 16/06/2026
+* **Desenvolvedor Responsável:** @GomesYV
+* **Métodos Implementados/Auxiliados:** Testes de `JInteger.MAX_VALUE`, `MIN_VALUE`, `SIZE`, `BYTES`, `TYPE` e do construtor `Integer(int value)`.
+* **Ferramenta Utilizada:** Claude (Anthropic)
 * **Prompt Representativo:**
-  > "Preciso implementar o método codePointBefore do Java em Python. Como o Python lida com surrogate pairs em strings unicode internamente comparado ao char do Java?"
+  > "Escreva os testes em pytest para as constantes estáticas e o construtor primário da classe JInteger, cobrindo o contrato da Issue #11, em blocos de até 3 testes por commit, seguindo o fluxo TDD descrito (testes em RED, sem abrir PR contra a main)."

@@ -40,10 +40,8 @@ class TestJIntegerConstantesParte2:
 
     def test_type_existe(self):
         # No Java, Integer.TYPE referencia a classe primitiva int.
-        # Em Python não há um equivalente direto (ver adaptação registrada
-        # em docs/adaptacoes.md). Aqui validamos apenas que o atributo
-        # existe e aponta para o tipo usado internamente pela classe.
-        assert JInteger.TYPE is not None
+        # Em Python validamos que o atributo existe e aponta para o tipo builtin.
+        assert JInteger.TYPE is int
 
 
 class TestJIntegerConstrutor:
@@ -52,11 +50,11 @@ class TestJIntegerConstrutor:
         assert numero is not None
 
     def test_construtor_guarda_valor_internamente(self):
-        # Verifica apenas que a instância foi criada com sucesso a partir
-        # de um int, sem depender de métodos de conversão (intValue, etc.),
-        # que ainda não fazem parte do escopo desta issue.
+        # Correção contra falso positivo sugerida no Code Review:
+        # Verifica se o valor passado (0) foi realmente injetado e armazenado.
         numero = JInteger(0)
-        assert isinstance(numero, JInteger)
+        assert getattr(numero, '_valor', None) == 0
+
 
 class TestJIntegerConstrutorString:
     def test_construtor_string_resulta_no_mesmo_valor_que_int(self):
@@ -67,6 +65,7 @@ class TestJIntegerConstrutorString:
     def test_construtor_string_negativa(self):
         numero = JInteger("-10")
         assert numero.intValue() == -10
+
 
 class TestJIntegerConversoesParte1:
     def test_int_value(self):
@@ -81,6 +80,7 @@ class TestJIntegerConversoesParte1:
         numero = JInteger(10)
         assert numero.floatValue() == 10.0
 
+
 class TestJIntegerConversoesParte2:
     def test_byte_value_dentro_da_faixa(self):
         numero = JInteger(100)
@@ -89,4 +89,3 @@ class TestJIntegerConversoesParte2:
     def test_short_value_dentro_da_faixa(self):
         numero = JInteger(1000)
         assert numero.shortValue() == 1000
-
