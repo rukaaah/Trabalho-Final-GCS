@@ -70,6 +70,11 @@ Adaptação: Python não tem sobrecarga de métodos; os dois construtores não p
 coexistir como assinaturas distintas. Integer(String s) será unificado no mesmo
 __init__ via dispatch por tipo na issue de parsing, delegando a parseInt.
 
+### Formatação Unsigned
+
+- **Assinatura do Método:** `public static String toUnsignedString(int i)` e `public static String toUnsignedString(int i, int radix)`
+- **Motivo da não-implementação:** No Java, inteiros possuem limite rígido de 32 bits, onde números negativos utilizam complemento de dois. Ao formatar como unsigned, esses bits são lidos como valores estritamente positivos. O Python possui inteiros de precisão arbitrária, mantendo o sinal negativo nativamente independente do tamanho.
+- **Alternativa Proposta:** Aplicamos a máscara bitwise `& 0xFFFFFFFF` para truncar o valor nos 32 bits inferiores, simulando perfeitamente o comportamento do Java SE 8 para números negativos, e convertemos o resultado para a base desejada (`radix`) usando divisões sucessivas.
 # Adaptacões de Linguagem
 
 ### Métodos Unsigned

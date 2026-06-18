@@ -55,6 +55,16 @@ class TestJIntegerConstrutor:
         numero = JInteger(0)
         assert getattr(numero, '_valor', None) == 0
 
+
+class TestJIntegerToUnsignedString:
+    def test_to_unsigned_string_valor_positivo(self):
+        assert JInteger.toUnsignedString(10) == "10"
+
+    def test_to_unsigned_string_valor_negativo(self):
+        assert JInteger.toUnsignedString(-1) == str(2**32 - 1)
+
+    def test_to_unsigned_string_com_radix(self):
+        assert JInteger.toUnsignedString(255, 16) == "ff"
 class TestJIntegerDoubleValueEToString:
     def test_double_value(self):
         numero = JInteger(10)

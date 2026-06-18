@@ -47,6 +47,24 @@ class JInteger:
     # Adaptação idiomática para Python (justificada em docs/adaptacoes.md)
     TYPE = int
 
+    @staticmethod
+    def toUnsignedString(i: int, radix: int = 10) -> str:
+        #Implementa os métodos toUnsignedString(int i) e toUnsignedString(int i, int radix) do Java
+        if not(2 <= radix <= 36):
+            raise ValueError(f"radix {radix} está fora do intervalo (2, 36)")
+        valor_unsigned = i & 0xFFFFFFFF
+
+        if radix == 10:
+            return str(valor_unsigned)
+        if valor_unsigned == 0:
+            return "0"
+        
+        digitos = "0123456789abcdefghijklmnopqrstuvwxyz"
+        resultado = []
+        while valor_unsigned > 0:
+            resultado.append(digitos[valor_unsigned % radix])
+            valor_unsigned //= radix
+        return "".join(reversed(resultado))
     def doubleValue(self):
         # java: (double) value -> widening exato; double tem mantissa suficiente para int de 32 bits
         return float(self._valor)
