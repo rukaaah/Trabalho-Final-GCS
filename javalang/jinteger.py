@@ -169,6 +169,41 @@ class JInteger:
             raise ValueError(f"Formato inválido: '{s}' com radix {radix}")
 
     @staticmethod
+    def bitCount(i: int) -> int:
+        return bin(i & 0xFFFFFFFF).count('1')
+    
+    @staticmethod
+    def signum(i: int) -> int:
+        if i < 0:
+            return -1
+        elif i > 0:
+            return 1
+        else:
+            return 0
+
+    @staticmethod   
+    def highestOneBit(i: int) -> int:
+        i_unsigned = i & 0xFFFFFFFF
+        if i_unsigned == 0:
+            return 0
+        
+        posicao = i_unsigned.bit_length() - 1
+        resultado = 1 << posicao
+
+        if resultado & 0x80000000:
+            return resultado - 0x100000000
+        return resultado
+    
+    @staticmethod
+    def lowestOneBit(i: int) -> int:
+        resultado = i & -i
+        resultado_32 = resultado & 0xFFFFFFFF
+        if resultado_32 == 0:
+            return 0
+        if resultado_32 & 0x80000000:
+            return resultado_32 - 0x100000000
+        return resultado_32
+    
     def compareUnsigned(a: int, b: int) -> int:
         x_unsigned = a & 0xFFFFFFFF
         y_unsigned = b & 0xFFFFFFFF

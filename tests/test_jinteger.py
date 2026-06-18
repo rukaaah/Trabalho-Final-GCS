@@ -56,6 +56,23 @@ class TestJIntegerConstrutor:
         assert getattr(numero, '_valor', None) == 0
 
 
+class TestJIntegerBitCountESignum:
+    def test_bit_count(self):
+        assert JInteger.bitCount(7) == 3
+
+    def test_signum_positivo(self):
+        assert JInteger.signum(10) == 1
+
+    def test_signum_negativo(self):
+        assert JInteger.signum(-10) == -1
+
+
+class TestJIntegerHighestELowestOneBit:
+    def test_highest_one_bit(self):
+        assert JInteger.highestOneBit(10) == 8
+
+    def test_lowest_one_bit(self):
+        assert JInteger.lowestOneBit(10) == 2
 class TestJIntegerCompareUnsigned:
     def test_compare_unsigned_ambos_positivos(self):
         assert JInteger.compareUnsigned(10, 5) > 0

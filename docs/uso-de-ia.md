@@ -63,6 +63,14 @@ Conforme as regras de GCS, a utilização de IA não exime o desenvolvedor da re
 * **Prompt Representativo:**
   > "Escreva os testes em pytest para as constantes estáticas e o construtor primário da classe JInteger, cobrindo o contrato da Issue #11, em blocos de até 3 testes por commit, seguindo o fluxo TDD descrito (testes em RED, sem abrir PR contra a main)."
 
+  ### Módulo: JInteger - Métodos: Contagem e Manipulação de Bits
+
+- **Data:** 18/06/2026
+- **Desenvolvedor Responsável:** @GabrielMattosA
+- **Métodos Implementados/Auxiliados:** `JInteger.bitCount`, `JInteger.signum`, `JInteger.highestOneBit` e `JInteger.lowestOneBit`
+- **Ferramenta Utilizada:** Gemini
+- **Prompt Representativo:**
+  "Como implementar os métodos highestOneBit e lowestOneBit do Java 8 em Python garantindo que o retorno simule um inteiro com sinal de 32 bits quando o bit de maior ordem estiver ativo?"
   ### Módulo: JInteger - Métodos: Aritmética Unsigned
 
 - **Data:** 18/06/2026
