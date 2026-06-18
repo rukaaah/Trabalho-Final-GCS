@@ -54,3 +54,11 @@ class TestJIntegerConstrutor:
         # Verifica se o valor passado (0) foi realmente injetado e armazenado.
         numero = JInteger(0)
         assert getattr(numero, '_valor', None) == 0
+
+
+class TestJIntegerContagemDeZeros:
+    def test_number_of_leading_zeros(self):
+        assert JInteger.numberOfLeadingZeros(1) == 31
+
+    def test_number_of_trailing_zeros(self):
+        assert JInteger.numberOfTrailingZeros(16) == 4
