@@ -56,6 +56,31 @@ class TestJIntegerConstrutor:
         assert getattr(numero, '_valor', None) == 0
 
 
+class TestJIntegerToStringComRadix:
+    def test_to_string_decimal(self):
+        assert JInteger.toString(123) == "123"
+
+    def test_to_string_negativo(self):
+        assert JInteger.toString(-123) == "-123"
+
+    def test_to_string_com_radix(self):
+        assert JInteger.toString(255, 16) == "ff"
+
+
+class TestJIntegerFormatacaoBinariaOctal:
+    def test_to_binary_string(self):
+        assert JInteger.toBinaryString(10) == "1010"
+
+    def test_to_octal_string(self):
+        assert JInteger.toOctalString(8) == "10"
+
+
+class TestJIntegerFormatacaoHex:
+    def test_to_hex_string(self):
+        assert JInteger.toHexString(255) == "ff"
+
+    def test_to_binary_string_negativo_representacao_32_bits(self):
+        assert JInteger.toBinaryString(-1) == "1" * 32
 class TestJIntegerToUnsignedString:
     def test_to_unsigned_string_valor_positivo(self):
         assert JInteger.toUnsignedString(10) == "10"
