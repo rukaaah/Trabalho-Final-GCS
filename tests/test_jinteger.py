@@ -55,6 +55,34 @@ class TestJIntegerConstrutor:
         numero = JInteger(0)
         assert getattr(numero, '_valor', None) == 0
 
+class TestJIntegerDoubleValueEToString:
+    def test_double_value(self):
+        numero = JInteger(10)
+        assert numero.doubleValue() == 10.0
+
+    def test_to_string_valor_positivo(self):
+        numero = JInteger(123)
+        assert numero.toString() == "123"
+
+    def test_to_string_valor_negativo(self):
+        numero = JInteger(-123)
+        assert numero.toString() == "-123"
+
+class TestJIntegerHashCodeEEquals:
+    def test_hash_code_consistente_para_mesmo_valor(self):
+        a = JInteger(5)
+        b = JInteger(5)
+        assert a.hashCode() == b.hashCode()
+
+    def test_equals_valor_diferente_retorna_false(self):
+        assert JInteger(5).equals(JInteger(6)) is False
+
+class TestJIntegerCompareTo:
+    def test_compare_to_maior(self):
+        assert JInteger(10).compareTo(JInteger(5)) > 0
+
+    def test_compare_to_menor(self):
+        assert JInteger(5).compareTo(JInteger(10)) < 0
 
 class TestJIntegerParseInt:
     def test_parse_int_decimal(self):

@@ -38,7 +38,6 @@ Para guiar as decisões da equipe, as seguintes restrições intrínsecas já es
 
 ### Módulo JInteger
 ## JInteger (java.lang.Integer, Java SE 8)
-
 ### Constantes de limite e tamanho
 Assinatura Java:
 

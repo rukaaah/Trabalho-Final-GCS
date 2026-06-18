@@ -47,6 +47,28 @@ class JInteger:
     # Adaptação idiomática para Python (justificada em docs/adaptacoes.md)
     TYPE = int
 
+    def doubleValue(self):
+        # java: (double) value -> widening exato; double tem mantissa suficiente para int de 32 bits
+        return float(self._valor)
+    
+    def toString(self):
+        # java: Integer.toString() -> representação decimal com sinal
+        return str(self._valor)
+    
+    def hashCode(self):
+        # java: Integer.hashCode() devolve o proprio valor encapsulado, nao um hash derivado
+        return self._valor
+    
+    def equals(self, other):
+        # java: Integer.equals so retorna True se other for Integer com mesmo valor
+        if not isinstance(other, JInteger):
+            return False
+        return self._valor == other._valor
+
+    def compareTo(self, other):
+        # java: Integer.compareTo -> negativo/zero/positivo por comparacao numerica
+        return (self._valor > other._valor) - (self._valor < other._valor)
+    
     @staticmethod
     def parseInt(s: str, radix: int = 10) -> int:
         #Implementa os métodos parseInt com e sem radix
