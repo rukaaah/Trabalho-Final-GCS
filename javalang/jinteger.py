@@ -29,7 +29,30 @@ class JInteger:
     
     # Adaptação idiomática para Python (justificada em docs/adaptacoes.md)
     TYPE = int
+    
+    @staticmethod
+    def reverse(i: int) -> int:
+        i_unsigned = i & 0xFFFFFFFF
+        bin_invertido = bin(i_unsigned)[2:].zfill(32)[::-1]
+        resultado = int(bin_invertido, 2)
 
+        if resultado & 0x80000000:  
+            return resultado - 0x100000000 
+        return resultado
+
+    @staticmethod
+    def reverseBytes(i: int) -> int:
+        i_unsigned = i & 0xFFFFFFFF
+        b0 = (i_unsigned & 0x000000FF) << 24
+        b1 = (i_unsigned & 0x0000FF00) << 8
+        b2 = (i_unsigned & 0x00FF0000) >> 8
+        b3 = (i_unsigned & 0xFF000000) >> 24
+        resultado = b0 | b1 | b2 | b3
+
+        if resultado & 0x80000000:  
+            return resultado - 0x100000000
+        return resultado
+    
     def __init__(self, value):
         """
         Construtor correspondente a Integer(int value).
