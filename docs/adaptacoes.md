@@ -71,6 +71,12 @@ Adaptação: Python não tem sobrecarga de métodos; os dois construtores não p
 coexistir como assinaturas distintas. Integer(String s) será unificado no mesmo
 __init__ via dispatch por tipo na issue de parsing, delegando a parseInt.
 
+### Contagem e Análise de Bits
+
+- **Assinatura do Método:** `public static int bitCount(int i)`, `public static int signum(int i)`, `public static int highestOneBit(int i)` e `public static int lowestOneBit(int i)`
+- **Motivo da não-implementação:** Em Java, inteiros em complemento de dois possuem tamanho estrito de 32 bits. O Python possui precisão arbitrária onde números negativos estendem os bits de sinal indefinidamente para a esquerda, alterando o comportamento natural de funções de contagem (`bin().count('1')`) e de isolamento de extremidades de bits.
+- **Alternativa Proposta:** Apliquei a máscara bitwise `& 0xFFFFFFFF` para simular o comportamento de truncamento binário de 32 bits. Nos métodos de isolamento de bit único (`highestOneBit` e `lowestOneBit`), após extrair o bit correspondente usando propriedades matemáticas (`bit_length()` e `i & -i`), verifiquei se o bit de sinal (`0x80000000`) está ativo para converter o valor de volta ao formato signed esperado pelo Java.
+
 ### Módulo JFloat
 *(Nenhuma adaptação registrada até o momento)*
 
