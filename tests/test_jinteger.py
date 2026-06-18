@@ -256,3 +256,11 @@ class TestJIntegerRotacao:
 
     def test_rotate_left_circular_passando_de_32_bits(self):
         assert JInteger.rotateLeft(1, 33) == JInteger.rotateLeft(1, 1)
+
+
+class TestJIntegerReverse:
+    def test_reverse(self):
+        assert JInteger.reverse(1) == JInteger.MIN_VALUE
+
+    def test_reverse_bytes(self):
+        assert JInteger.reverseBytes(0x12345678) == 0x78563412

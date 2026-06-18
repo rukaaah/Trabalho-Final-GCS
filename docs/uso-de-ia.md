@@ -121,3 +121,12 @@ Conforme as regras de GCS, a utilização de IA não exime o desenvolvedor da re
 - **Ferramenta Utilizada:** Gemini
 - **Prompt Representativo:**
   "Como implementar os métodos rotateLeft e rotateRight do Java 8 em Python garantindo que distâncias maiores que 32 funcionem de forma circular e aplicando máscara para simular estouro em complemento de dois?"
+
+  ### Módulo: JInteger - Métodos: Reversão de Bits e Bytes
+
+- **Data:** 18/06/2026
+- **Desenvolvedor Responsável:** @GabrielMattosA
+- **Métodos Implementados/Auxiliados:** `JInteger.reverse` e `JInteger.reverseBytes`
+- **Ferramenta Utilizada:** Gemini
+- **Prompt Representativo:**
+  "Como implementar os métodos de espelhamento binário reverse e inversão de endianness reverseBytes do Java 8 em Python garantindo o estouro para signed int de 32 bits?"
