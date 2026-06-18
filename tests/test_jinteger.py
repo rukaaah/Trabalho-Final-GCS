@@ -67,3 +67,12 @@ class TestJIntegerDoubleValueEToString:
     def test_to_string_valor_negativo(self):
         numero = JInteger(-123)
         assert numero.toString() == "-123"
+
+class TestJIntegerHashCodeEEquals:
+    def test_hash_code_consistente_para_mesmo_valor(self):
+        a = JInteger(5)
+        b = JInteger(5)
+        assert a.hashCode() == b.hashCode()
+
+    def test_equals_valor_diferente_retorna_false(self):
+        assert JInteger(5).equals(JInteger(6)) is False
