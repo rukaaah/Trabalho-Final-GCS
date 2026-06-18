@@ -30,3 +30,12 @@ Conforme as regras de GCS, a utilização de IA não exime o desenvolvedor da re
 * **Ferramenta Utilizada:** Claude (Anthropic)
 * **Prompt Representativo:**
   > "Escreva os testes em pytest para as constantes estáticas e o construtor primário da classe JInteger, cobrindo o contrato da Issue #11, em blocos de até 3 testes por commit, seguindo o fluxo TDD descrito (testes em RED, sem abrir PR contra a main)."
+
+  ### Módulo: JInteger - Métodos: parseInt e parseUnsignedInt
+
+- **Data:** 17/06/2026
+- **Desenvolvedor Responsável:** @GabrielMattosA
+- **Métodos Implementados/Auxiliados:** `JInteger.parseInt` e `JInteger.parseUnsignedInt`
+- **Ferramenta Utilizada:** Gemini
+- **Prompt Representativo:**
+  > ""Como implementar os métodos parseInt e parseUnsignedInt (com e sem radix) do Java 8 em Python, garantindo as exceções corretas"
