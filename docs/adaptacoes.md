@@ -71,33 +71,17 @@ Adaptação: Python não tem sobrecarga de métodos; os dois construtores não p
 coexistir como assinaturas distintas. Integer(String s) será unificado no mesmo
 __init__ via dispatch por tipo na issue de parsing, delegando a parseInt.
 
-### JInteger(String s)
-Assinatura Java:
+**Assinatura do Método:** `public byte byteValue()` / `public short shortValue()`
+* **Motivo da não-implementação:** Python não possui os primitivos `byte` (8 bits) e `short` (16 bits); existe um único `int` de precisão arbitrária.
+* **Alternativa Proposta:** Mascaramento dos bits baixos (`& 0xFF` / `& 0xFFFF`) com reinterpretação em complemento de dois, replicando o estreitamento `(byte)(int)value` / `(short)(int)value` da JLS 5.1.3.
 
-    public Integer(String s) throws NumberFormatException
-Situação: implementado unificando o __init__ por dispatch de tipo (str -> parse).
+**Assinatura do Método:** `public float floatValue()`
+* **Motivo da não-implementação:** o `float` do Python é IEEE 754 de 64 bits (double); Java retorna precisão simples de 32 bits.
+* **Alternativa Proposta:** coerção explícita para precisão simples via `struct.pack/unpack(">f", ...)`.
 
-Adaptação: Python não tem sobrecarga; Integer(int) e Integer(String) compartilham
-o mesmo __init__. A conversão usa int(value), que lança ValueError em entrada
-inválida (análogo do NumberFormatException). A gramática estrita do parseInt
-(rejeição de espaços/underscores) será centralizada quando o método estático
-parseInt for implementado; o construtor passará a delegar a ele.
-
-### JInteger.floatValue()
-Assinatura Java: 
-
-                public float floatValue()
-
-Adaptação: o float do Python é double (64 bits). Como Java retorna float de 32
-bits, o valor é coagido para precisão simples via struct, reproduzindo a perda de
-precisão de (float)int para inteiros grandes.
-
-### JInteger.longValue()
-Assinatura Java:
-
-                public long longValue()
-                
-Situação: widening int->long; numericamente idêntico em Python (int ilimitado).
+**Assinatura do Método:** `public Integer(String s) throws NumberFormatException`
+* **Motivo da não-implementação:** Python não suporta sobrecarga; esta assinatura não pode coexistir com `Integer(int value)` como construtor separado.
+* **Alternativa Proposta:** unificada no mesmo `__init__` via dispatch por tipo (`isinstance(value, str)`), delegando a conversão a `int(value)`.
 
 ### Módulo JFloat
 *(Nenhuma adaptação registrada até o momento)*
