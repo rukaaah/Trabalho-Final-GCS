@@ -30,6 +30,21 @@ class JInteger:
     # Adaptação idiomática para Python (justificada em docs/adaptacoes.md)
     TYPE = int
 
+    @staticmethod
+    def numberOfLeadingZeros(i: int) -> int:
+        i_unsigned = i & 0xFFFFFFFF
+        if i_unsigned == 0:
+            return 32
+        return 32 - i_unsigned.bit_length()
+    
+    @staticmethod
+    def numberOfTrailingZeros(i: int) -> int:
+        i_unsigned = i & 0xFFFFFFFF
+        if i_unsigned == 0:
+            return 32
+        lsb = i_unsigned & -i_unsigned
+        return lsb.bit_length() - 1
+    
     def __init__(self, value):
         """
         Construtor correspondente a Integer(int value).
