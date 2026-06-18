@@ -54,3 +54,11 @@ class TestJIntegerConstrutor:
         # Verifica se o valor passado (0) foi realmente injetado e armazenado.
         numero = JInteger(0)
         assert getattr(numero, '_valor', None) == 0
+
+
+class TestJIntegerCompareUnsigned:
+    def test_compare_unsigned_ambos_positivos(self):
+        assert JInteger.compareUnsigned(10, 5) > 0
+
+    def test_compare_unsigned_negativo_eh_maior_como_unsigned(self):
+        assert JInteger.compareUnsigned(-1, 5) > 0
