@@ -111,10 +111,6 @@ class JInteger:
         # java: (double) value -> widening exato; double tem mantissa suficiente para int de 32 bits
         return float(self._valor)
     
-    def toString(self):
-        # java: Integer.toString() -> representação decimal com sinal
-        return str(self._valor)
-    
     def hashCode(self):
         # java: Integer.hashCode() devolve o proprio valor encapsulado, nao um hash derivado
         return self._valor
