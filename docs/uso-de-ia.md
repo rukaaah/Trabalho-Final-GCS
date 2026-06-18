@@ -1,7 +1,6 @@
 # Registro de Uso de Inteligência Artificial
 
-Este documento serve como declaração obrigatória do uso de ferramentas de IA generativa (ChatGPT, Gemini, GitHub Copilot, etc.) como auxílio na implementação técnica deste projeto. 
-
+Este documento serve como declaração obrigatória do uso de ferramentas de IA generativa (ChatGPT, Gemini, GitHub Copilot, etc.) como auxílio na implementação técnica deste projeto.
 Conforme as regras de GCS, a utilização de IA não exime o desenvolvedor da responsabilidade de explicar oralmente o código sob seu nome.
 
 ---
@@ -20,7 +19,6 @@ Conforme as regras de GCS, a utilização de IA não exime o desenvolvedor da re
 ---
 
 ## 🗄️ Logs de Utilização
-
 *(Adicione os novos registros abaixo desta linha)*
 ### Módulo: `JInteger` - Método: `toString(int, radix), toBinaryString`
 * **Data:** 17/06/2026
@@ -39,6 +37,23 @@ Conforme as regras de GCS, a utilização de IA não exime o desenvolvedor da re
 * **Prompt Representativo:**
   > "Implemente toOctalString e toHexString para JInteger, reaproveitando a lógica de bits sem sinal de 32 bits usada em toBinaryString."
 * **Observação:** Conferi que toHexString(-1) retorna "ffffffff" e toOctalString(-1) retorna "37777777777", batendo com a saída real do javac.
+### Módulo: `JInteger` - Método: `doubleValue, toString, hashCode`
+* **Data:** 16/06/2026
+* **Desenvolvedor Responsável:** @JhonnPA
+* **Métodos Implementados/Auxiliados:** `JInteger.doubleValue`, `JInteger.toString`, `JInteger.hashCode`
+* **Ferramenta Utilizada:** `Claude (Anthropic)`
+* **Prompt Representativo:**
+  > "Implemente doubleValue() (widening exato int->double), toString() (representação decimal) e hashCode() (deve retornar o próprio valor int, como Integer.hashCode() do Java) para JInteger."
+* **Observação:** A IA acelerou a redação dos três métodos, mas a decisão de hashCode() retornar diretamente o valor encapsulado (e não um hash calculado) foi conferida manualmente contra a especificação oficial do Integer.hashCode(), já que esse é o ponto onde uma implementação genérica erraria. Validei doubleValue() comparando com casos de borda (MAX_VALUE, MIN_VALUE) para confirmar ausência de perda de precisão.
+
+### Módulo: `JInteger` - Método: `equals, compareTo`
+* **Data:** 16/06/2026
+* **Desenvolvedor Responsável:** @JhonnPA
+* **Métodos Implementados/Auxiliados:** `JInteger.equals`, `JInteger.compareTo`
+* **Ferramenta Utilizada:** `Claude (Anthropic)`
+* **Prompt Representativo:**
+  > "Implemente equals(Object) e compareTo(Integer) para JInteger fiéis ao contrato Java: equals só compara com outro JInteger (sem coerção com int puro), compareTo retorna -1/0/1 por comparação numérica."
+* **Observação:** A IA acelerou a escrita, mas testei manualmente o ponto de maior risco de infidelidade: confirmei que equals() retorna False ao comparar com um int puro (JInteger(5).equals(5)), reproduzindo a rejeição de tipo do Java, e validei compareTo() nos três casos de sinal (maior, menor, igual).
 
 ### Módulo: `JInteger` - Constantes e Construtor (Issue #11)
 * **Data:** 16/06/2026
@@ -47,3 +62,28 @@ Conforme as regras de GCS, a utilização de IA não exime o desenvolvedor da re
 * **Ferramenta Utilizada:** Claude (Anthropic)
 * **Prompt Representativo:**
   > "Escreva os testes em pytest para as constantes estáticas e o construtor primário da classe JInteger, cobrindo o contrato da Issue #11, em blocos de até 3 testes por commit, seguindo o fluxo TDD descrito (testes em RED, sem abrir PR contra a main)."
+
+  ### Módulo: JInteger - Método: toUnsignedString
+
+- **Data:** 17/06/2026
+- **Desenvolvedor Responsável:** @GabrielMattosA
+- **Métodos Implementados/Auxiliados:** `JInteger.toUnsignedString`
+- **Ferramenta Utilizada:** Gemini
+- **Prompt Representativo:**
+  "Como simular o método JInteger.toUnsignedString(int i, int radix) do Java 8 em Python usando a máscara & 0xFFFFFFFF para tratar números negativos e fazendo a conversão de base de 2 a 36?"
+  ### Módulo: JInteger - Métodos: parseInt e parseUnsignedInt
+
+- **Data:** 17/06/2026
+- **Desenvolvedor Responsável:** @GabrielMattosA
+- **Métodos Implementados/Auxiliados:** `JInteger.parseInt` e `JInteger.parseUnsignedInt`
+- **Ferramenta Utilizada:** Gemini
+- **Prompt Representativo:**
+  > ""Como implementar os métodos parseInt e parseUnsignedInt (com e sem radix) do Java 8 em Python, garantindo as exceções corretas"
+### Módulo: `JInteger` - Método: `Conversões (long/float) e Integer(String s)`
+* **Data:** 17/06/2026
+* **Desenvolvedor Responsável:** @JhonnPA
+* **Métodos Implementados/Auxiliados:** `JInteger.longValue`, `JInteger.floatValue`, `JInteger.__init__` (Integer(String s))
+* **Ferramenta Utilizada:** `Claude (Anthropic)`
+* **Prompt Representativo:**
+  > "Para JInteger, implemente longValue() (widening), floatValue() coagindo para float de 32 bits como o (float) do Java, e estenda o __init__ para aceitar str (Integer(String s)), fazendo passar os testes da QA."
+* **Observação:** Uso da IA apenas para agilizar. Conferi as asserções da QA (string "42" == int 42, floatValue de 10 == 10.0) e entendo por que floatValue coage para 32 bits.
