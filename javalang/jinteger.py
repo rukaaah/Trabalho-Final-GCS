@@ -16,12 +16,23 @@ Um Pull Request NÃO pode conter mais do que 7 casos de testes implementados.
 Faça PRs curtos e frequentes!
 Um commit não pode conter mais de 3 métodos de teste.
 """
+"""
+Módulo da classe JInteger, representando o wrapper java.lang.Integer.
+"""
 
 class JInteger:
-    # TODO: Implementar constantes (MAX_VALUE, MIN_VALUE, SIZE, BYTES, TYPE)
+    # Constantes de limite e tamanho do tipo int em Java
+    MAX_VALUE = 2147483647    
+    MIN_VALUE = -2147483648   
+    SIZE = 32   
+    BYTES = SIZE // 8
     
-    def __init__(self, value):
-        # TODO: Implementar lógica do construtor
-        pass
+    # Adaptação idiomática para Python (justificada em docs/adaptacoes.md)
+    TYPE = int
 
-    # TODO: Implementar métodos de instância e estáticos
+    def __init__(self, value):
+        """
+        Construtor correspondente a Integer(int value).
+        Armazena o valor recebido sem impor a faixa de 32 bits por decisão de design.
+        """
+        self._valor = value
