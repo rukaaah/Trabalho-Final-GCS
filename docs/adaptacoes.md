@@ -70,6 +70,33 @@ Adaptação: Python não tem sobrecarga de métodos; os dois construtores não p
 coexistir como assinaturas distintas. Integer(String s) será unificado no mesmo
 __init__ via dispatch por tipo na issue de parsing, delegando a parseInt.
 
+# Adaptacões de Linguagem
+
+### Métodos Unsigned
+
+- **Assinatura do Método:** `public static int parseUnsignedInt(String s)` e `public static int parseUnsignedInt(String s, int radix)`
+- **Motivo da não-implementação:** Em Java, os tipos primitivos possuem tamanho fixo de 32 bits, e o método `parseUnsignedInt` trata os bits para representar valores estritamente positivos (de 0 a 4294967295). O Python não possui suporte nativo a tipos unsigned ou limite rígido de bits em inteiros (precisão arbitrária), o que tornaria o comportamento padrão indefinido em relação ao contrato do Java.
+- **Alternativa Proposta:** Implementamos uma validação manual dentro do método em Python para interceptar strings que comecem com o sinal de menos (`-`) e lançar um `ValueError`, simulando estritamente a restrição e o comportamento do Java SE 8.
+
+---
+
+### Sobrecarga de Métodos
+
+- **Assinatura do Método:** `public static int parseInt(String s)` e `public static int parseInt(String s, int radix)`
+- **Motivo da não-implementação:** O Java utiliza sobrecarga de métodos (overloading) para permitir duas assinaturas com o mesmo nome mas número de argumentos diferentes. O Python não suporta sobrecarga de métodos nativamente em sua estrutura de classes.
+- **Alternativa Proposta:** Unificamos as assinaturas utilizando argumentos opcionais idiomáticos do Python (`radix: int = 10`), atingindo o mesmo comportamento de forma limpa e tratando dinamicamente o intervalo do radix entre 2 e 36.
+**Assinatura do Método:** `public byte byteValue()` / `public short shortValue()`
+* **Motivo da não-implementação:** Python não possui os primitivos `byte` (8 bits) e `short` (16 bits); existe um único `int` de precisão arbitrária.
+* **Alternativa Proposta:** Mascaramento dos bits baixos (`& 0xFF` / `& 0xFFFF`) com reinterpretação em complemento de dois, replicando o estreitamento `(byte)(int)value` / `(short)(int)value` da JLS 5.1.3.
+
+**Assinatura do Método:** `public float floatValue()`
+* **Motivo da não-implementação:** o `float` do Python é IEEE 754 de 64 bits (double); Java retorna precisão simples de 32 bits.
+* **Alternativa Proposta:** coerção explícita para precisão simples via `struct.pack/unpack(">f", ...)`.
+
+**Assinatura do Método:** `public Integer(String s) throws NumberFormatException`
+* **Motivo da não-implementação:** Python não suporta sobrecarga; esta assinatura não pode coexistir com `Integer(int value)` como construtor separado.
+* **Alternativa Proposta:** unificada no mesmo `__init__` via dispatch por tipo (`isinstance(value, str)`), delegando a conversão a `int(value)`.
+
 ### Módulo JFloat
 *(Nenhuma adaptação registrada até o momento)*
 

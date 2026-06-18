@@ -1,7 +1,6 @@
 # Registro de Uso de Inteligência Artificial
 
-Este documento serve como declaração obrigatória do uso de ferramentas de IA generativa (ChatGPT, Gemini, GitHub Copilot, etc.) como auxílio na implementação técnica deste projeto. 
-
+Este documento serve como declaração obrigatória do uso de ferramentas de IA generativa (ChatGPT, Gemini, GitHub Copilot, etc.) como auxílio na implementação técnica deste projeto.
 Conforme as regras de GCS, a utilização de IA não exime o desenvolvedor da responsabilidade de explicar oralmente o código sob seu nome.
 
 ---
@@ -20,7 +19,6 @@ Conforme as regras de GCS, a utilização de IA não exime o desenvolvedor da re
 ---
 
 ## 🗄️ Logs de Utilização
-
 *(Adicione os novos registros abaixo desta linha)*
 ### Módulo: `JInteger` - Método: `doubleValue, toString, hashCode`
 * **Data:** 16/06/2026
@@ -47,3 +45,20 @@ Conforme as regras de GCS, a utilização de IA não exime o desenvolvedor da re
 * **Ferramenta Utilizada:** Claude (Anthropic)
 * **Prompt Representativo:**
   > "Escreva os testes em pytest para as constantes estáticas e o construtor primário da classe JInteger, cobrindo o contrato da Issue #11, em blocos de até 3 testes por commit, seguindo o fluxo TDD descrito (testes em RED, sem abrir PR contra a main)."
+
+  ### Módulo: JInteger - Métodos: parseInt e parseUnsignedInt
+
+- **Data:** 17/06/2026
+- **Desenvolvedor Responsável:** @GabrielMattosA
+- **Métodos Implementados/Auxiliados:** `JInteger.parseInt` e `JInteger.parseUnsignedInt`
+- **Ferramenta Utilizada:** Gemini
+- **Prompt Representativo:**
+  > ""Como implementar os métodos parseInt e parseUnsignedInt (com e sem radix) do Java 8 em Python, garantindo as exceções corretas"
+### Módulo: `JInteger` - Método: `Conversões (long/float) e Integer(String s)`
+* **Data:** 17/06/2026
+* **Desenvolvedor Responsável:** @JhonnPA
+* **Métodos Implementados/Auxiliados:** `JInteger.longValue`, `JInteger.floatValue`, `JInteger.__init__` (Integer(String s))
+* **Ferramenta Utilizada:** `Claude (Anthropic)`
+* **Prompt Representativo:**
+  > "Para JInteger, implemente longValue() (widening), floatValue() coagindo para float de 32 bits como o (float) do Java, e estenda o __init__ para aceitar str (Integer(String s)), fazendo passar os testes da QA."
+* **Observação:** Uso da IA apenas para agilizar. Conferi as asserções da QA (string "42" == int 42, floatValue de 10 == 10.0) e entendo por que floatValue coage para 32 bits.
