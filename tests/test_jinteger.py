@@ -65,3 +65,10 @@ class TestJIntegerParseInt:
 
     def test_parse_int_com_radix(self):
         assert JInteger.parseInt("ff", 16) == 255
+
+
+class TestJIntegerParseIntInvalido:
+    def test_parse_int_string_invalida_lanca_exception(self):
+        import pytest
+        with pytest.raises(ValueError):
+            JInteger.parseInt("abc")
