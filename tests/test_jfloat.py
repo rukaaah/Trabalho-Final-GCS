@@ -32,3 +32,15 @@ class TestJFloatAritmetica:
 
     def test_sum(self):
         assert math.isclose(JFloat.sum(1.5, 2.5), 4.0, rel_tol=1e-6)
+
+class TestJFloatBits:
+    def test_float_to_int_bits_um(self):
+        assert JFloat.floatToIntBits(1.0) == 0x3F800000
+
+    def test_int_bits_to_float_um(self):
+        assert JFloat.intBitsToFloat(0x3F800000) == 1.0
+
+    def test_round_trip_float_int_bits(self):
+        valor = 2.5
+        bits = JFloat.floatToIntBits(valor)
+        assert JFloat.intBitsToFloat(bits) == valor
