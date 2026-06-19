@@ -32,3 +32,20 @@ class TestJFloatConstantes:
 
     def test_nan_e_nan(self):
         assert math.isnan(JFloat.NaN)
+
+class TestJFloatIsNaN:
+    def test_is_nan_instancia_com_nan(self):
+        numero = JFloat(float('nan'))
+        assert numero.isNaN() is True
+
+    def test_is_nan_estatico(self):
+        assert JFloat.isNaN(float('nan')) is True
+
+
+class TestJFloatIsInfiniteECompare:
+    def test_is_infinite_instancia(self):
+        numero = JFloat(math.inf)
+        assert numero.isInfinite() is True
+
+    def test_is_finite_valor_normal(self):
+        assert JFloat.isFinite(1.0) is True
