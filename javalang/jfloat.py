@@ -38,7 +38,27 @@ class JFloat:
             self._valor = float(value)
         else:
             raise TypeError(f"Tipo de dado inválido")
+        
+    def byteValue(self) -> int:
+        val_int = int(self._valor)
+        resultado = val_int & 0xFF
+        if resultado & 0x80:
+            return resultado - 0x100
+        return resultado
     
+    def shortValue(self) -> int:
+        val_int = int(self._valor)
+        resultado = val_int & 0xFFFF
+        if resultado & 0x8000:
+            return resultado - 0x10000
+        return resultado
+    
+    def intValue(self) -> int:
+        val_int = int(self._valor)
+        resultado = val_int & 0xFFFFFFFF
+        if resultado & 0x80000000:
+            return resultado - 0x100000000
+        return resultado
     
     # ==========================================
     # MÉTODOS DE OBJECT 
