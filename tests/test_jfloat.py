@@ -34,3 +34,21 @@ class TestJFloatParseFloat:
         import pytest
         with pytest.raises(ValueError):
             JFloat.parseFloat("abc")
+
+class TestJFloatValueOf:
+    def test_value_of_float(self):
+        numero = JFloat.valueOf(1.5)
+        assert isinstance(numero, JFloat)
+
+    def test_value_of_string(self):
+        numero = JFloat.valueOf("1.5")
+        assert math.isclose(numero.floatValue(), 1.5, rel_tol=1e-6)
+
+
+class TestJFloatToString:
+    def test_to_string_instancia(self):
+        numero = JFloat(1.5)
+        assert numero.toString() == "1.5"
+
+    def test_to_string_estatico(self):
+        assert JFloat.toString(1.5) == "1.5"
