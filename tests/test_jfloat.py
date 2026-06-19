@@ -16,8 +16,19 @@ Um Pull Request NÃO pode conter mais do que 7 casos de testes implementados.
 Faça PRs curtos e frequentes!
 Um commit não pode conter mais de 3 métodos de teste.
 """
-# from javalang.jfloat import JFloat
+import math
+from javalang.jfloat import JFloat
 
 def test_jfloat_is_nan():
     # TODO: Implementar teste com casos de borda do IEEE 754
     pass
+
+class TestJFloatConstantes:
+    def test_positive_infinity(self):
+        assert JFloat.POSITIVE_INFINITY == math.inf
+
+    def test_negative_infinity(self):
+        assert JFloat.NEGATIVE_INFINITY == -math.inf
+
+    def test_nan_e_nan(self):
+        assert math.isnan(JFloat.NaN)
