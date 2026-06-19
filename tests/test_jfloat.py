@@ -21,3 +21,15 @@ Um commit não pode conter mais de 3 métodos de teste.
 def test_jfloat_is_nan():
     # TODO: Implementar teste com casos de borda do IEEE 754
     pass
+class TestJFloatConversoesAltas:
+    def test_long_value(self):
+        numero = JFloat(3.9)
+        assert numero.longValue() == 3
+
+    def test_float_value(self):
+        numero = JFloat(1.5)
+        assert math.isclose(numero.floatValue(), 1.5, rel_tol=1e-6)
+
+    def test_double_value(self):
+        numero = JFloat(1.5)
+        assert math.isclose(numero.doubleValue(), 1.5, rel_tol=1e-6)
