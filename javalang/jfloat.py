@@ -28,8 +28,16 @@ class JFloat:
     # CONSTRUTORES E CONVERSÃO NUMÉRICA 
     # (Ex: __init__, byteValue, intValue, etc)
     # ==========================================
-    
-    
+    def __init__(self, value):
+        if isinstance(value, str):
+            try:
+                self._valor = float(value)
+            except ValueError:
+                raise ValueError(f"Texto inválido para conversão: '{value}'")
+        elif isinstance(value(int, float)):
+            self._valor = float(value)
+        else:
+            raise TypeError(f"Tipo de dado inválido")
     
     
     # ==========================================
