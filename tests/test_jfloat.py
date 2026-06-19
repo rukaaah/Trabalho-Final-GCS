@@ -21,3 +21,15 @@ Um commit não pode conter mais de 3 métodos de teste.
 def test_jfloat_is_nan():
     # TODO: Implementar teste com casos de borda do IEEE 754
     pass
+class TestJFloatConstrutores:
+    def test_construtor_com_float(self):
+        numero = JFloat(3.14)
+        assert numero is not None
+
+    def test_construtor_guarda_valor_internamente(self):
+        numero = JFloat(1.5)
+        assert getattr(numero, '_valor', None) is not None
+
+    def test_construtor_com_string(self):
+        numero = JFloat("3.14")
+        assert numero is not None
