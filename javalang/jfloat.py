@@ -16,6 +16,7 @@ Um Pull Request NÃO pode conter mais do que 7 casos de testes implementados.
 Faça PRs curtos e frequentes!
 Um commit não pode conter mais de 3 métodos de teste.
 """
+import struct
 import math
 
 class JFloat:
@@ -63,8 +64,35 @@ class JFloat:
     def isInfinite(self) -> bool:
         return math.isinf(self._valor)
     
+    @staticmethod
+    def isInfinite_static(v: float) -> bool:   
+        return math.isinf(v)
+
+    @staticmethod
+    def isFinite_static(f: float) -> bool:
+        return math.isfinite(f)
     
-    
+    @staticmethod
+    def compare(f1: float, f2: float) -> int:
+        if math.isnan(f1):
+            if math.isnan(f2):
+                return 0
+            return 1
+        if math.isnan(f2):
+            return -1
+        
+        if f1 < f2:
+            return -1
+        elif f1 > f2:
+            return 1
+        
+        bits_f1 = struct.unpack('>I', struct.pack('>f', f1))[0]
+        bits_f2 = struct.unpack('>I', struct.pack('>f', f2))[0]
+        if bits_f1 < bits_f2:
+            return -1
+        elif bits_f1 > bits_f2:
+            return 1
+        return 0
     # ==========================================
     # CONVERSÃO BINÁRIA E ARITMÉTICA 
     # (Ex: floatToIntBits, compare, sum)
