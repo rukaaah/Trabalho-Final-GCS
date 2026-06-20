@@ -44,38 +44,14 @@ Para guiar as decisões da equipe, as seguintes restrições intrínsecas já es
 **Assinatura do Método:** `public static String toBinaryString(int i)` / `public static String toOctalString(int i)` / `public static String toHexString(int i)`
 * **Motivo da não-implementação:** `bin()`/`oct()`/`hex()` do Python incluem prefixos (`0b`/`0o`/`0x`) que o Java não usa, e convertem o valor **com sinal**, enquanto o Java trata o `int` como padrão de bits **sem sinal** de 32 bits (ex.: `toBinaryString(-1)` produz 32 uns, não `"-1"`).
 * **Alternativa Proposta:** mascaramento com `& 0xFFFFFFFF` antes da conversão (válido porque o `int` do Python representa negativos em complemento de dois "infinito"), com o prefixo removido via slice `[2:]`.
-## JInteger (java.lang.Integer, Java SE 8)
-### Constantes de limite e tamanho
-Assinatura Java:
 
-                public static final int MAX_VALUE = 2147483647
-                public static final int MIN_VALUE =
-                -2147483648
-                public static final int SIZE = 32
-                public static final int BYTES = 4
-Situação: implementadas como constantes de classe, valores idênticos ao Java.
-Adaptação: o int do Python é de precisão arbitrária e não sofre overflow. As
-constantes são informativas e não são aplicadas
-automaticamente — JInteger não impõe a faixa de 32 bits.
+**Assinatura do Método:** `public static final Class<Integer> TYPE`
+* **Motivo da não-implementação:** `TYPE` referencia o objeto `Class` do primitivo `int`. Python não possui tipos primitivos nem um `Class<T>` equivalente para eles.
+* **Alternativa Proposta:** `TYPE = int` (o builtin), análogo idiomático que aponta para o tipo usado internamente pela classe. Não é um `Class<Integer>`; é a aproximação possível na linguagem.
 
-### TYPE
-Assinatura Java: public static final Class<Integer> TYPE
-Motivo da não-implementação: TYPE referencia o objeto Class do primitivo int.
-Python não possui tipos primitivos nem um Class<T> equivalente para eles.
-Alternativa: TYPE = int, análogo idiomático que aponta para o tipo
-usado internamente pela classe. Não é um Class<Integer>; é a aproximação
-possível na linguagem.
-
-### Construtores
-Assinatura Java:
-
-            public Integer(int value)
-            public Integer(String s) throws NumberFormatException
-Situação: Integer(int value) implementado, armazenando o valor recebido. A faixa
-de 32 bits não é imposta — o int do Python é de precisão arbitrária.
-Adaptação: Python não tem sobrecarga de métodos; os dois construtores não podem
-coexistir como assinaturas distintas. Integer(String s) será unificado no mesmo
-__init__ via dispatch por tipo na issue de parsing, delegando a parseInt.
+**Assinatura do Método:** `public Integer(int value)` / `public Integer(String s) throws NumberFormatException`
+* **Motivo da não-implementação:** Python não suporta sobrecarga de métodos; as duas assinaturas não podem coexistir como construtores distintos com o mesmo nome.
+* **Alternativa Proposta:** `__init__` único com dispatch por tipo (`isinstance(value, str)`), delegando a conversão de string para `int(value)`. A faixa de 32 bits não é imposta — decisão da equipe, já que o `int` do Python é de precisão arbitrária.
 
 ### Contagem e Análise de Bits
 
