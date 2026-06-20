@@ -34,7 +34,7 @@ class JFloat:
                 self._valor = float(value)
             except ValueError:
                 raise ValueError(f"Texto inválido para conversão: '{value}'")
-        elif isinstance(value(int, float)):
+        elif isinstance(value, (int, float)):
             self._valor = float(value)
         else:
             raise TypeError("Tipo de dado inválido")
