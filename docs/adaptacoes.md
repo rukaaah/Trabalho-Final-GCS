@@ -122,6 +122,12 @@ Aritmética Unsigned
 
 ### Módulo JFloat
 *(Nenhuma adaptação registrada até o momento)*
+### Construtores e Conversões de JFloat (#37)
+
+- **Assinatura do Método:** `Float(value)`, `byteValue()`, `shortValue()` e `intValue()`
+- **Motivo da não-implementação:** O Python gerencia valores `float` nativos como dupla precisão de 64 bits (equivalente ao `double` do Java) e carece de suporte nativo a tipos de capacidade reduzida como `byte` (8-bit) e `short` (16-bit), além de não realizar sobrecarga de construtores.
+- **Alternativa Proposta:** Desenvolvemos uma inicialização dinâmica baseada em checagem de tipos (`isinstance`). Emulamos o truncamento de ponto flutuante e o estouro posicionado de tipos de dados menores através de casts explicitados combinados a operações de máscaras bitwise (`& 0xFF`, `& 0xFFFF`, `& 0xFFFFFFFF`) seguidas de checagens de bit de sinal mais significativo para replicar fielmente o comportamento de estouro do Java SE 8.
+
 ### Conversões estruturais e Object de JFloat (#38)
 
 - **Assinatura do Método:** `longValue()`, `floatValue()`, `doubleValue()`, `hashCode()`, `hashCode(float)`, `equals(Object)` e `compareTo(Float)`
