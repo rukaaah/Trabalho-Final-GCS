@@ -17,6 +17,7 @@ Faça PRs curtos e frequentes!
 Um commit não pode conter mais de 3 métodos de teste.
 """
 import struct
+import math
 class JFloat:
     # ==========================================
     # CONSTANTES 
@@ -63,6 +64,30 @@ class JFloat:
         bits_self = struct.unpack(">I", struct.pack(">f", self._valor))[0]
         bits_obj = struct.unpack(">I", struct.pack(">f", obj._valor))[0]
         return bits_self == bits_obj
+    
+    def compareTo(self, anotherFloat: 'JFloat') -> int:
+        if not isinstance(anotherFloat, JFloat):
+            raise TypeError("O argumento precisa ser um objeto JFloat")
+            
+        if math.isnan(self._valor):
+            if math.isnan(anotherFloat._valor):
+                return 0
+            return 1
+        if math.isnan(anotherFloat._valor):
+            return -1
+            
+        if self._valor < anotherFloat._valor:
+            return -1
+        elif self._valor > anotherFloat._valor:
+            return 1
+            
+        bits_self = struct.unpack('>I', struct.pack('>f', self._valor))[0]
+        bits_obj = struct.unpack('>I', struct.pack('>f', anotherFloat._valor))[0]
+        if bits_self < bits_obj:
+            return -1
+        elif bits_self > bits_obj:
+            return 1
+        return 0
     
     # ==========================================
     # VERIFICAÇÕES IEEE 754 E PARSING 
