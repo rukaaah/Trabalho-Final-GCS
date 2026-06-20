@@ -56,6 +56,21 @@ def _bits_sem_sinal_32(valor):
     # trata o valor como o padrao de bits de 32 bits sem sinal (semantica unsigned do java)
     return valor & 0xFFFFFFFF
 
+def _parseInt_java(s, radix=10):
+    # replica Integer.parseInt: rejeita '_', espacos e prefixos 0x/0b/0o
+    if not isinstance(s, str) or s == "" or "_" in s or s.strip() != s:
+        raise ValueError(f'For input string: "{s}"')
+    corpo = s[1:] if s[0] in "+-" else s
+    if corpo == "" or corpo[:2].lower() in ("0x", "0b", "0o"):
+        raise ValueError(f'For input string: "{s}"')
+    try:
+        return int(s, radix)
+    except ValueError:
+        raise ValueError(f'For input string: "{s}"') from None
+
+
+_cache_valueof = {}
+
 class JInteger:
     # Constantes de limite e tamanho do tipo int em Java
     MAX_VALUE = 2147483647
@@ -317,3 +332,39 @@ class JInteger:
     def floatValue(self):
         # java: (float) value -> widening para float de 32 bits (precisão simples)
         return _para_float32(self._valor)
+    
+    @staticmethod
+    def valueOf(value, radix=None):
+        # unifica valueOf(int), valueOf(String) e valueOf(String, radix)
+        # python nao tem sobrecarga; dispatch por tipo cobre as tres assinaturas Java
+        if isinstance(value, str):
+            valor = _parseInt_java(value, radix if radix is not None else 10)
+        else:
+            valor = value
+        if -128 <= valor <= 127:
+            # simula o IntegerCache do java: mesma instancia para o mesmo valor na faixa
+            if valor not in _cache_valueof:
+                _cache_valueof[valor] = JInteger(valor)
+            return _cache_valueof[valor]
+        return JInteger(valor)
+    
+    @staticmethod
+    def decode(nm):
+        # java: sinal opcional + prefixo 0x/0X/# (hex), zero lider (octal), sem prefixo (decimal)
+        if not isinstance(nm, str) or nm == "":
+            raise ValueError(f'For input string: "{nm}"')
+        negativo = nm[0] == "-"
+        indice = 1 if nm[0] in "+-" else 0
+        resto = nm[indice:]
+        if resto[:2].lower() == "0x":
+            radix, digitos = 16, resto[2:]
+        elif resto[:1] == "#":
+            radix, digitos = 16, resto[1:]
+        elif resto[:1] == "0" and len(resto) > 1:
+            radix, digitos = 8, resto[1:]
+        else:
+            radix, digitos = 10, resto
+        if digitos == "":
+            raise ValueError(f'For input string: "{nm}"')
+        valor = int(digitos, radix)
+        return JInteger.valueOf(-valor if negativo else valor)

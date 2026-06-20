@@ -112,6 +112,14 @@ Aritmética Unsigned
 - **Motivo da não-implementação:** O Python gerencia inteiros com tamanho dinâmico na memória. Operações de reversão de bits estruturais ou inversão de ordem de bytes (*endianness*) exigem delimitação estrita de palavra de máquina (32 bits), caso contrário, os bits seriam invertidos considerando tamanhos indefinidos ou preservando o sinal incorretamente.
 - **Alternativa Proposta:** Para o método `reverse`, extraímos a string binária de 32 bits formatada com `zfill(32)`, invertemos a cadeia de caracteres nativamente e reconfiguramos o valor numérico. Para o `reverseBytes`, aplicamos máscaras de segmentação byte a byte (`0xFF`, `0xFF00`, etc.) combinadas com bit-shifts de reposicionamento simétrico. Em ambos os casos, validamos o bit `0x80000000` para restabelecer o sinal negativo em formato signed de 32 bits.
 
+**Assinatura do Método:** `public static Integer valueOf(int i)` / `public static Integer valueOf(String s)` / `public static Integer valueOf(String s, int radix)`
+* **Motivo da não-implementação:** Python não suporta sobrecarga; as três assinaturas não podem coexistir como métodos estáticos distintos com o mesmo nome.
+* **Alternativa Proposta:** método único `valueOf(value, radix=None)` com dispatch por tipo. O cache do Java (`IntegerCache`, -128 a 127) foi simulado via dicionário no nível do módulo — `JInteger.valueOf(n) is JInteger.valueOf(n)` é `True` para `n` nessa faixa.
+
+**Assinatura do Método:** `public static Integer decode(String nm)`
+* **Motivo da não-implementação:** a gramática do Java rejeita convenções que o `int()` nativo do Python aceita (espaços, `_`, prefixos redundantes).
+* **Alternativa Proposta:** implementado com helper de parsing estrito (`_parseInt_java`), suportando `0x`/`0X`/`#` (hex), zero líder (octal) e decimal. Retorna via `valueOf`, herdando o cache.
+
 ### Módulo JFloat
 *(Nenhuma adaptação registrada até o momento)*
 
