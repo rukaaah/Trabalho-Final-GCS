@@ -37,7 +37,7 @@ class JFloat:
         elif isinstance(value(int, float)):
             self._valor = float(value)
         else:
-            raise TypeError(f"Tipo de dado inválido")
+            raise TypeError("Tipo de dado inválido")
         
     def byteValue(self) -> int:
         val_int = int(self._valor)
