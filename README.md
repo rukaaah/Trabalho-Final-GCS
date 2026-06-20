@@ -113,7 +113,7 @@ A equipe adota estritamente o GitHub Flow:
 *A ser preenchido durante os sprints de desenvolvimento de JInteger, JFloat e JString.*
 
 
-# Registro de Resolução de Conflito de Merge
+# Registro de Resolução de Conflito de Merge 01
 
 ## Contexto do Conflito
 Ao tentar mesclar as atualizações, o Git apontou conflito no arquivo `tests/test_jinteger.py`. Isso ocorreu porque uma das branches continha um template genérico de documentação e um teste de rascunho vazio para `parseInt` (`test_jinteger_parse_int`), enquanto a branch atual implementou a estrutura de testes focada no escopo inicial da **Issue #11** (`feat/jinteger-base`), adicionando o fluxo de QA/Dev e os testes específicos das constantes estáticas.
@@ -123,6 +123,18 @@ Ao tentar mesclar as atualizações, o Git apontou conflito no arquivo `tests/te
 
 ## Decisão e Resolução
 A equipe analisou as marcações do Git e decidiu manter o novo escopo focado na Issue #11. Descartamos o rascunho do método `parseInt` (que será abordado em PRs futuros) e mantivemos a classe `TestJIntegerConstantes` com as asserções de `MAX_VALUE`, `MIN_VALUE` e `SIZE`. Além disso, a importação correta de `JInteger` foi ativada e a docstring com as regras anti-atalho de GCS e o fluxo de trabalho QA/Dev foi preservada. O código foi limpo e os testes via `pytest` foram executados com sucesso no ambiente local antes do push final, garantindo a integridade do contrato da classe.
+
+# Registro de Resolução de Conflito de Merge 02
+
+## Contexto do Conflito
+Ao realizar o merge da PR #31 (implementação dos métodos parseInt e parseUnsignedInt da classe JInteger), o Git identificou conflitos nos arquivos javalang/jinteger.py e docs/adaptacoes.md. O conflito ocorreu devido a alterações concorrentes na lógica de sobrecarga de métodos e nas assinaturas dos parsers, uma vez que a branch atual introduziu o uso de argumentos opcionais (radix=10) e validações de sinal negativo, enquanto a branch main continha registros de documentação e stubs que divergiam da nova implementação estruturada.
+
+## Arquivos Afetados
+- `javalang/jinteger.py`
+- `docs/adaptacoes.md`
+
+## Decisão e Resolução
+A equipe analisou as marcações do Git e decidiu priorizar a implementação da PR #31, mantendo a unificação das assinaturas dos métodos via argumentos opcionais para contornar a limitação de sobrecarga do Python.No arquivo javalang/jinteger.py, resolvemos os conflitos mantendo a lógica de validação de sinal (-) no parseUnsignedInt e o padrão radix=10.No arquivo docs/adaptacoes.md, os registros foram mesclados de forma aditiva, garantindo que a nova justificativa técnica sobre o comportamento de parsing conforme o Java SE 8 esteja integrada aos registros anteriores.A solução foi validada localmente com ruff e pytest, assegurando que o contrato da classe JInteger permanece íntegro e em conformidade com as regras anti-atalho de GCS.
 
 *Documento gerado para fins de rastreabilidade e auditoria da disciplina GCS 2026.1.*
 ```
