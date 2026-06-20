@@ -16,7 +16,7 @@ Um Pull Request NÃO pode conter mais do que 7 casos de testes implementados.
 Faça PRs curtos e frequentes!
 Um commit não pode conter mais de 3 métodos de teste.
 """
-
+import struct
 class JFloat:
     # ==========================================
     # CONSTANTES 
@@ -49,7 +49,20 @@ class JFloat:
     def doubleValue(self) -> float:
         return self._valor
     
+    def hashCode(self) -> int:
+        return struct.unpack(">I", struct.pack(">f", self._valor))[0]
     
+    @staticmethod
+    def hashCode_static(value: float) -> int:
+        return struct.unpack(">I", struct.pack(">f", value))[0]
+    
+    def equals(self, obj: object) -> bool:
+        if not isinstance(obj, JFloat):
+            return False
+        
+        bits_self = struct.unpack(">I", struct.pack(">f", self._valor))[0]
+        bits_obj = struct.unpack(">I", struct.pack(">f", obj._valor))[0]
+        return bits_self == bits_obj
     
     # ==========================================
     # VERIFICAÇÕES IEEE 754 E PARSING 
