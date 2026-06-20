@@ -36,7 +36,18 @@ class JFloat:
     # MÉTODOS DE OBJECT 
     # (Ex: hashCode, equals, toString)
     # ==========================================
+    def longValue(self) -> int:
+        val_int = int(self._valor)
+        resultado = val_int & 0xFFFFFFFFFFFFFFFF
+        if resultado & 0x8000000000000000:
+            return resultado - 0x10000000000000000
+        return resultado
     
+    def floatValue(self) -> float:
+        return self._valor
+    
+    def doubleValue(self) -> float:
+        return self._valor
     
     
     
