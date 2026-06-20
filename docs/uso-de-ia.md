@@ -130,3 +130,12 @@ Conforme as regras de GCS, a utilização de IA não exime o desenvolvedor da re
 - **Ferramenta Utilizada:** Gemini
 - **Prompt Representativo:**
   "Como implementar os métodos de espelhamento binário reverse e inversão de endianness reverseBytes do Java 8 em Python garantindo o estouro para signed int de 32 bits?"
+
+  ### Módulo: JFloat - Estado e Comparações IEEE 754 (#39)
+
+- **Data:** 20/06/2026
+- **Desenvolvedor Responsável:** @GabrielMattosA
+- **Métodos Implementados/Auxiliados:** `JFloat.isInfinite_static`, `JFloat.isFinite_static`, `JFloat.compare`
+- **Ferramenta Utilizada:** Gemini
+- **Prompt Representativo:**
+  "Como garantir a distinção correta de zero negativo e positivo em um método estático de comparação de floats simulando a especificação do Java SE 8 sem usar operadores de comparação nativos do Python que ignoram o bit de sinal?"

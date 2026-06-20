@@ -138,6 +138,11 @@ Aritmética Unsigned
 
 ### Módulo JFloat
 *(Nenhuma adaptação registrada até o momento)*
+### Propriedades IEEE 754 e Validações de JFloat (#39)
+
+- **Assinatura do Método:** `isNaN()`, `isNaN(float)`, `isInfinite()`, `isInfinite(float)`, `isFinite(float)` e `compare(float, float)`
+- **Motivo da não-implementação:** O Python não aceita sobrecarga de métodos com escopos diferentes (instância vs estático) sob o mesmo identificador na classe. Adicionalmente, as avaliações de igualdade de ponto flutuante convencionais falham ao distinguir as representações binárias de sinal nos zeros (`0.0` e `-0.0`) exigidas pelo ecossistema Java.
+- **Alternativa Proposta:** Customizamos as assinaturas estáticas adicionando o sufixo `_static`. No método de comparação primitiva `compare`, vinculamos as checagens explícitas do módulo `math` para isolamento prioritário de estados `NaN` combinadas à leitura estrutural de bits via `struct` para desempatar as ordens de magnitude dos limites de zero assinalado.
 
 ### Módulo JString
 *(Nenhuma adaptação registrada até o momento)*
