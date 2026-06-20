@@ -16,13 +16,22 @@ Um Pull Request NÃO pode conter mais do que 7 casos de testes implementados.
 Faça PRs curtos e frequentes!
 Um commit não pode conter mais de 3 métodos de teste.
 """
+import math
 
 class JFloat:
     # ==========================================
     # CONSTANTES 
     # ==========================================
+    NaN = float('nan')
+    POSITIVE_INFINITY = float('inf')
+    NEGATIVE_INFINITY = float('-inf')
     
+    MAX_VALUE = 3.4028235e+38
+    MIN_NORMAL = 1.17549435e-38
+    MIN_VALUE = 1.4e-45
     
+    SIZE = 32
+    BYTES = 4
     
     # ==========================================
     # CONSTRUTORES E CONVERSÃO NUMÉRICA 
@@ -44,7 +53,15 @@ class JFloat:
     # VERIFICAÇÕES IEEE 754 E PARSING 
     # (Ex: isNaN, isInfinite, parseFloat)
     # ==========================================
+    def isNaN(self) -> bool:
+        return math.isnan(self._valor)
     
+    @staticmethod
+    def isNaN_static(v: float) -> bool:
+        return math.isnan(v)
+    
+    def isInfinite(self) -> bool:
+        return math.isinf(self._valor)
     
     
     
