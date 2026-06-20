@@ -112,6 +112,19 @@ A equipe adota estritamente o GitHub Flow:
 
 *A ser preenchido durante os sprints de desenvolvimento de JInteger, JFloat e JString.*
 
+
+# Registro de Resolução de Conflito de Merge
+
+## Contexto do Conflito
+Ao tentar mesclar as atualizações, o Git apontou conflito no arquivo `tests/test_jinteger.py`. Isso ocorreu porque uma das branches continha um template genérico de documentação e um teste de rascunho vazio para `parseInt` (`test_jinteger_parse_int`), enquanto a branch atual implementou a estrutura de testes focada no escopo inicial da **Issue #11** (`feat/jinteger-base`), adicionando o fluxo de QA/Dev e os testes específicos das constantes estáticas.
+
+## Arquivos Afetados
+- `tests/test_jinteger.py`
+
+## Decisão e Resolução
+A equipe analisou as marcações do Git e decidiu manter o novo escopo focado na Issue #11. Descartamos o rascunho do método `parseInt` (que será abordado em PRs futuros) e mantivemos a classe `TestJIntegerConstantes` com as asserções de `MAX_VALUE`, `MIN_VALUE` e `SIZE`. Além disso, a importação correta de `JInteger` foi ativada e a docstring com as regras anti-atalho de GCS e o fluxo de trabalho QA/Dev foi preservada. O código foi limpo e os testes via `pytest` foram executados com sucesso no ambiente local antes do push final, garantindo a integridade do contrato da classe.
+
+*Documento gerado para fins de rastreabilidade e auditoria da disciplina GCS 2026.1.*
 ```
 
 ```
