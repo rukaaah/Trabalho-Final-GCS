@@ -9,9 +9,24 @@ e este projeto adere ao [Versionamento Semântico](https://semver.org/lang/pt-BR
 *Equipe: Aqui ficarão as mudanças que a equipe está desenvolvendo na branch main antes de fechar a próxima tag.*
 
 ### Adicionado
-- Setup das issues para implementação base da classe `JFloat` (Baseline v0.3).
-- Setup das issues para o núcleo de `JString` (Baseline v0.4).
-- Resolução de conflito mapeada na Issue #65.
+- Setup e fragmentação massiva das issues para o núcleo de `JString` (Issues #52 a #61).
+
+---
+
+## [0.3.0] - Baseline Allocated JFloat - 2026-06-21
+
+### Adicionado
+- Implementação completa da classe `JFloat` lidando estritamente com o contrato Java SE 8.
+- Adição de constantes e métodos de validação de estado IEEE 754 (`isNaN`, `isInfinite`, `isFinite`).
+- Implementação de conversões numéricas (`byteValue`, `shortValue`, `intValue`, `longValue`, `doubleValue`) utilizando lógica de máscaras e complemento de dois manuais para simular overflow.
+- Operações de Object (`equals`, `hashCode`, `compareTo`) e comparações estáticas (`compare`), além de conversões binárias (`floatToIntBits`), implementadas através do módulo nativo `struct` para garantir emulação de precisão de 32-bits e tratamento de `NaN`.
+- Implementação dos métodos estáticos de parsing e formatação de strings (`parseFloat`, `valueOf`, `toString`, `toHexString`).
+- Suíte de testes `test_jfloat.py` avaliando as limitações matemáticas e coerções primitivas.
+- Relatório de Status v0.3 (`docs/relatorios/status-v0.3.md`).
+
+### Modificado
+- Atualização do `docs/adaptacoes.md` com justificativas técnicas avançadas sobre o comportamento de dupla precisão do CPython vs. Java e o uso massivo da biblioteca `struct`.
+- Registro de auditoria atualizado para a resolução formal do segundo conflito de merge da equipe (Issue #65).
 
 ---
 
