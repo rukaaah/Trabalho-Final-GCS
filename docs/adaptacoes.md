@@ -169,6 +169,13 @@ Aritmética Unsigned
 - **Motivo da não-implementação:** O Python não possui sobrecarga nativa de construtores, o que exigiu uma lógica interna no `__init__` para discernir se o parâmetro recebido é uma string pura, outro objeto `JString` ou outro tipo de dado. Além disso, os inteiros em Python possuem precisão arbitrária (não sofrem overflow automaticamente), enquanto o `hashCode` da String do Java exige um comportamento estrito de estouro de 32 bits com sinal.
 - **Alternativa Proposta:** O construtor foi unificado utilizando checagens de tipo (`isinstance`). Para o algoritmo de `hashCode`, aplicamos uma máscara de bits (`& 0xFFFFFFFF`) a cada iteração da fórmula matemática tradicional para simular o comportamento de estouro de um `int` de 32 bits sem sinal do Java, e rotacionamos o valor para o espectro de números com sinal caso ele ultrapassasse o limite máximo positivo (`0x80000000`).
 
+**Assinatura do Método:** `public int indexOf(int ch)` / `public int indexOf(int ch, int fromIndex)` / `public int indexOf(String str)` / `public int indexOf(String str, int fromIndex)`
+* **Motivo da não-implementação:** Python não suporta sobrecarga; as quatro assinaturas não podem coexistir com o mesmo nome.
+* **Alternativa Proposta:** método único `indexOf(self, search, fromIndex=0)` com dispatch por tipo (`isinstance(search, int)` para char via `chr()`, `str`/`JString` para substring). Cobre as quatro assinaturas Java.
+
+**Assinatura do Método:** `public int lastIndexOf(int ch)` / `public int lastIndexOf(int ch, int fromIndex)` / `public int lastIndexOf(String str)` / `public int lastIndexOf(String str, int fromIndex)`
+* **Motivo da não-implementação:** Python não suporta sobrecarga; as quatro assinaturas não podem coexistir com o mesmo nome.
+* **Alternativa Proposta:** método único `lastIndexOf(self, search, fromIndex=None)` com dispatch por tipo e `rfind()` nativo. `fromIndex=None` busca do final; com `fromIndex`, busca da posição para trás, replicando a semântica do Java.
 **Assinatura do Método:** `public int codePointAt(int index)` / `public int codePointBefore(int index)` / `public int codePointCount(int beginIndex, int endIndex)`
 * **Motivo da não-implementação:** não se aplica — implementados com `ord()`.
 * **Alternativa Proposta:** Python usa UTF-32 internamente e `ord()` retorna codepoints corretos sem surrogate pairs, tornando a implementação mais simples e precisa que o Java para caracteres acima de U+FFFF.
@@ -180,6 +187,7 @@ Aritmética Unsigned
 **Assinatura do Método:** `public byte[] getBytes()` / `public byte[] getBytes(String charsetName)`
 * **Motivo da não-implementação:** Python não suporta sobrecarga; as duas assinaturas não podem coexistir.
 * **Alternativa Proposta:** método único `getBytes(charsetName=None)` delegando ao `.encode()` nativo. Charset inválido lança `LookupError` como análogo ao `UnsupportedEncodingException`.
+
 **Assinatura do Método:** `public boolean contentEquals(CharSequence cs)`
 * **Motivo da não-implementação:** Java aceita qualquer `CharSequence` (StringBuilder, StringBuffer, etc.). Python não possui essas classes.
 * **Alternativa Proposta:** aceita `str` e `JString` como análogos idiomáticos. Comportamento idêntico para os casos cobertos pelo contrato.

@@ -170,6 +170,33 @@ class JString:
     # (Ex: indexOf e lastIndexOf parte 1)
     # ==========================================
     # TODO: Implementações da Issue 5 aqui
+    def indexOf(self, search, fromIndex: int = 0) -> int:
+        # unifica indexOf(int ch), indexOf(int ch, int fromIndex),
+        # indexOf(String str) e indexOf(String str, int fromIndex)
+        # java nao tem sobrecarga unica — python resolve via dispatch por tipo
+        if fromIndex < 0:
+            fromIndex = 0
+        if isinstance(search, int):
+            # busca por codepoint (char)
+            alvo = chr(search)
+        else:
+            alvo = search._valor if isinstance(search, JString) else search
+        resultado = self._valor.find(alvo, fromIndex)
+        return resultado
+    
+    def lastIndexOf(self, search, fromIndex: int = None) -> int:
+        # unifica lastIndexOf(int ch), lastIndexOf(int ch, int fromIndex),
+        # lastIndexOf(String str) e lastIndexOf(String str, int fromIndex)
+        if isinstance(search, int):
+            alvo = chr(search)
+        else:
+            alvo = search._valor if isinstance(search, JString) else search
+        if fromIndex is None:
+            # sem fromIndex: busca do final da string
+            return self._valor.rfind(alvo)
+        # com fromIndex: busca a partir de fromIndex em direcao ao inicio
+        # java: lastIndexOf com fromIndex busca da posicao fromIndex para tras
+        return self._valor.rfind(alvo, 0, fromIndex + len(alvo))
 
 
     # ==========================================
