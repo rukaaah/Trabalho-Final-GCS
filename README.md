@@ -68,6 +68,18 @@ Para confirmar se a instalação foi bem-sucedida, rode:
 pytest --version
 ```
 
+## 🧪 Como rodar os testes
+
+Este projeto utiliza o [pytest](https://docs.pytest.org/) como framework de testes.
+
+### Pré-requisitos
+
+Antes de executar os testes, certifique-se de que todas as dependências estão instaladas. Se você ainda não instalou o `pytest`, pode fazê-lo com o comando abaixo:
+
+```bash
+pip install pytest
+
+
 ---
 
 ## ⚙️ Fluxo de Trabalho (GitHub Flow)
