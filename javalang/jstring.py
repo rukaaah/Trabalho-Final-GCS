@@ -55,6 +55,28 @@ class JString:
     # (Ex: equals, compareTo, regionMatches)
     # ==========================================
     # TODO: Implementações da Issue 3 aqui
+    def equals(self, anObject):
+        # java: retorna True apenas se anObject for String com mesmo conteudo
+        if isinstance(anObject, JString):
+            return self._valor == anObject._valor
+        if isinstance(anObject, str):
+            return self._valor == anObject
+        return False
+
+    def equalsIgnoreCase(self, anotherString):
+        # java: comparacao sem diferenciar maiusculas/minusculas
+        outro = anotherString._valor if isinstance(anotherString, JString) else anotherString
+        return self._valor.lower() == outro.lower()
+    
+    def compareTo(self, anotherString):
+        # java: comparacao lexicografica; retorna diferenca do primeiro char divergente
+        outro = anotherString._valor if isinstance(anotherString, JString) else anotherString
+        if self._valor == outro:
+            return 0
+        for c1, c2 in zip(self._valor, outro):
+            if c1 != c2:
+                return ord(c1) - ord(c2)
+        return len(self._valor) - len(outro)
 
 
     # ==========================================
