@@ -70,3 +70,14 @@ class TestJStringCodePoint:
     def test_code_point_count(self):
         s = JString("abc")
         assert s.codePointCount(0, 3) == 3
+
+class TestJStringOffsetEGetChars:
+    def test_offset_by_code_points(self):
+        s = JString("abc")
+        assert s.offsetByCodePoints(0, 2) == 2
+
+    def test_get_chars(self):
+        s = JString("hello")
+        dst = [' '] * 5
+        s.getChars(0, 5, dst, 0)
+        assert dst == ['h', 'e', 'l', 'l', 'o']
