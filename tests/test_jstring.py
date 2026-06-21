@@ -57,3 +57,19 @@ class TestJStringHashCode:
         a = JString("abc")
         b = JString("abc")
         assert a.hashCode() == b.hashCode()
+
+class TestJStringLastIndexOfEContains:
+    def test_last_index_of_string_from_index(self):
+        s = JString("abcabc")
+        other = JString("abc")
+        assert s.lastIndexOf(other, 2) == 0
+
+    def test_contains_verdadeiro(self):
+        s = JString("hello world")
+        other = JString("world")
+        assert s.contains(other) is True
+
+    def test_contains_falso(self):
+        s = JString("hello world")
+        other = JString("xyz")
+        assert s.contains(other) is False
