@@ -222,6 +222,32 @@ class JString:
     def toUpperCase(self) -> 'JString':
         return JString(self._valor.upper())
 
+    def trim(self) -> 'JString':
+        # java: remove caracteres com valor <= ' ' (\u0020)
+        # python: strip() remove caracteres de espaço em branco por padrão
+        # (A diferença de comportamento foi documentada em docs/adaptacoes.md)
+        return JString(self._valor.strip())
+
+    def concat(self, str_) -> 'JString':
+        outro = str_._valor if isinstance(str_, JString) else str(str_)
+        return JString(self._valor + outro)
+
+    def replace(self, target, replacement) -> 'JString':
+        # unifica replace(char oldChar, char newChar) e 
+        # replace(CharSequence target, CharSequence replacement)
+        if isinstance(target, int):
+            t = chr(target)
+        else:
+            t = target._valor if isinstance(target, JString) else str(target)
+            
+        if isinstance(replacement, int):
+            r = chr(replacement)
+        else:
+            r = replacement._valor if isinstance(replacement, JString) else str(replacement)
+            
+        return JString(self._valor.replace(t, r))
+
+
     # ==========================================
     # REGEX, SPLITS E INTERN (Issue 8)
     # (Ex: matches, split, replaceAll, intern)
