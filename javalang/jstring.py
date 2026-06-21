@@ -6,8 +6,6 @@ do Java SE 8. É fundamental garantir que as instâncias desta classe se
 comportem como imutáveis, assim como no Java.
 
 Aviso aos Desenvolvedores:
-- Esta é a classe mais extensa, com cerca de 60 métodos. Dividam o trabalho
-  formalmente através de Issues.
 - Mantenha a nomenclatura original em camelCase (ex: charAt, substring).
 - Métodos que dependem de construtos específicos do Java (como StringBuffer
   ou intern) devem ter suas adaptações documentadas no README.md.
@@ -19,7 +17,11 @@ Um commit não pode conter mais de 3 métodos de teste.
 """
 
 class JString:
+    # ==========================================
+    # NÚCLEO BASE E CONSTRUTORES (Issue 1 e 2)
+    # ==========================================
     def __init__(self, original: object = ""):
+        # TODO (Issue 2): Expandir construtor para lidar com byte[], char[], int[] (CodePoints) e StringBuilder
         if isinstance(original, JString):
             self._valor = str(getattr(original, '_valor'))
         else:
@@ -48,4 +50,50 @@ class JString:
             h -= 0x100000000
         return h
 
-    # TODO: Implementar métodos de acesso, tamanho, comparação, busca e regex
+    # ==========================================
+    # COMPARAÇÕES E IGUALDADE (Issue 3)
+    # (Ex: equals, compareTo, regionMatches)
+    # ==========================================
+    # TODO: Implementações da Issue 3 aqui
+
+
+    # ==========================================
+    # UNICODE E CODIFICAÇÃO (Issue 4)
+    # (Ex: codePointAt, getBytes, getChars)
+    # ==========================================
+    # TODO: Implementações da Issue 4 aqui
+
+
+    # ==========================================
+    # BUSCA BASE (Issue 5)
+    # (Ex: indexOf e lastIndexOf parte 1)
+    # ==========================================
+    # TODO: Implementações da Issue 5 aqui
+
+
+    # ==========================================
+    # EXTRAÇÃO E BUSCA COMPLEMENTAR (Issue 6)
+    # (Ex: substring, startsWith, contains)
+    # ==========================================
+    # TODO: Implementações da Issue 6 aqui
+
+
+    # ==========================================
+    # TRANSFORMAÇÕES E FORMATAÇÃO (Issue 7)
+    # (Ex: toLowerCase, trim, replace, concat)
+    # ==========================================
+    # TODO: Implementações da Issue 7 aqui
+
+
+    # ==========================================
+    # REGEX, SPLITS E INTERN (Issue 8)
+    # (Ex: matches, split, replaceAll, intern)
+    # ==========================================
+    # TODO: Implementações da Issue 8 aqui
+
+
+    # ==========================================
+    # UTILITÁRIOS ESTÁTICOS (Issue 9)
+    # (Ex: valueOf, format, join)
+    # ==========================================
+    # TODO: Implementações da Issue 9 aqui
