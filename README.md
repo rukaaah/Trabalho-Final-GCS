@@ -136,6 +136,18 @@ Ao realizar o merge da PR #31 (implementação dos métodos parseInt e parseUnsi
 ## Decisão e Resolução
 A equipe analisou as marcações do Git e decidiu priorizar a implementação da PR #31, mantendo a unificação das assinaturas dos métodos via argumentos opcionais para contornar a limitação de sobrecarga do Python.No arquivo javalang/jinteger.py, resolvemos os conflitos mantendo a lógica de validação de sinal (-) no parseUnsignedInt e o padrão radix=10.No arquivo docs/adaptacoes.md, os registros foram mesclados de forma aditiva, garantindo que a nova justificativa técnica sobre o comportamento de parsing conforme o Java SE 8 esteja integrada aos registros anteriores.A solução foi validada localmente com ruff e pytest, assegurando que o contrato da classe JInteger permanece íntegro e em conformidade com as regras anti-atalho de GCS.
 
+# Registro de Resolução de Conflito de Merge 03
+
+## Contexto do Conflito
+Ao realizar o merge da PR #50 (padronização das entradas da classe JInteger para o template oficial), o Git identificou conflitos no arquivo docs/adaptacoes.md. O conflito ocorreu devido à convergência de alterações no mesmo arquivo, onde a branch da PR aplicava uma nova formatação visual enquanto a branch main continha atualizações técnicas e descritivas concorrentes nas mesmas entradas documentais.
+
+## Arquivos Afetados
+- `jinteger.py`
+- `docs/adaptacoes.md`
+
+## Decisão e Resolução
+A equipe analisou as marcações do Git e decidiu priorizar a nova estrutura de documentação proposta na PR #50, garantindo a preservação integral do conteúdo técnico presente na branch main. No arquivo docs/adaptacoes.md, resolvemos os conflitos migrando os textos exatos e atualizados das três entradas da branch destino para dentro do novo formato padronizado. Nenhuma informação técnica ou justificativa foi descartada. A solução foi revisada e validada localmente com ruff e pytest, assegurando que a documentação permanece íntegra e em total conformidade com as regras anti-atalho de GCS.
+
 *Documento gerado para fins de rastreabilidade e auditoria da disciplina GCS 2026.1.*
 ```
 
