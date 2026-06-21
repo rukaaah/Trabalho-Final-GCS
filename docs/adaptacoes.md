@@ -180,3 +180,10 @@ Aritmética Unsigned
 **Assinatura do Método:** `public byte[] getBytes()` / `public byte[] getBytes(String charsetName)`
 * **Motivo da não-implementação:** Python não suporta sobrecarga; as duas assinaturas não podem coexistir.
 * **Alternativa Proposta:** método único `getBytes(charsetName=None)` delegando ao `.encode()` nativo. Charset inválido lança `LookupError` como análogo ao `UnsupportedEncodingException`.
+**Assinatura do Método:** `public boolean contentEquals(CharSequence cs)`
+* **Motivo da não-implementação:** Java aceita qualquer `CharSequence` (StringBuilder, StringBuffer, etc.). Python não possui essas classes.
+* **Alternativa Proposta:** aceita `str` e `JString` como análogos idiomáticos. Comportamento idêntico para os casos cobertos pelo contrato.
+
+**Assinatura do Método:** `public boolean regionMatches(int toffset, String other, int ooffset, int len)` / `public boolean regionMatches(boolean ignoreCase, int toffset, String other, int ooffset, int len)`
+* **Motivo da não-implementação:** Python não suporta sobrecarga; as duas assinaturas não podem coexistir com o mesmo nome.
+* **Alternativa Proposta:** método único `regionMatches(self, toffset, other, ooffset, len_, ignoreCase=False)` com `ignoreCase=False` como default, cobrindo as duas assinaturas Java.

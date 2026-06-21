@@ -86,3 +86,35 @@ class TestJStringGetBytes:
     def test_get_bytes_default(self):
         s = JString("abc")
         assert s.getBytes() == b'abc'
+class TestJStringEquals:
+    def test_equals_mesmo_conteudo(self):
+        a = JString("abc")
+        b = JString("abc")
+        assert a.equals(b) is True
+
+    def test_equals_ignore_case(self):
+        a = JString("ABC")
+        b = JString("abc")
+        assert a.equalsIgnoreCase(b) is True
+
+    def test_content_equals(self):
+        a = JString("abc")
+        b = JString("abc")
+        assert a.contentEquals(b) is True
+
+class TestJStringCompareTo:
+    def test_compare_to_maior(self):
+        a = JString("b")
+        b = JString("a")
+        assert a.compareTo(b) > 0
+
+    def test_compare_to_ignore_case(self):
+        a = JString("ABC")
+        b = JString("abc")
+        assert a.compareToIgnoreCase(b) == 0
+
+class TestJStringRegionMatches:
+    def test_region_matches_basico(self):
+        a = JString("hello world")
+        b = JString("world")
+        assert a.regionMatches(6, b, 0, 5) is True

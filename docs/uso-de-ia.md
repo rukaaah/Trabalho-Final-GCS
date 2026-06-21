@@ -236,3 +236,21 @@ Conforme as regras de GCS, a utilização de IA não exime o desenvolvedor da re
 * **Prompt Representativo:**
   > "Implemente offsetByCodePoints(), getChars() aceitando list como char[], e getBytes() unificando as duas sobrecargas via charsetName=None."
 * **Observação:** Validei getBytes() com UTF-8 e charset inválido lançando LookupError. Confirmei getChars modificando a lista in-place corretamente.
+
+### Módulo: `JString` - Método: `equals, equalsIgnoreCase, compareTo`
+* **Data:** 21/06/2026
+* **Desenvolvedor Responsável:** @JhonnPA
+* **Métodos Implementados/Auxiliados:** `JString.equals`, `JString.equalsIgnoreCase`, `JString.compareTo`
+* **Ferramenta Utilizada:** `Claude (Anthropic)`
+* **Prompt Representativo:**
+  > "Implemente equals(), equalsIgnoreCase() e compareTo() para JString fiéis ao contrato Java SE 8, onde equals retorna False para qualquer objeto que não seja String."
+* **Observação:** A IA acelerou a escrita. Validei que equals com str puro retorna False, fiel ao Java, e que compareTo replica a diferença de ord() do primeiro char divergente.
+
+### Módulo: `JString` - Método: `compareToIgnoreCase, contentEquals, regionMatches`
+* **Data:** 21/06/2026
+* **Desenvolvedor Responsável:** @JhonnPA
+* **Métodos Implementados/Auxiliados:** `JString.compareToIgnoreCase`, `JString.contentEquals`, `JString.regionMatches`
+* **Ferramenta Utilizada:** `Claude (Anthropic)`
+* **Prompt Representativo:**
+  > "Implemente compareToIgnoreCase(), contentEquals() aceitando str e JString como análogos de CharSequence, e regionMatches unificando as duas sobrecargas Java via ignoreCase=False como default."
+* **Observação:** Validei regionMatches com toffset negativo, trecho além do tamanho e ignoreCase=True. Conferi contentEquals com JString e str puro.
