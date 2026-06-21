@@ -35,6 +35,51 @@ class JFloat:
     BYTES = 4
     
     # ==========================================
+    # HELPERS PRIVADOS
+    # ==========================================
+    @staticmethod
+    def _para_float32(valor):
+        # coage um double (64 bits) para precisão simples IEEE 754 (32 bits)
+        return struct.unpack(">f", struct.pack(">f", valor))[0]
+    
+    @staticmethod
+    def _parse_float_java(s):
+        # replica Float.parseFloat: aceita sufixos f/F/d/D do Java, rejeita '_' (PEP 515)
+        if not isinstance(s, str) or s.strip() == "":
+            raise ValueError("empty String")
+        s = s.strip()
+        if "_" in s:
+            raise ValueError(f'For input string: "{s}"')
+        if s[-1].lower() in ("f", "d"):
+            s = s[:-1]
+        try:
+            resultado = float(s)
+        except ValueError:
+            raise ValueError(f'For input string: "{s}"') from None
+        return JFloat._para_float32(resultado)
+    
+    @staticmethod
+    def _float_para_string(valor):
+        # replica saida de Float.toString: E maiusculo, threshold 1e7/1e-3
+        if math.isnan(valor):
+            return "NaN"
+        if math.isinf(valor):
+            return "Infinity" if valor > 0 else "-Infinity"
+        abs_val = abs(valor)
+        if abs_val != 0 and (abs_val >= 1e7 or abs_val < 1e-3):
+            resultado = f"{valor:.6E}"
+            mantissa, exp = resultado.split("E")
+            mantissa = mantissa.rstrip("0").rstrip(".")
+            if "." not in mantissa:
+                mantissa += ".0"
+            return f"{mantissa}E{int(exp)}"
+        resultado = repr(valor)
+        if "." not in resultado:
+            resultado += ".0"
+        return resultado
+
+
+    # ==========================================
     # CONSTRUTORES E CONVERSÃO NUMÉRICA 
     # (Ex: __init__, byteValue, intValue, etc)
     # ==========================================
@@ -70,19 +115,25 @@ class JFloat:
             return resultado - 0x100000000
         return resultado
     
+    def floatValue(self) -> float:
+        return self._valor
+    
     # ==========================================
     # MÉTODOS DE OBJECT 
     # (Ex: hashCode, equals, toString)
     # ==========================================
+    def toString(self, f=None):
+        # unifica toString() de instancia e toString(float f) estatico
+        valor = self._valor if isinstance(self, JFloat) else self
+        if f is not None:
+            valor = JFloat._para_float32(f)
+        return JFloat._float_para_string(valor)   
     def longValue(self) -> int:
         val_int = int(self._valor)
         resultado = val_int & 0xFFFFFFFFFFFFFFFF
         if resultado & 0x8000000000000000:
             return resultado - 0x10000000000000000
         return resultado
-    
-    def floatValue(self) -> float:
-        return self._valor
     
     def doubleValue(self) -> float:
         return self._valor
@@ -130,6 +181,17 @@ class JFloat:
     # VERIFICAÇÕES IEEE 754 E PARSING 
     # (Ex: isNaN, isInfinite, parseFloat)
     # ==========================================
+    @staticmethod
+    def parseFloat(s):
+        # java: Float.parseFloat(String) -> float de 32 bits ou NumberFormatException
+        return JFloat._parse_float_java(s)
+
+    @staticmethod
+    def valueOf(value):
+        # unifica valueOf(float f) e valueOf(String s) via dispatch por tipo
+        if isinstance(value, str):
+            return JFloat(JFloat._parse_float_java(value))
+        return JFloat(value)
     def isNaN(self, v=None) -> bool:
         if isinstance(self, (int, float)):
             return math.isnan(self)
@@ -178,6 +240,23 @@ class JFloat:
     # (Ex: floatToIntBits, compare, sum)
     # ==========================================
     @staticmethod
+    def toHexString(f):
+        # java: formato 0x<mantissa_hex>p<expoente>, ex: 0x1.8p1
+        valor = JFloat._para_float32(f)
+        if math.isnan(valor):
+            return "NaN"
+        if math.isinf(valor):
+            return "Infinity" if valor > 0 else "-Infinity"
+        hex_str = valor.hex()
+        negativo = hex_str.startswith("-")
+        hex_str = hex_str.lstrip("-")
+        partes = hex_str.split("p")
+        mantissa = partes[0].rstrip("0")
+        if mantissa.endswith("."):
+            mantissa += "0"
+        exp = int(partes[1])
+        sinal = "-" if negativo else ""
+        return f"{sinal}{mantissa}p{exp}"
     def floatToIntBits(value):
         # java: canonicaliza NaN para 0x7fc00000 antes de extrair os bits
         # em CPython struct.pack(">f", nan) ja produz 0x7fc00000 — comportamento identico
