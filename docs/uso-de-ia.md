@@ -236,3 +236,39 @@ Conforme as regras de GCS, a utilização de IA não exime o desenvolvedor da re
 * **Prompt Representativo:**
   > "Unifique as quatro sobrecargas de lastIndexOf em um único método Python com fromIndex=None, usando rfind() e replicando a semântica do Java de busca do fromIndex para trás."
 * **Observação:** Validei lastIndexOf sem fromIndex (busca do final) e com fromIndex (busca para trás a partir da posição). Confirmei comportamento com char e substring.
+
+### Módulo: `JString` - Método: `codePointAt, codePointBefore, codePointCount`
+* **Data:** 21/06/2026
+* **Desenvolvedor Responsável:** @JhonnPA
+* **Métodos Implementados/Auxiliados:** `JString.codePointAt`, `JString.codePointBefore`, `JString.codePointCount`
+* **Ferramenta Utilizada:** `Claude (Anthropic)`
+* **Prompt Representativo:**
+  > "Implemente codePointAt(), codePointBefore() e codePointCount() para JString usando ord() do Python, documentando que Python usa UTF-32 sem surrogate pairs."
+* **Observação:** Validei codePointAt(0) para ASCII e para caractere Unicode acima de U+FFFF. Confirmei que codePointCount retorna endIndex - beginIndex para strings sem surrogate pairs.
+
+### Módulo: `JString` - Método: `offsetByCodePoints, getChars, getBytes`
+* **Data:** 21/06/2026
+* **Desenvolvedor Responsável:** @JhonnPA
+* **Métodos Implementados/Auxiliados:** `JString.offsetByCodePoints`, `JString.getChars`, `JString.getBytes`
+* **Ferramenta Utilizada:** `Claude (Anthropic)`
+* **Prompt Representativo:**
+  > "Implemente offsetByCodePoints(), getChars() aceitando list como char[], e getBytes() unificando as duas sobrecargas via charsetName=None."
+* **Observação:** Validei getBytes() com UTF-8 e charset inválido lançando LookupError. Confirmei getChars modificando a lista in-place corretamente.
+
+### Módulo: `JString` - Método: `equals, equalsIgnoreCase, compareTo`
+* **Data:** 21/06/2026
+* **Desenvolvedor Responsável:** @JhonnPA
+* **Métodos Implementados/Auxiliados:** `JString.equals`, `JString.equalsIgnoreCase`, `JString.compareTo`
+* **Ferramenta Utilizada:** `Claude (Anthropic)`
+* **Prompt Representativo:**
+  > "Implemente equals(), equalsIgnoreCase() e compareTo() para JString fiéis ao contrato Java SE 8, onde equals retorna False para qualquer objeto que não seja String."
+* **Observação:** A IA acelerou a escrita. Validei que equals com str puro retorna False, fiel ao Java, e que compareTo replica a diferença de ord() do primeiro char divergente.
+
+### Módulo: `JString` - Método: `compareToIgnoreCase, contentEquals, regionMatches`
+* **Data:** 21/06/2026
+* **Desenvolvedor Responsável:** @JhonnPA
+* **Métodos Implementados/Auxiliados:** `JString.compareToIgnoreCase`, `JString.contentEquals`, `JString.regionMatches`
+* **Ferramenta Utilizada:** `Claude (Anthropic)`
+* **Prompt Representativo:**
+  > "Implemente compareToIgnoreCase(), contentEquals() aceitando str e JString como análogos de CharSequence, e regionMatches unificando as duas sobrecargas Java via ignoreCase=False como default."
+* **Observação:** Validei regionMatches com toffset negativo, trecho além do tamanho e ignoreCase=True. Conferi contentEquals com JString e str puro.

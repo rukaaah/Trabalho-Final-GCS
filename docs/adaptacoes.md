@@ -176,3 +176,22 @@ Aritmética Unsigned
 **Assinatura do Método:** `public int lastIndexOf(int ch)` / `public int lastIndexOf(int ch, int fromIndex)` / `public int lastIndexOf(String str)` / `public int lastIndexOf(String str, int fromIndex)`
 * **Motivo da não-implementação:** Python não suporta sobrecarga; as quatro assinaturas não podem coexistir com o mesmo nome.
 * **Alternativa Proposta:** método único `lastIndexOf(self, search, fromIndex=None)` com dispatch por tipo e `rfind()` nativo. `fromIndex=None` busca do final; com `fromIndex`, busca da posição para trás, replicando a semântica do Java.
+**Assinatura do Método:** `public int codePointAt(int index)` / `public int codePointBefore(int index)` / `public int codePointCount(int beginIndex, int endIndex)`
+* **Motivo da não-implementação:** não se aplica — implementados com `ord()`.
+* **Alternativa Proposta:** Python usa UTF-32 internamente e `ord()` retorna codepoints corretos sem surrogate pairs, tornando a implementação mais simples e precisa que o Java para caracteres acima de U+FFFF.
+
+**Assinatura do Método:** `public void getChars(int srcBegin, int srcEnd, char[] dst, int dstBegin)`
+* **Motivo da não-implementação:** Java usa `char[]` como parâmetro de saída por referência. Python não tem arrays de char.
+* **Alternativa Proposta:** aceita `list` mutável como `dst`, modificando-a in-place. Comportamento idêntico ao Java para os casos cobertos.
+
+**Assinatura do Método:** `public byte[] getBytes()` / `public byte[] getBytes(String charsetName)`
+* **Motivo da não-implementação:** Python não suporta sobrecarga; as duas assinaturas não podem coexistir.
+* **Alternativa Proposta:** método único `getBytes(charsetName=None)` delegando ao `.encode()` nativo. Charset inválido lança `LookupError` como análogo ao `UnsupportedEncodingException`.
+
+**Assinatura do Método:** `public boolean contentEquals(CharSequence cs)`
+* **Motivo da não-implementação:** Java aceita qualquer `CharSequence` (StringBuilder, StringBuffer, etc.). Python não possui essas classes.
+* **Alternativa Proposta:** aceita `str` e `JString` como análogos idiomáticos. Comportamento idêntico para os casos cobertos pelo contrato.
+
+**Assinatura do Método:** `public boolean regionMatches(int toffset, String other, int ooffset, int len)` / `public boolean regionMatches(boolean ignoreCase, int toffset, String other, int ooffset, int len)`
+* **Motivo da não-implementação:** Python não suporta sobrecarga; as duas assinaturas não podem coexistir com o mesmo nome.
+* **Alternativa Proposta:** método único `regionMatches(self, toffset, other, ooffset, len_, ignoreCase=False)` com `ignoreCase=False` como default, cobrindo as duas assinaturas Java.
