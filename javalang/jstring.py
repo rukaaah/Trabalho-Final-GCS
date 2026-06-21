@@ -20,13 +20,54 @@ class JString:
     # ==========================================
     # NÚCLEO BASE E CONSTRUTORES (Issue 1 e 2)
     # ==========================================
-    def __init__(self, original: object = ""):
-        # TODO (Issue 2): Expandir construtor para lidar com byte[], char[], int[] (CodePoints) e StringBuilder
-        if isinstance(original, JString):
-            self._valor = str(getattr(original, '_valor'))
-        else:
-            self._valor = str(original)
+    def __init__(self, *args):
+        if not args:
+            self._valor = ""
+            return
 
+        primeiro = args[0]
+
+        # Suporte da Issue 1 (Núcleo Base)
+        if isinstance(primeiro, JString):
+            self._valor = str(getattr(primeiro, '_valor'))
+            return
+
+        # Suporte da Issue 2: byte[] com slices e charsets
+        if isinstance(primeiro, (bytes, bytearray)):
+            if len(args) == 2 and isinstance(args[1], str):
+                charset = args[1].lower()
+                self._valor = primeiro.decode(charset)
+            elif len(args) == 3 and isinstance(args[1], int) and isinstance(args[2], int):
+                offset, length = args[1], args[2]
+                self._valor = primeiro[offset:offset+length].decode('utf-8')
+            else:
+                self._valor = primeiro.decode('utf-8')
+            return
+
+        # Suporte da Issue 2: char[] e char[] com offset/count
+        if isinstance(primeiro, list):
+            if len(args) == 3 and isinstance(args[1], int) and isinstance(args[2], int):
+                offset, count = args[1], args[2]
+                lista_fatiada = primeiro[offset:offset+count]
+            else:
+                lista_fatiada = primeiro
+
+            # Diferencia Code Points usando o primeiro elemento
+            if lista_fatiada and isinstance(lista_fatiada[0], int):
+                self._valor = "".join(chr(cp) for cp in lista_fatiada)
+            else:
+                self._valor = "".join(str(ch) for ch in lista_fatiada)
+            return
+
+        # Suporte da Issue 2: StringBuilder
+        # Em Python, não implementaremos a classe StringBuilder separada. 
+        # Lançamos NotImplementedError conforme acordado na Issue e documentado na ADR.
+        if type(primeiro).__name__ == "StringBuilder":
+            raise NotImplementedError("Conversão direta de StringBuilder não suportada em Python. Use concatenação ou .join().")
+
+        # Fallback padrão
+        self._valor = str(primeiro)
+        
     def length(self) -> int:
         return len(self._valor)
     
@@ -49,7 +90,7 @@ class JString:
         if h >= 0x80000000:
             h -= 0x100000000
         return h
-
+    
     # ==========================================
     # COMPARAÇÕES E IGUALDADE (Issue 3)
     # (Ex: equals, compareTo, regionMatches)

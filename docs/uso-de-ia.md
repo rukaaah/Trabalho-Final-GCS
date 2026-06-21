@@ -219,6 +219,15 @@ Conforme as regras de GCS, a utilização de IA não exime o desenvolvedor da re
   > "Implemente max(float, float), min(float, float) e sum(float, float) para JFloat, fiéis ao contrato Java."
 * **Observação:** Métodos triviais; validei max(1.5, 2.5)==2.5, min(1.5, 2.5)==1.5 e sum(1.5, 2.5)==4.0.
 
+### Módulo: JString - Construtores de Arrays e Decodificação (#53)
+
+- **Data:** 21/06/2026
+- **Desenvolvedor Responsável:** @GabrielMattosA
+- **Métodos Implementados/Auxiliados:** `JString.__init__` (Fatiamentos e Decodificações Dinâmicas)
+- **Ferramenta Utilizada:** Gemini
+- **Prompt Representativo:**
+  "Como gerenciar múltiplos construtores do Java em um único __init__ em Python que precisa aceitar opcionalmente arrays de bytes, slices de inteiros de code points e argumentos de charset?"
+
 ### Módulo: `JString` - Método: `indexOf`
 * **Data:** 21/06/2026
 * **Desenvolvedor Responsável:** @JhonnPA

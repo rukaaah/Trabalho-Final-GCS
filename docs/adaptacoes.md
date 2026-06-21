@@ -169,6 +169,12 @@ Aritmética Unsigned
 - **Motivo da não-implementação:** O Python não possui sobrecarga nativa de construtores, o que exigiu uma lógica interna no `__init__` para discernir se o parâmetro recebido é uma string pura, outro objeto `JString` ou outro tipo de dado. Além disso, os inteiros em Python possuem precisão arbitrária (não sofrem overflow automaticamente), enquanto o `hashCode` da String do Java exige um comportamento estrito de estouro de 32 bits com sinal.
 - **Alternativa Proposta:** O construtor foi unificado utilizando checagens de tipo (`isinstance`). Para o algoritmo de `hashCode`, aplicamos uma máscara de bits (`& 0xFFFFFFFF`) a cada iteração da fórmula matemática tradicional para simular o comportamento de estouro de um `int` de 32 bits sem sinal do Java, e rotacionamos o valor para o espectro de números com sinal caso ele ultrapassasse o limite máximo positivo (`0x80000000`).
 
+### Construtores de Arrays e Decodificação (#53)
+
+- **Assinatura do Método:** `String(char[])`, `String(char[], int, int)`, `String(byte[])`, `String(byte[], int, int)`, `String(byte[], String)` e `String(int[], int, int)`
+- **Motivo da não-implementação:** Python não suporta nativamente múltiplas assinaturas de construtores (sobrecarga de métodos). Além disso, mapeamentos de decodificação de strings no Java usam nomenclaturas em caixa alta (ex: "UTF-8"), enquanto o Python espera termos padronizados em caixa baixa no método `decode()`. 
+- **Alternativa Proposta:** Unificação completa de assinaturas utilizando o operador de desempacotamento de argumentos posicionais (`*args`). O construtor inteligente inspeciona dinamicamente o tipo e a quantidade dos argumentos recebidos para fatiar os arrays (`[offset:offset+count]`), processar coleções de inteiros como Code Points Unicode via função `chr()` e aplicar o método `.lower()` nas strings de charset recebidas. O objeto `StringBuilder` foi tratado de forma resiliente através do mecanismo de fallback para conversão direta de string.
+
 **Assinatura do Método:** `public int indexOf(int ch)` / `public int indexOf(int ch, int fromIndex)` / `public int indexOf(String str)` / `public int indexOf(String str, int fromIndex)`
 * **Motivo da não-implementação:** Python não suporta sobrecarga; as quatro assinaturas não podem coexistir com o mesmo nome.
 * **Alternativa Proposta:** método único `indexOf(self, search, fromIndex=0)` com dispatch por tipo (`isinstance(search, int)` para char via `chr()`, `str`/`JString` para substring). Cobre as quatro assinaturas Java.
@@ -195,6 +201,10 @@ Aritmética Unsigned
 **Assinatura do Método:** `public boolean regionMatches(int toffset, String other, int ooffset, int len)` / `public boolean regionMatches(boolean ignoreCase, int toffset, String other, int ooffset, int len)`
 * **Motivo da não-implementação:** Python não suporta sobrecarga; as duas assinaturas não podem coexistir com o mesmo nome.
 * **Alternativa Proposta:** método único `regionMatches(self, toffset, other, ooffset, len_, ignoreCase=False)` com `ignoreCase=False` como default, cobrindo as duas assinaturas Java.
+
+**Assinatura do Método:** `String(StringBuilder builder)`
+* **Motivo da não-implementação:** Decisão de escopo orientada pelas diretrizes da disciplina. As classes utilitárias de mutabilidade `StringBuilder` e `StringBuffer` não foram transpostas para o Python. Como dependemos exclusivamente dos tipos primitivos e do nosso wrapper, o construtor focado na conversão direta deste objeto perde a aplicabilidade.
+* **Alternativa Proposta:** O comportamento de construção dinâmica de textos é alcançado de forma idiomática em Python através do agrupamento em listas (`list`) seguido da junção final utilizando `''.join(lista)`. Na nossa implementação da `JString`, caso um objeto `StringBuilder` seja recebido pelo construtor `__init__`, optamos por lançar de forma explícita um `NotImplementedError` instruindo o usuário a utilizar as alternativas nativas do Python.
 
 **Assinatura do Método:** `String.valueOf(...)` (Sobrecargas unificadas)
 * **Motivo da não-implementação:** O Python não possui suporte nativo à sobrecarga de métodos por tipagem de argumentos (Overloading). Criar métodos como `valueOfInt`, `valueOfBoolean` ou `valueOfObject` quebraria a nomenclatura original da API do Java exigida no contrato.

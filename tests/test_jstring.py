@@ -58,6 +58,32 @@ class TestJStringHashCode:
         b = JString("abc")
         assert a.hashCode() == b.hashCode()
 
+class TestJStringConstrutorCharArray:
+    def test_construtor_com_char_array_completo(self):
+        s = JString(['o', 'l', 'a'])
+        assert s.length() == 3
+
+    def test_construtor_com_char_array_offset_count(self):
+        s = JString(['o', 'l', 'a', 'm', 'u', 'n', 'd', 'o'], 3, 5)
+        assert s.toCharArray() == ['m', 'u', 'n', 'd', 'o']
+
+    def test_construtor_com_bytes(self):
+        s = JString(b'abc')
+        assert s.length() == 3
+
+class TestJStringConstrutorBytesOffset:
+    def test_construtor_com_bytes_offset_length(self):
+        s = JString(b'helloworld', 5, 5)
+        assert s.toCharArray() == ['w', 'o', 'r', 'l', 'd']
+
+    def test_construtor_com_bytes_e_charset(self):
+        s = JString(b'abc', "UTF-8")
+        assert s.length() == 3
+
+    def test_construtor_com_code_points(self):
+        s = JString([97, 98, 99], 0, 3)
+        assert s.toCharArray() == ['a', 'b', 'c']
+
 class TestJStringIndexOfChar:
     def test_index_of_char(self):
         s = JString("hello")
