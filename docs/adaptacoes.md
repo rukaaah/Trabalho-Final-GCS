@@ -128,5 +128,21 @@ Aritmética Unsigned
 - **Motivo da não-implementação:** O Python gerencia valores `float` nativos como dupla precisão de 64 bits (equivalente ao `double` do Java) e carece de suporte nativo a tipos de capacidade reduzida como `byte` (8-bit) e `short` (16-bit), além de não realizar sobrecarga de construtores.
 - **Alternativa Proposta:** Desenvolvemos uma inicialização dinâmica baseada em checagem de tipos (`isinstance`). Emulamos o truncamento de ponto flutuante e o estouro posicionado de tipos de dados menores através de casts explicitados combinados a operações de máscaras bitwise (`& 0xFF`, `& 0xFFFF`, `& 0xFFFFFFFF`) seguidas de checagens de bit de sinal mais significativo para replicar fielmente o comportamento de estouro do Java SE 8.
 
+**Assinatura do Método:** `public static float parseFloat(String s) throws NumberFormatException`
+* **Motivo da não-implementação:** `float()` do Python aceita `_` como separador (PEP 515) e rejeita sufixos `f`/`F`/`d`/`D` válidos em Java.
+* **Alternativa Proposta:** helper `_parse_float_java` que remove sufixos Java, rejeita `_` e delega ao `float()` nativo, lançando `ValueError` como análogo ao `NumberFormatException`.
+
+**Assinatura do Método:** `public static Float valueOf(float f)` / `public static Float valueOf(String s)`
+* **Motivo da não-implementação:** Python não suporta sobrecarga; as duas assinaturas não podem coexistir como métodos estáticos distintos com o mesmo nome.
+* **Alternativa Proposta:** método único `valueOf(value)` com dispatch por tipo (`isinstance(value, str)`).
+
+**Assinatura do Método:** `public String toString()` / `public static String toString(float f)`
+* **Motivo da não-implementação:** Python não suporta sobrecarga; instância e estático não podem ter o mesmo nome.
+* **Alternativa Proposta:** método único `toString(self, f=None)` com dispatch híbrido. Notação científica com `E` maiúsculo acima de 10⁷ ou abaixo de 10⁻³, fiel ao Java.
+
+**Assinatura do Método:** `public static String toHexString(float f)`
+* **Motivo da não-implementação:** `float.hex()` do Python produz formato double (64 bits) com zeros extras; Java usa float32 com mantissa hex compacta (`0x1.8p1`).
+* **Alternativa Proposta:** coerção para float32 via `_para_float32`, uso de `float.hex()` e remoção dos zeros da mantissa para bater com o formato Java.
+
 ### Módulo JString
 *(Nenhuma adaptação registrada até o momento)*
