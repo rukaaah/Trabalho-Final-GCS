@@ -77,6 +77,41 @@ class JString:
             if c1 != c2:
                 return ord(c1) - ord(c2)
         return len(self._valor) - len(outro)
+    
+    def compareToIgnoreCase(self, str_):
+        # java: comparacao lexicografica sem diferenciar maiusculas/minusculas
+        outro = str_._valor if isinstance(str_, JString) else str_
+        a = self._valor.lower()
+        b = outro.lower()
+        if a == b:
+            return 0
+        for c1, c2 in zip(a, b):
+            if c1 != c2:
+                return ord(c1) - ord(c2)
+        return len(a) - len(b)
+
+    def contentEquals(self, cs):
+        # java: compara com qualquer CharSequence (StringBuilder, StringBuffer, etc.)
+        # python: aceita str e JString como analogos idiomaticos — ver docs/adaptacoes.md
+        if isinstance(cs, JString):
+            return self._valor == cs._valor
+        if isinstance(cs, str):
+            return self._valor == cs
+        return False
+    
+    def regionMatches(self, toffset, other, ooffset, len_, ignoreCase=False):
+        # unifica regionMatches(int,String,int,int) e regionMatches(bool,int,String,int,int)
+        # python nao tem sobrecarga; ignoreCase=False como default cobre as duas assinaturas
+        outro = other._valor if isinstance(other, JString) else other
+        if toffset < 0 or ooffset < 0:
+            return False
+        if toffset + len_ > len(self._valor) or ooffset + len_ > len(outro):
+            return False
+        trecho_self = self._valor[toffset:toffset + len_]
+        trecho_outro = outro[ooffset:ooffset + len_]
+        if ignoreCase:
+            return trecho_self.lower() == trecho_outro.lower()
+        return trecho_self == trecho_outro
 
 
     # ==========================================
