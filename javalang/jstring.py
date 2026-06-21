@@ -30,6 +30,14 @@ class JString:
     def length(self) -> int:
         return len(self._valor)
     
+    def isEmpty(self) -> bool:
+        return len(self._valor) == 0
+
+    def charAt(self, index: int) -> str:
+        if index < 0 or index >= len(self._valor):
+            raise IndexError(f"String index out of range: {index}")
+        return self._valor[index]
+    
     def __init__(self):
         # TODO: Implementar múltiplas formas de construção
         pass
