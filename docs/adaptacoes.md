@@ -195,3 +195,11 @@ Aritmética Unsigned
 **Assinatura do Método:** `public boolean regionMatches(int toffset, String other, int ooffset, int len)` / `public boolean regionMatches(boolean ignoreCase, int toffset, String other, int ooffset, int len)`
 * **Motivo da não-implementação:** Python não suporta sobrecarga; as duas assinaturas não podem coexistir com o mesmo nome.
 * **Alternativa Proposta:** método único `regionMatches(self, toffset, other, ooffset, len_, ignoreCase=False)` com `ignoreCase=False` como default, cobrindo as duas assinaturas Java.
+
+**Assinatura do Método:** `public String[] split(String regex)` / `public String[] split(String regex, int limit)`
+* **Motivo da não-implementação:** Python não suporta sobrecarga; as duas assinaturas não podem coexistir com o mesmo nome.
+* **Alternativa Proposta:** método único `split(self, regex, limit=0)` usando `re.split` com `maxsplit`. `limit=0` remove strings vazias do final (comportamento padrão Java); `limit<0` preserva; `limit>0` limita o número de partes.
+
+**Assinatura do Método:** `public String intern()`
+* **Motivo da não-implementação:** `intern()` retorna uma referência do pool de strings interno da JVM — otimização de runtime sem equivalente no CPython. `sys.intern()` do Python só funciona com `str` nativo, não com objetos customizados.
+* **Alternativa Proposta:** implementado como stub que retorna `self`. Nenhum comportamento de contrato observável é perdido — o pool de strings é uma otimização interna da JVM, não parte do contrato público testável.
