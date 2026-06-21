@@ -166,3 +166,12 @@ Conforme as regras de GCS, a utilização de IA não exime o desenvolvedor da re
 - **Ferramenta Utilizada:** Gemini
 - **Prompt Representativo:**
   "Como simular exatamente o algoritmo de hashCode da classe String do Java 8 em Python, garantindo que o overflow de inteiros de 32 bits assinalados funcione da mesma forma?"
+
+  ### Módulo: JString - Construtores de Arrays e Decodificação (#53)
+
+- **Data:** 21/06/2026
+- **Desenvolvedor Responsável:** @GabrielMattosA
+- **Métodos Implementados/Auxiliados:** `JString.__init__` (Fatiamentos e Decodificações Dinâmicas)
+- **Ferramenta Utilizada:** Gemini
+- **Prompt Representativo:**
+  "Como gerenciar múltiplos construtores do Java em um único __init__ em Python que precisa aceitar opcionalmente arrays de bytes, slices de inteiros de code points e argumentos de charset?"
