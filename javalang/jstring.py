@@ -233,6 +233,34 @@ class JString:
         # java: substitui todas as ocorrencias do regex
         import re as _re
         return JString(_re.sub(regex, replacement, self._valor))
+    
+    def __eq__(self, other):
+        if isinstance(other, JString):
+            return self._valor == other._valor
+        if isinstance(other, str):
+            return self._valor == other
+        return False
+    
+    def split(self, regex: str, limit: int = 0) -> list:
+        # unifica split(String regex) e split(String regex, int limit)
+        # java: limit=0 remove trailing empty strings; limit<0 preserva; limit>0 limita partes
+        import re as _re
+        if limit > 0:
+            partes = _re.split(regex, self._valor, maxsplit=limit - 1)
+        elif limit < 0:
+            partes = _re.split(regex, self._valor)
+        else:
+            # limit=0: remove strings vazias do final (comportamento padrao do java)
+            partes = _re.split(regex, self._valor)
+            while partes and partes[-1] == "":
+                partes.pop()
+        return [JString(p) for p in partes]
+
+    def intern(self) -> 'JString':
+        # java: retorna referencia do pool de strings da JVM
+        # python: sys.intern() nao se aplica a objetos customizados; CPython nao tem pool equivalente
+        # retorna self como stub — ver docs/adaptacoes.md
+        return self
 
 
     # ==========================================
