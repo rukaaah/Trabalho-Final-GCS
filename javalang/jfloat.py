@@ -18,12 +18,21 @@ Um commit não pode conter mais de 3 métodos de teste.
 """
 import struct
 import math
+
 class JFloat:
     # ==========================================
     # CONSTANTES 
     # ==========================================
+    NaN = float('nan')
+    POSITIVE_INFINITY = float('inf')
+    NEGATIVE_INFINITY = float('-inf')
     
+    MAX_VALUE = 3.4028235e+38
+    MIN_NORMAL = 1.17549435e-38
+    MIN_VALUE = 1.4e-45
     
+    SIZE = 32
+    BYTES = 4
     
     # ==========================================
     # CONSTRUTORES E CONVERSÃO NUMÉRICA 
@@ -121,10 +130,49 @@ class JFloat:
     # VERIFICAÇÕES IEEE 754 E PARSING 
     # (Ex: isNaN, isInfinite, parseFloat)
     # ==========================================
+    def isNaN(self, v=None) -> bool:
+        if isinstance(self, (int, float)):
+            return math.isnan(self)
+        if v is not None:
+            return math.isnan(v)
+        return math.isnan(self._valor)
     
+    def isInfinite(self, v=None) -> bool:
+        if isinstance(self, (int, float)):
+            return math.isinf(self)
+        if v is not None:
+            return math.isinf(v)
+        return math.isinf(self._valor)
     
+    @staticmethod
+    def isInfinite_static(v: float) -> bool:   
+        return math.isinf(v)
+
+    @staticmethod
+    def isFinite(f: float) -> bool:
+        return math.isfinite(f)
     
-    
+    @staticmethod
+    def compare(f1: float, f2: float) -> int:
+        if math.isnan(f1):
+            if math.isnan(f2):
+                return 0
+            return 1
+        if math.isnan(f2):
+            return -1
+        
+        if f1 < f2:
+            return -1
+        elif f1 > f2:
+            return 1
+        
+        bits_f1 = struct.unpack('>I', struct.pack('>f', f1))[0]
+        bits_f2 = struct.unpack('>I', struct.pack('>f', f2))[0]
+        if bits_f1 < bits_f2:
+            return -1
+        elif bits_f1 > bits_f2:
+            return 1
+        return 0
     # ==========================================
     # CONVERSÃO BINÁRIA E ARITMÉTICA 
     # (Ex: floatToIntBits, compare, sum)
