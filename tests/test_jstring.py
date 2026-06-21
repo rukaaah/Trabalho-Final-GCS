@@ -58,6 +58,210 @@ class TestJStringHashCode:
         b = JString("abc")
         assert a.hashCode() == b.hashCode()
 
+class TestJStringMatchesEReplace:
+    def test_matches_regex_simples(self):
+        s = JString("abc123")
+        assert s.matches(r"[a-z]+\d+") is True
+
+    def test_replace_first(self):
+        s = JString("aaa")
+        assert s.replaceFirst("a", "b").toCharArray() == list("baa")
+
+    def test_replace_all(self):
+        s = JString("aaa")
+        assert s.replaceAll("a", "b").toCharArray() == list("bbb")
+
+class TestJStringSplit:
+    def test_split_simples(self):
+        s = JString("a,b,c")
+        partes = s.split(",")
+        assert [p.toCharArray() for p in partes] == [['a'], ['b'], ['c']]
+
+    def test_split_com_limit(self):
+        s = JString("a,b,c")
+        partes = s.split(",", 2)
+        assert len(partes) == 2
+
+    def test_intern_mesmo_valor(self):
+        a = JString("abc")
+        b = JString("abc")
+        assert a.intern() == b.intern()
+
+class TestJStringConstrutorCharArray:
+    def test_construtor_com_char_array_completo(self):
+        s = JString(['o', 'l', 'a'])
+        assert s.length() == 3
+
+    def test_construtor_com_char_array_offset_count(self):
+        s = JString(['o', 'l', 'a', 'm', 'u', 'n', 'd', 'o'], 3, 5)
+        assert s.toCharArray() == ['m', 'u', 'n', 'd', 'o']
+
+    def test_construtor_com_bytes(self):
+        s = JString(b'abc')
+        assert s.length() == 3
+
+class TestJStringConstrutorBytesOffset:
+    def test_construtor_com_bytes_offset_length(self):
+        s = JString(b'helloworld', 5, 5)
+        assert s.toCharArray() == ['w', 'o', 'r', 'l', 'd']
+
+    def test_construtor_com_bytes_e_charset(self):
+        s = JString(b'abc', "UTF-8")
+        assert s.length() == 3
+
+    def test_construtor_com_code_points(self):
+        s = JString([97, 98, 99], 0, 3)
+        assert s.toCharArray() == ['a', 'b', 'c']
+
+class TestJStringIndexOfChar:
+    def test_index_of_char(self):
+        s = JString("hello")
+        assert s.indexOf(ord('l')) == 2
+
+    def test_index_of_char_from_index(self):
+        s = JString("hello")
+        assert s.indexOf(ord('l'), 3) == 3
+
+    def test_index_of_nao_encontrado(self):
+        s = JString("hello")
+        assert s.indexOf(ord('z')) == -1
+
+class TestJStringIndexOfString:
+    def test_index_of_string(self):
+        s = JString("hello world")
+        other = JString("world")
+        assert s.indexOf(other) == 6
+
+    def test_index_of_string_from_index(self):
+        s = JString("abcabc")
+        other = JString("abc")
+        assert s.indexOf(other, 1) == 3
+
+    def test_last_index_of_char(self):
+        s = JString("hello")
+        assert s.lastIndexOf(ord('l')) == 3
+
+class TestJStringLastIndexOf:
+    def test_last_index_of_char_from_index(self):
+        s = JString("hello")
+        assert s.lastIndexOf(ord('l'), 2) == 2
+        
+class TestJStringCodePoint:
+    def test_code_point_at(self):
+        s = JString("abc")
+        assert s.codePointAt(0) == ord('a')
+
+    def test_code_point_before(self):
+        s = JString("abc")
+        assert s.codePointBefore(1) == ord('a')
+
+    def test_code_point_count(self):
+        s = JString("abc")
+        assert s.codePointCount(0, 3) == 3
+
+class TestJStringOffsetEGetChars:
+    def test_offset_by_code_points(self):
+        s = JString("abc")
+        assert s.offsetByCodePoints(0, 2) == 2
+
+    def test_get_chars(self):
+        s = JString("hello")
+        dst = [' '] * 5
+        s.getChars(0, 5, dst, 0)
+        assert dst == ['h', 'e', 'l', 'l', 'o']
+
+class TestJStringGetBytes:
+    def test_get_bytes_default(self):
+        s = JString("abc")
+        assert s.getBytes() == b'abc'
+class TestJStringEquals:
+    def test_equals_mesmo_conteudo(self):
+        a = JString("abc")
+        b = JString("abc")
+        assert a.equals(b) is True
+
+    def test_equals_ignore_case(self):
+        a = JString("ABC")
+        b = JString("abc")
+        assert a.equalsIgnoreCase(b) is True
+
+    def test_content_equals(self):
+        a = JString("abc")
+        b = JString("abc")
+        assert a.contentEquals(b) is True
+
+class TestJStringCompareTo:
+    def test_compare_to_maior(self):
+        a = JString("b")
+        b = JString("a")
+        assert a.compareTo(b) > 0
+
+    def test_compare_to_ignore_case(self):
+        a = JString("ABC")
+        b = JString("abc")
+        assert a.compareToIgnoreCase(b) == 0
+
+class TestJStringRegionMatches:
+    def test_region_matches_basico(self):
+        a = JString("hello world")
+        b = JString("world")
+        assert a.regionMatches(6, b, 0, 5) is True
+
+class TestJStringValueOf:
+    def test_value_of_int(self):
+        assert JString.valueOf(42).toCharArray() == list("42")
+
+    def test_value_of_bool(self):
+        assert JString.valueOf(True).toCharArray() == list("true")
+
+    def test_value_of_char_array(self):
+        assert JString.valueOf(['a', 'b', 'c']).toCharArray() == ['a', 'b', 'c']
+
+class TestJStringCopyValueOfEFormat:
+    def test_copy_value_of(self):
+        assert JString.copyValueOf(['x', 'y', 'z']).toCharArray() == ['x', 'y', 'z']
+
+    def test_format_simples(self):
+        resultado = JString.format("%s tem %d anos", "Ana", 30)
+        assert resultado.toCharArray() == list("Ana tem 30 anos")
+
+    def test_join(self):
+        partes = [JString("a"), JString("b"), JString("c")]
+        resultado = JString.join(JString(","), *partes)
+        assert resultado.toCharArray() == list("a,b,c")
+
+class TestJStringSubSequenceECase:
+    def test_sub_sequence(self):
+        s = JString("hello world")
+        assert s.subSequence(6, 11).toCharArray() == list("world")
+
+    def test_to_lower_case(self):
+        s = JString("HELLO")
+        assert s.toLowerCase().toCharArray() == list("hello")
+
+    def test_to_upper_case(self):
+        s = JString("hello")
+        assert s.toUpperCase().toCharArray() == list("HELLO")
+
+class TestJStringTrimEConcat:
+    def test_trim_remove_espacos(self):
+        s = JString("  hello  ")
+        assert s.trim().toCharArray() == list("hello")
+
+    def test_concat(self):
+        a = JString("hello")
+        b = JString(" world")
+        assert a.concat(b).toCharArray() == list("hello world")
+
+    def test_replace_char(self):
+        s = JString("hello")
+        assert s.replace('l', 'L').toCharArray() == list("heLLo")
+
+class TestJStringReplaceSequence:
+    def test_replace_char_sequence(self):
+        s = JString("hello world")
+        assert s.replace(JString("world"), JString("there")).toCharArray() == list("hello there")
+
 class TestJStringLastIndexOfEContains:
     def test_last_index_of_string_from_index(self):
         s = JString("abcabc")

@@ -168,3 +168,60 @@ Aritmética Unsigned
 - **Assinatura do Método:** `String()`, `String(String)`, `length()`, `isEmpty()`, `charAt(int)`, `toCharArray()` e `hashCode()`
 - **Motivo da não-implementação:** O Python não possui sobrecarga nativa de construtores, o que exigiu uma lógica interna no `__init__` para discernir se o parâmetro recebido é uma string pura, outro objeto `JString` ou outro tipo de dado. Além disso, os inteiros em Python possuem precisão arbitrária (não sofrem overflow automaticamente), enquanto o `hashCode` da String do Java exige um comportamento estrito de estouro de 32 bits com sinal.
 - **Alternativa Proposta:** O construtor foi unificado utilizando checagens de tipo (`isinstance`). Para o algoritmo de `hashCode`, aplicamos uma máscara de bits (`& 0xFFFFFFFF`) a cada iteração da fórmula matemática tradicional para simular o comportamento de estouro de um `int` de 32 bits sem sinal do Java, e rotacionamos o valor para o espectro de números com sinal caso ele ultrapassasse o limite máximo positivo (`0x80000000`).
+
+### Construtores de Arrays e Decodificação (#53)
+
+- **Assinatura do Método:** `String(char[])`, `String(char[], int, int)`, `String(byte[])`, `String(byte[], int, int)`, `String(byte[], String)` e `String(int[], int, int)`
+- **Motivo da não-implementação:** Python não suporta nativamente múltiplas assinaturas de construtores (sobrecarga de métodos). Além disso, mapeamentos de decodificação de strings no Java usam nomenclaturas em caixa alta (ex: "UTF-8"), enquanto o Python espera termos padronizados em caixa baixa no método `decode()`. 
+- **Alternativa Proposta:** Unificação completa de assinaturas utilizando o operador de desempacotamento de argumentos posicionais (`*args`). O construtor inteligente inspeciona dinamicamente o tipo e a quantidade dos argumentos recebidos para fatiar os arrays (`[offset:offset+count]`), processar coleções de inteiros como Code Points Unicode via função `chr()` e aplicar o método `.lower()` nas strings de charset recebidas. O objeto `StringBuilder` foi tratado de forma resiliente através do mecanismo de fallback para conversão direta de string.
+
+**Assinatura do Método:** `public int indexOf(int ch)` / `public int indexOf(int ch, int fromIndex)` / `public int indexOf(String str)` / `public int indexOf(String str, int fromIndex)`
+* **Motivo da não-implementação:** Python não suporta sobrecarga; as quatro assinaturas não podem coexistir com o mesmo nome.
+* **Alternativa Proposta:** método único `indexOf(self, search, fromIndex=0)` com dispatch por tipo (`isinstance(search, int)` para char via `chr()`, `str`/`JString` para substring). Cobre as quatro assinaturas Java.
+
+**Assinatura do Método:** `public int lastIndexOf(int ch)` / `public int lastIndexOf(int ch, int fromIndex)` / `public int lastIndexOf(String str)` / `public int lastIndexOf(String str, int fromIndex)`
+* **Motivo da não-implementação:** Python não suporta sobrecarga; as quatro assinaturas não podem coexistir com o mesmo nome.
+* **Alternativa Proposta:** método único `lastIndexOf(self, search, fromIndex=None)` com dispatch por tipo e `rfind()` nativo. `fromIndex=None` busca do final; com `fromIndex`, busca da posição para trás, replicando a semântica do Java.
+**Assinatura do Método:** `public int codePointAt(int index)` / `public int codePointBefore(int index)` / `public int codePointCount(int beginIndex, int endIndex)`
+* **Motivo da não-implementação:** não se aplica — implementados com `ord()`.
+* **Alternativa Proposta:** Python usa UTF-32 internamente e `ord()` retorna codepoints corretos sem surrogate pairs, tornando a implementação mais simples e precisa que o Java para caracteres acima de U+FFFF.
+
+**Assinatura do Método:** `public void getChars(int srcBegin, int srcEnd, char[] dst, int dstBegin)`
+* **Motivo da não-implementação:** Java usa `char[]` como parâmetro de saída por referência. Python não tem arrays de char.
+* **Alternativa Proposta:** aceita `list` mutável como `dst`, modificando-a in-place. Comportamento idêntico ao Java para os casos cobertos.
+
+**Assinatura do Método:** `public byte[] getBytes()` / `public byte[] getBytes(String charsetName)`
+* **Motivo da não-implementação:** Python não suporta sobrecarga; as duas assinaturas não podem coexistir.
+* **Alternativa Proposta:** método único `getBytes(charsetName=None)` delegando ao `.encode()` nativo. Charset inválido lança `LookupError` como análogo ao `UnsupportedEncodingException`.
+
+**Assinatura do Método:** `public boolean contentEquals(CharSequence cs)`
+* **Motivo da não-implementação:** Java aceita qualquer `CharSequence` (StringBuilder, StringBuffer, etc.). Python não possui essas classes.
+* **Alternativa Proposta:** aceita `str` e `JString` como análogos idiomáticos. Comportamento idêntico para os casos cobertos pelo contrato.
+
+**Assinatura do Método:** `public boolean regionMatches(int toffset, String other, int ooffset, int len)` / `public boolean regionMatches(boolean ignoreCase, int toffset, String other, int ooffset, int len)`
+* **Motivo da não-implementação:** Python não suporta sobrecarga; as duas assinaturas não podem coexistir com o mesmo nome.
+* **Alternativa Proposta:** método único `regionMatches(self, toffset, other, ooffset, len_, ignoreCase=False)` com `ignoreCase=False` como default, cobrindo as duas assinaturas Java.
+
+**Assinatura do Método:** `public String[] split(String regex)` / `public String[] split(String regex, int limit)`
+* **Motivo da não-implementação:** Python não suporta sobrecarga; as duas assinaturas não podem coexistir com o mesmo nome.
+* **Alternativa Proposta:** método único `split(self, regex, limit=0)` usando `re.split` com `maxsplit`. `limit=0` remove strings vazias do final (comportamento padrão Java); `limit<0` preserva; `limit>0` limita o número de partes.
+
+**Assinatura do Método:** `public String intern()`
+* **Motivo da não-implementação:** `intern()` retorna uma referência do pool de strings interno da JVM — otimização de runtime sem equivalente no CPython. `sys.intern()` do Python só funciona com `str` nativo, não com objetos customizados.
+* **Alternativa Proposta:** implementado como stub que retorna `self`. Nenhum comportamento de contrato observável é perdido — o pool de strings é uma otimização interna da JVM, não parte do contrato público testável.
+
+**Assinatura do Método:** `String(StringBuilder builder)`
+* **Motivo da não-implementação:** Decisão de escopo orientada pelas diretrizes da disciplina. As classes utilitárias de mutabilidade `StringBuilder` e `StringBuffer` não foram transpostas para o Python. Como dependemos exclusivamente dos tipos primitivos e do nosso wrapper, o construtor focado na conversão direta deste objeto perde a aplicabilidade.
+* **Alternativa Proposta:** O comportamento de construção dinâmica de textos é alcançado de forma idiomática em Python através do agrupamento em listas (`list`) seguido da junção final utilizando `''.join(lista)`. Na nossa implementação da `JString`, caso um objeto `StringBuilder` seja recebido pelo construtor `__init__`, optamos por lançar de forma explícita um `NotImplementedError` instruindo o usuário a utilizar as alternativas nativas do Python.
+
+**Assinatura do Método:** `String.valueOf(...)` (Sobrecargas unificadas)
+* **Motivo da não-implementação:** O Python não possui suporte nativo à sobrecarga de métodos por tipagem de argumentos (Overloading). Criar métodos como `valueOfInt`, `valueOfBoolean` ou `valueOfObject` quebraria a nomenclatura original da API do Java exigida no contrato.
+* **Alternativa Proposta:** Implementamos um único método estático `@staticmethod def valueOf(value)` que resolve o tipo dinamicamente em tempo de execução via `isinstance()`. Garantimos a fidelidade à JVM tratando casos específicos, como a conversão de `bool` (garantindo retorno minúsculo "true"/"false") e a união de arrays (`list` atuando como `char[]`).
+
+**Assinatura do Método:** `String.format(String format, Object... args)`
+* **Motivo da não-implementação:** A sintaxe do formatador interno da JVM (usada na classe `Formatter` do Java) possui especificidades complexas relacionadas a Locale e conversões estritas que diferem do motor interno do Python.
+* **Alternativa Proposta:** Utilizamos o operador nativo de interpolação `%` do Python como mecanismo análogo. O comportamento básico para substituição de strings (`%s`), decimais (`%d`) e pontos flutuantes (`%f`) é mantido, transferindo a responsabilidade da formatação avançada para o motor do interpretador Python.
+
+**Assinatura do Método:** `String.trim()`
+* **Motivo da não-implementação:** O método original do Java realiza um corte baseado exclusivamente na tabela ASCII, removendo qualquer caractere cujo código seja menor ou igual a `\u0020` (espaço). Em Python, não temos uma função nativa que faça exatamente esse corte por limite de código ASCII sem a necessidade de varrer a string inteira manualmente com regex ou loops.
+* **Alternativa Proposta:** Optamos por utilizar a função nativa `str.strip()` do Python. Embora o `strip()` remova todos os caracteres considerados como "espaço em branco" pelo Unicode (o que é uma gama ligeiramente diferente e mais ampla do que o `<= \u0020` do Java), ele atende ao propósito semântico de limpeza de strings de forma eficiente e idiomática na linguagem.
