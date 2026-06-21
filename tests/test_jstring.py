@@ -73,3 +73,14 @@ class TestJStringEquals:
         a = JString("abc")
         b = JString("abc")
         assert a.contentEquals(b) is True
+
+class TestJStringCompareTo:
+    def test_compare_to_maior(self):
+        a = JString("b")
+        b = JString("a")
+        assert a.compareTo(b) > 0
+
+    def test_compare_to_ignore_case(self):
+        a = JString("ABC")
+        b = JString("abc")
+        assert a.compareToIgnoreCase(b) == 0
