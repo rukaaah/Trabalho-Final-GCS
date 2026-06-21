@@ -131,6 +131,14 @@ Conforme as regras de GCS, a utilização de IA não exime o desenvolvedor da re
 - **Prompt Representativo:**
   "Como implementar os métodos de espelhamento binário reverse e inversão de endianness reverseBytes do Java 8 em Python garantindo o estouro para signed int de 32 bits?"
 
+  ### Módulo: JFloat - Estado e Comparações IEEE 754 (#39)
+
+- **Data:** 20/06/2026
+- **Desenvolvedor Responsável:** @GabrielMattosA
+- **Métodos Implementados/Auxiliados:** `JFloat.isInfinite_static`, `JFloat.isFinite_static`, `JFloat.compare`
+- **Ferramenta Utilizada:** Gemini
+- **Prompt Representativo:**
+  "Como garantir a distinção correta de zero negativo e positivo em um método estático de comparação de floats simulando a especificação do Java SE 8 sem usar operadores de comparação nativos do Python que ignoram o bit de sinal?"
   ### Módulo: JFloat - Construtores e Conversões Primitivas (#37)
 
 - **Data:** 19/06/2026
@@ -139,6 +147,15 @@ Conforme as regras de GCS, a utilização de IA não exime o desenvolvedor da re
 - **Ferramenta Utilizada:** Gemini
 - **Prompt Representativo:**
   "Como simular o truncamento de float para inteiros limitados a bytes e shorts em Python respeitando a especificação do Java 8?"
+
+  ### Módulo: JFloat - Conversões e Semântica de Object (#38)
+
+- **Data:** 20/06/2026
+- **Desenvolvedor Responsável:** @GabrielMattosA
+- **Métodos Implementados/Auxiliados:** `JFloat.hashCode`, `JFloat.equals`, `JFloat.compareTo`
+- **Ferramenta Utilizada:** Gemini
+- **Prompt Representativo:**
+  "Como replicar a semântica de ordenação e tabelas hash da classe Float do Java 8 em Python, tratando a igualdade de NaN e diferenciação de zero negativo sem quebrar o linter?"
   
   ### Módulo: `JInteger` - Método: `valueOf`
 * **Data:** 17/06/2026
@@ -166,3 +183,20 @@ Conforme as regras de GCS, a utilização de IA não exime o desenvolvedor da re
 - **Ferramenta Utilizada:** Gemini
 - **Prompt Representativo:**
   "Como simular exatamente o algoritmo de hashCode da classe String do Java 8 em Python, garantindo que o overflow de inteiros de 32 bits assinalados funcione da mesma forma?"
+### Módulo: `JFloat` - Método: `floatToIntBits, floatToRawIntBits, intBitsToFloat`
+* **Data:** 17/06/2026
+* **Desenvolvedor Responsável:** @JhonnPA
+* **Métodos Implementados/Auxiliados:** `JFloat.floatToIntBits`, `JFloat.floatToRawIntBits`, `JFloat.intBitsToFloat`
+* **Ferramenta Utilizada:** `Claude (Anthropic)`
+* **Prompt Representativo:**
+  > "Implemente floatToIntBits e floatToRawIntBits para JFloat usando struct, documentando que em CPython ambos produzem o mesmo resultado para NaN pois struct canonicaliza 0x7fc00000."
+* **Observação:** Validei floatToIntBits(1.0)==0x3f800000 e intBitsToFloat(0x3f800000)==1.0 contra o javac. Confirmei que NaN retorna 0x7fc00000 nos dois métodos.
+
+### Módulo: `JFloat` - Método: `max, min, sum`
+* **Data:** 17/06/2026
+* **Desenvolvedor Responsável:** @JhonnPA
+* **Métodos Implementados/Auxiliados:** `JFloat.max`, `JFloat.min`, `JFloat.sum`
+* **Ferramenta Utilizada:** `Claude (Anthropic)`
+* **Prompt Representativo:**
+  > "Implemente max(float, float), min(float, float) e sum(float, float) para JFloat, fiéis ao contrato Java."
+* **Observação:** Métodos triviais; validei max(1.5, 2.5)==2.5, min(1.5, 2.5)==1.5 e sum(1.5, 2.5)==4.0.
