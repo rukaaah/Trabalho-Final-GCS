@@ -157,3 +157,21 @@ Conforme as regras de GCS, a utilização de IA não exime o desenvolvedor da re
 * **Prompt Representativo:**
   > "Implemente decode(String) suportando sinal opcional e prefixos 0x/0X/# (hex) e zero líder (octal), retornando via valueOf para herdar o cache."
 * **Observação:** Conferi decode("0x1A")==26, decode("-0x1A")==-26, decode("#1A")==26 e decode("010")==8 contra o javac.
+
+### Módulo: `JFloat` - Método: `floatToIntBits, floatToRawIntBits, intBitsToFloat`
+* **Data:** 17/06/2026
+* **Desenvolvedor Responsável:** @JhonnPA
+* **Métodos Implementados/Auxiliados:** `JFloat.floatToIntBits`, `JFloat.floatToRawIntBits`, `JFloat.intBitsToFloat`
+* **Ferramenta Utilizada:** `Claude (Anthropic)`
+* **Prompt Representativo:**
+  > "Implemente floatToIntBits e floatToRawIntBits para JFloat usando struct, documentando que em CPython ambos produzem o mesmo resultado para NaN pois struct canonicaliza 0x7fc00000."
+* **Observação:** Validei floatToIntBits(1.0)==0x3f800000 e intBitsToFloat(0x3f800000)==1.0 contra o javac. Confirmei que NaN retorna 0x7fc00000 nos dois métodos.
+
+### Módulo: `JFloat` - Método: `max, min, sum`
+* **Data:** 17/06/2026
+* **Desenvolvedor Responsável:** @JhonnPA
+* **Métodos Implementados/Auxiliados:** `JFloat.max`, `JFloat.min`, `JFloat.sum`
+* **Ferramenta Utilizada:** `Claude (Anthropic)`
+* **Prompt Representativo:**
+  > "Implemente max(float, float), min(float, float) e sum(float, float) para JFloat, fiéis ao contrato Java."
+* **Observação:** Métodos triviais; validei max(1.5, 2.5)==2.5, min(1.5, 2.5)==1.5 e sum(1.5, 2.5)==4.0.
