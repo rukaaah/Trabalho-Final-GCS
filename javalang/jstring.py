@@ -69,6 +69,19 @@ class JString:
     # (Ex: indexOf e lastIndexOf parte 1)
     # ==========================================
     # TODO: Implementações da Issue 5 aqui
+    def indexOf(self, search, fromIndex: int = 0) -> int:
+        # unifica indexOf(int ch), indexOf(int ch, int fromIndex),
+        # indexOf(String str) e indexOf(String str, int fromIndex)
+        # java nao tem sobrecarga unica — python resolve via dispatch por tipo
+        if fromIndex < 0:
+            fromIndex = 0
+        if isinstance(search, int):
+            # busca por codepoint (char)
+            alvo = chr(search)
+        else:
+            alvo = search._valor if isinstance(search, JString) else search
+        resultado = self._valor.find(alvo, fromIndex)
+        return resultado
 
 
     # ==========================================
