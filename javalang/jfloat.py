@@ -130,12 +130,11 @@ class JFloat:
     # VERIFICAÇÕES IEEE 754 E PARSING 
     # (Ex: isNaN, isInfinite, parseFloat)
     # ==========================================
-    @classmethod
     def isNaN(self, v=None) -> bool:
-        if isinstance(self, (int, float)):
-            return math.isnan(self)
+    # Se chamado com um argumento, valida esse argumento
         if v is not None:
             return math.isnan(v)
+        # Se chamado sem argumento, valida o valor da instância
         return math.isnan(self._valor)
     
     def isInfinite(self, v=None) -> bool:
