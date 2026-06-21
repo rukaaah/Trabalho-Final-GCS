@@ -84,3 +84,9 @@ class TestJStringCompareTo:
         a = JString("ABC")
         b = JString("abc")
         assert a.compareToIgnoreCase(b) == 0
+
+class TestJStringRegionMatches:
+    def test_region_matches_basico(self):
+        a = JString("hello world")
+        b = JString("world")
+        assert a.regionMatches(6, b, 0, 5) is True
