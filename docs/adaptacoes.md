@@ -168,3 +168,11 @@ Aritmética Unsigned
 - **Assinatura do Método:** `String()`, `String(String)`, `length()`, `isEmpty()`, `charAt(int)`, `toCharArray()` e `hashCode()`
 - **Motivo da não-implementação:** O Python não possui sobrecarga nativa de construtores, o que exigiu uma lógica interna no `__init__` para discernir se o parâmetro recebido é uma string pura, outro objeto `JString` ou outro tipo de dado. Além disso, os inteiros em Python possuem precisão arbitrária (não sofrem overflow automaticamente), enquanto o `hashCode` da String do Java exige um comportamento estrito de estouro de 32 bits com sinal.
 - **Alternativa Proposta:** O construtor foi unificado utilizando checagens de tipo (`isinstance`). Para o algoritmo de `hashCode`, aplicamos uma máscara de bits (`& 0xFFFFFFFF`) a cada iteração da fórmula matemática tradicional para simular o comportamento de estouro de um `int` de 32 bits sem sinal do Java, e rotacionamos o valor para o espectro de números com sinal caso ele ultrapassasse o limite máximo positivo (`0x80000000`).
+
+**Assinatura do Método:** `public boolean contentEquals(CharSequence cs)`
+* **Motivo da não-implementação:** Java aceita qualquer `CharSequence` (StringBuilder, StringBuffer, etc.). Python não possui essas classes.
+* **Alternativa Proposta:** aceita `str` e `JString` como análogos idiomáticos. Comportamento idêntico para os casos cobertos pelo contrato.
+
+**Assinatura do Método:** `public boolean regionMatches(int toffset, String other, int ooffset, int len)` / `public boolean regionMatches(boolean ignoreCase, int toffset, String other, int ooffset, int len)`
+* **Motivo da não-implementação:** Python não suporta sobrecarga; as duas assinaturas não podem coexistir com o mesmo nome.
+* **Alternativa Proposta:** método único `regionMatches(self, toffset, other, ooffset, len_, ignoreCase=False)` com `ignoreCase=False` como default, cobrindo as duas assinaturas Java.
