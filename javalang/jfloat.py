@@ -101,4 +101,19 @@ class JFloat:
         # java: reconstroi um float32 a partir do padrao de bits de 32 bits
         import struct as _s
         return _s.unpack(">f", _s.pack(">I", bits))[0]
+    
+    @staticmethod
+    def max(a, b):
+        # java: Float.max(float, float) -> maior valor entre os dois
+        return a if a >= b else b
+
+    @staticmethod
+    def min(a, b):
+        # java: Float.min(float, float) -> menor valor entre os dois
+        return a if a <= b else b
+
+    @staticmethod
+    def sum(a, b):
+        # java: Float.sum(float, float) -> soma simples, equivalente a a + b
+        return a + b
     pass
