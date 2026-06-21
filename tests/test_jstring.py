@@ -57,3 +57,16 @@ class TestJStringHashCode:
         a = JString("abc")
         b = JString("abc")
         assert a.hashCode() == b.hashCode()
+
+class TestJStringCodePoint:
+    def test_code_point_at(self):
+        s = JString("abc")
+        assert s.codePointAt(0) == ord('a')
+
+    def test_code_point_before(self):
+        s = JString("abc")
+        assert s.codePointBefore(1) == ord('a')
+
+    def test_code_point_count(self):
+        s = JString("abc")
+        assert s.codePointCount(0, 3) == 3
