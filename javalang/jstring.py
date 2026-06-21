@@ -210,8 +210,17 @@ class JString:
     # TRANSFORMAÇÕES E FORMATAÇÃO (Issue 7)
     # (Ex: toLowerCase, trim, replace, concat)
     # ==========================================
-    # TODO: Implementações da Issue 7 aqui
+    def subSequence(self, beginIndex: int, endIndex: int):
+        # java: retorna CharSequence. Aqui retornamos uma nova JString (análogo idiomático)
+        if beginIndex < 0 or endIndex < 0 or endIndex > len(self._valor) or beginIndex > endIndex:
+            raise IndexError("String index out of range")
+        return JString(self._valor[beginIndex:endIndex])
 
+    def toLowerCase(self) -> 'JString':
+        return JString(self._valor.lower())
+
+    def toUpperCase(self) -> 'JString':
+        return JString(self._valor.upper())
 
     # ==========================================
     # REGEX, SPLITS E INTERN (Issue 8)

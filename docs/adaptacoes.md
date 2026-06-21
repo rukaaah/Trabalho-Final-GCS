@@ -195,3 +195,7 @@ Aritmética Unsigned
 **Assinatura do Método:** `public boolean regionMatches(int toffset, String other, int ooffset, int len)` / `public boolean regionMatches(boolean ignoreCase, int toffset, String other, int ooffset, int len)`
 * **Motivo da não-implementação:** Python não suporta sobrecarga; as duas assinaturas não podem coexistir com o mesmo nome.
 * **Alternativa Proposta:** método único `regionMatches(self, toffset, other, ooffset, len_, ignoreCase=False)` com `ignoreCase=False` como default, cobrindo as duas assinaturas Java.
+
+**Assinatura do Método:** `String.trim()`
+* **Motivo da não-implementação:** O método original do Java realiza um corte baseado exclusivamente na tabela ASCII, removendo qualquer caractere cujo código seja menor ou igual a `\u0020` (espaço). Em Python, não temos uma função nativa que faça exatamente esse corte por limite de código ASCII sem a necessidade de varrer a string inteira manualmente com regex ou loops.
+* **Alternativa Proposta:** Optamos por utilizar a função nativa `str.strip()` do Python. Embora o `strip()` remova todos os caracteres considerados como "espaço em branco" pelo Unicode (o que é uma gama ligeiramente diferente e mais ampla do que o `<= \u0020` do Java), ele atende ao propósito semântico de limpeza de strings de forma eficiente e idiomática na linguagem.
