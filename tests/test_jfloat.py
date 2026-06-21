@@ -161,3 +161,6 @@ class TestJFloatCompareTo:
     def test_compare_to_maior(self):
         assert JFloat(2.0).compareTo(JFloat(1.0)) > 0
 
+class TestJFloatToHexString:
+    def test_to_hex_string_um(self):
+        assert JFloat.toHexString(1.0) == "0x1.0p0"
