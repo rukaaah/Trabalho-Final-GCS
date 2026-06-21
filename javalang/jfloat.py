@@ -138,4 +138,22 @@ class JFloat:
     # CONVERSÃO BINÁRIA E ARITMÉTICA 
     # (Ex: floatToIntBits, compare, sum)
     # ==========================================
+    @staticmethod
+    def toHexString(f):
+        # java: formato 0x<mantissa_hex>p<expoente>, ex: 0x1.8p1
+        valor = _para_float32(f)
+        if math.isnan(valor):
+            return "NaN"
+        if math.isinf(valor):
+            return "Infinity" if valor > 0 else "-Infinity"
+        hex_str = valor.hex()
+        negativo = hex_str.startswith("-")
+        hex_str = hex_str.lstrip("-")
+        partes = hex_str.split("p")
+        mantissa = partes[0].rstrip("0")
+        if mantissa.endswith("."):
+            mantissa += "0"
+        exp = int(partes[1])
+        sinal = "-" if negativo else ""
+        return f"{sinal}{mantissa}p{exp}"
     pass
