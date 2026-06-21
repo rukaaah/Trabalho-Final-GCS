@@ -280,3 +280,11 @@ Conforme as regras de GCS, a utilização de IA não exime o desenvolvedor da re
 * **Ferramenta Utilizada:** Gemini
 * **Prompt Representativo:**
   > "Como unificar as 9 sobrecargas do método estático String.valueOf do Java em Python sem violar o linter (F811), garantindo os retornos específicos para arrays de char e booleanos (true/false minúsculos)? Como adaptar o String.format e o String.join de forma idiomática utilizando as estruturas dinâmicas do Python (*args)?"
+
+### Módulo: `JString` - Métodos: `Transformação e Formatação`
+* **Data:** 21/06/2026
+* **Desenvolvedor Responsável:** @rukaaah
+* **Métodos Implementados/Auxiliados:** `subSequence`, `toLowerCase`, `toUpperCase`, `trim`, `concat`, `replace`
+* **Ferramenta Utilizada:** Gemini
+* **Prompt Representativo:**
+> "Como implementar os métodos mutacionais da classe String do Java (subSequence, trim, replace, concat) em Python garantindo a imutabilidade (retornando novas instâncias de JString)? Como unificar as sobrecargas do método replace via tipagem dinâmica para evitar a quebra do linter (Ruff) e qual a justificativa técnica para adaptar o trim() utilizando o strip() nativo do Python?"

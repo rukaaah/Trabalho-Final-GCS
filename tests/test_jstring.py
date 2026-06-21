@@ -174,3 +174,35 @@ class TestJStringCopyValueOfEFormat:
         partes = [JString("a"), JString("b"), JString("c")]
         resultado = JString.join(JString(","), *partes)
         assert resultado.toCharArray() == list("a,b,c")
+
+class TestJStringSubSequenceECase:
+    def test_sub_sequence(self):
+        s = JString("hello world")
+        assert s.subSequence(6, 11).toCharArray() == list("world")
+
+    def test_to_lower_case(self):
+        s = JString("HELLO")
+        assert s.toLowerCase().toCharArray() == list("hello")
+
+    def test_to_upper_case(self):
+        s = JString("hello")
+        assert s.toUpperCase().toCharArray() == list("HELLO")
+
+class TestJStringTrimEConcat:
+    def test_trim_remove_espacos(self):
+        s = JString("  hello  ")
+        assert s.trim().toCharArray() == list("hello")
+
+    def test_concat(self):
+        a = JString("hello")
+        b = JString(" world")
+        assert a.concat(b).toCharArray() == list("hello world")
+
+    def test_replace_char(self):
+        s = JString("hello")
+        assert s.replace('l', 'L').toCharArray() == list("heLLo")
+
+class TestJStringReplaceSequence:
+    def test_replace_char_sequence(self):
+        s = JString("hello world")
+        assert s.replace(JString("world"), JString("there")).toCharArray() == list("hello there")
