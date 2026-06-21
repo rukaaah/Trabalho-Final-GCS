@@ -159,7 +159,7 @@ Conforme as regras de GCS, a utilização de IA não exime o desenvolvedor da re
   
   ### Módulo: `JInteger` - Método: `valueOf`
 * **Data:** 17/06/2026
-* **Desenvolvedor Responsável:** @seu_usuario
+* **Desenvolvedor Responsável:** @JhonnPA
 * **Métodos Implementados/Auxiliados:** `JInteger.valueOf`
 * **Ferramenta Utilizada:** `Claude (Anthropic)`
 * **Prompt Representativo:**
@@ -168,7 +168,7 @@ Conforme as regras de GCS, a utilização de IA não exime o desenvolvedor da re
 
 ### Módulo: `JInteger` - Método: `decode`
 * **Data:** 17/06/2026
-* **Desenvolvedor Responsável:** @seu_usuario
+* **Desenvolvedor Responsável:** @JhonnPA
 * **Métodos Implementados/Auxiliados:** `JInteger.decode`
 * **Ferramenta Utilizada:** `Claude (Anthropic)`
 * **Prompt Representativo:**
