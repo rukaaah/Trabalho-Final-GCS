@@ -135,9 +135,6 @@ class JFloat:
             return resultado - 0x10000000000000000
         return resultado
     
-    def floatValue(self) -> float:
-        return self._valor
-    
     def doubleValue(self) -> float:
         return self._valor
     
