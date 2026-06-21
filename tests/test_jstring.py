@@ -57,3 +57,16 @@ class TestJStringHashCode:
         a = JString("abc")
         b = JString("abc")
         assert a.hashCode() == b.hashCode()
+
+class TestJStringIndexOfChar:
+    def test_index_of_char(self):
+        s = JString("hello")
+        assert s.indexOf(ord('l')) == 2
+
+    def test_index_of_char_from_index(self):
+        s = JString("hello")
+        assert s.indexOf(ord('l'), 3) == 3
+
+    def test_index_of_nao_encontrado(self):
+        s = JString("hello")
+        assert s.indexOf(ord('z')) == -1
