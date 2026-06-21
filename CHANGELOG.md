@@ -9,7 +9,26 @@ e este projeto adere ao [Versionamento Semântico](https://semver.org/lang/pt-BR
 *Equipe: Aqui ficarão as mudanças que a equipe está desenvolvendo na branch main antes de fechar a próxima tag.*
 
 ### Adicionado
-- Setup e fragmentação massiva das issues para o núcleo de `JString` (Issues #52 a #61).
+- Setup das issues finais para testes de interoperabilidade (`test_interop.py`).
+- Setup das issues de documentação final e relatórios de auditoria (`auditoria.md`).
+
+---
+
+## [0.4.0] - Baseline Allocated JString - 2026-06-22
+
+### Adicionado
+- Implementação massiva da classe `JString` (~60 métodos) sob o contrato da API Java SE 8.
+- Construtores flexíveis manipulando decodificação de `char[]`, `byte[]` e slices utilizando *type dispatch* com `*args`.
+- Utilitários extensos de Busca e Extração (`indexOf`, `lastIndexOf`, `substring`, `contains`).
+- Métodos de Transformação e Expressões Regulares (`replace`, `split`, `matches`) utilizando a biblioteca nativa `re`.
+- Mapeamento avançado de Unicode (`codePointAt`, `offsetByCodePoints`) com aproximação nativa para `ord()`.
+- Criação de Stubs organizacionais e formatações estáticas (`format`, `join`, `valueOf`).
+- Suíte robusta de testes em `test_jstring.py` cobrindo mais de 40 limites e regras de negócio.
+- Relatório de Status v0.4 (`docs/relatorios/status-v0.4.md`).
+
+### Modificado
+- Extensa atualização de `docs/adaptacoes.md` detalhando as omissões estruturais do CPython referentes à `StringBuilder` (levanta `NotImplementedError`) e otimização do `intern()`.
+- Uso sofisticado da regra de rastreabilidade para o tratamento formal da Issue #57 (classificada e fechada como *Duplicate*).
 
 ---
 
