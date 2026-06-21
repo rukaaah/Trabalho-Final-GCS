@@ -55,7 +55,6 @@ class JString:
 
         primeiro = args[0]
 
-        # Suporte da Issue #52 (Núcleo Base)
         if isinstance(primeiro, JString):
             self._valor = primeiro._valor
             return
@@ -69,29 +68,7 @@ class JString:
 
             self._valor = "".join(str(ch) for ch in lista_fatiada)
             return
-        if isinstance(primeiro, (bytes, bytearray)):
-            if len(args) == 2 and isinstance(args[1], str):
-                charset = args[1].lower()
-                self._valor = primeiro.decode(charset)
-            elif len(args) == 3 and isinstance(args[1], int) and isinstance(args[2], int):
-                offset, length = args[1], args[2]
-                self._valor = primeiro[offset:offset+length].decode('utf-8')
-            else:
-                self._valor = primeiro.decode('utf-8')
-            return
-        if isinstance(primeiro, list):
-            if len(args) == 3 and isinstance(args[1], int) and isinstance(args[2], int):
-                offset, count = args[1], args[2]
-                lista_fatiada = primeiro[offset:offset+count]
-            else:
-                lista_fatiada = primeiro
 
-            if lista_fatiada and isinstance(lista_fatiada[0], int):
-                self._valor = "".join(chr(cp) for cp in lista_fatiada)
-            else:
-                self._valor = "".join(str(ch) for ch in lista_fatiada)
-            return
-        
         self._valor = str(primeiro)
 
     #=========================================================================
