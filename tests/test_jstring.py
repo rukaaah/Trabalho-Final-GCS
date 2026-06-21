@@ -57,3 +57,16 @@ class TestJStringHashCode:
         a = JString("abc")
         b = JString("abc")
         assert a.hashCode() == b.hashCode()
+
+class TestJStringSubSequenceECase:
+    def test_sub_sequence(self):
+        s = JString("hello world")
+        assert s.subSequence(6, 11).toCharArray() == list("world")
+
+    def test_to_lower_case(self):
+        s = JString("HELLO")
+        assert s.toLowerCase().toCharArray() == list("hello")
+
+    def test_to_upper_case(self):
+        s = JString("hello")
+        assert s.toUpperCase().toCharArray() == list("HELLO")
