@@ -218,3 +218,21 @@ Conforme as regras de GCS, a utilização de IA não exime o desenvolvedor da re
 * **Prompt Representativo:**
   > "Implemente max(float, float), min(float, float) e sum(float, float) para JFloat, fiéis ao contrato Java."
 * **Observação:** Métodos triviais; validei max(1.5, 2.5)==2.5, min(1.5, 2.5)==1.5 e sum(1.5, 2.5)==4.0.
+
+### Módulo: `JString` - Método: `codePointAt, codePointBefore, codePointCount`
+* **Data:** 21/06/2026
+* **Desenvolvedor Responsável:** @JhonnPA
+* **Métodos Implementados/Auxiliados:** `JString.codePointAt`, `JString.codePointBefore`, `JString.codePointCount`
+* **Ferramenta Utilizada:** `Claude (Anthropic)`
+* **Prompt Representativo:**
+  > "Implemente codePointAt(), codePointBefore() e codePointCount() para JString usando ord() do Python, documentando que Python usa UTF-32 sem surrogate pairs."
+* **Observação:** Validei codePointAt(0) para ASCII e para caractere Unicode acima de U+FFFF. Confirmei que codePointCount retorna endIndex - beginIndex para strings sem surrogate pairs.
+
+### Módulo: `JString` - Método: `offsetByCodePoints, getChars, getBytes`
+* **Data:** 21/06/2026
+* **Desenvolvedor Responsável:** @JhonnPA
+* **Métodos Implementados/Auxiliados:** `JString.offsetByCodePoints`, `JString.getChars`, `JString.getBytes`
+* **Ferramenta Utilizada:** `Claude (Anthropic)`
+* **Prompt Representativo:**
+  > "Implemente offsetByCodePoints(), getChars() aceitando list como char[], e getBytes() unificando as duas sobrecargas via charsetName=None."
+* **Observação:** Validei getBytes() com UTF-8 e charset inválido lançando LookupError. Confirmei getChars modificando a lista in-place corretamente.
