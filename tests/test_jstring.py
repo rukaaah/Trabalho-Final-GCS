@@ -86,6 +86,33 @@ class TestJStringSplit:
         a = JString("abc")
         b = JString("abc")
         assert a.intern() == b.intern()
+
+class TestJStringConstrutorCharArray:
+    def test_construtor_com_char_array_completo(self):
+        s = JString(['o', 'l', 'a'])
+        assert s.length() == 3
+
+    def test_construtor_com_char_array_offset_count(self):
+        s = JString(['o', 'l', 'a', 'm', 'u', 'n', 'd', 'o'], 3, 5)
+        assert s.toCharArray() == ['m', 'u', 'n', 'd', 'o']
+
+    def test_construtor_com_bytes(self):
+        s = JString(b'abc')
+        assert s.length() == 3
+
+class TestJStringConstrutorBytesOffset:
+    def test_construtor_com_bytes_offset_length(self):
+        s = JString(b'helloworld', 5, 5)
+        assert s.toCharArray() == ['w', 'o', 'r', 'l', 'd']
+
+    def test_construtor_com_bytes_e_charset(self):
+        s = JString(b'abc', "UTF-8")
+        assert s.length() == 3
+
+    def test_construtor_com_code_points(self):
+        s = JString([97, 98, 99], 0, 3)
+        assert s.toCharArray() == ['a', 'b', 'c']
+
 class TestJStringIndexOfChar:
     def test_index_of_char(self):
         s = JString("hello")
@@ -179,6 +206,29 @@ class TestJStringRegionMatches:
         a = JString("hello world")
         b = JString("world")
         assert a.regionMatches(6, b, 0, 5) is True
+
+class TestJStringValueOf:
+    def test_value_of_int(self):
+        assert JString.valueOf(42).toCharArray() == list("42")
+
+    def test_value_of_bool(self):
+        assert JString.valueOf(True).toCharArray() == list("true")
+
+    def test_value_of_char_array(self):
+        assert JString.valueOf(['a', 'b', 'c']).toCharArray() == ['a', 'b', 'c']
+
+class TestJStringCopyValueOfEFormat:
+    def test_copy_value_of(self):
+        assert JString.copyValueOf(['x', 'y', 'z']).toCharArray() == ['x', 'y', 'z']
+
+    def test_format_simples(self):
+        resultado = JString.format("%s tem %d anos", "Ana", 30)
+        assert resultado.toCharArray() == list("Ana tem 30 anos")
+
+    def test_join(self):
+        partes = [JString("a"), JString("b"), JString("c")]
+        resultado = JString.join(JString(","), *partes)
+        assert resultado.toCharArray() == list("a,b,c")
 
 class TestJStringSubSequenceECase:
     def test_sub_sequence(self):

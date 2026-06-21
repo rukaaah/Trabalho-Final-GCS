@@ -219,6 +219,15 @@ Conforme as regras de GCS, a utilização de IA não exime o desenvolvedor da re
   > "Implemente max(float, float), min(float, float) e sum(float, float) para JFloat, fiéis ao contrato Java."
 * **Observação:** Métodos triviais; validei max(1.5, 2.5)==2.5, min(1.5, 2.5)==1.5 e sum(1.5, 2.5)==4.0.
 
+### Módulo: JString - Construtores de Arrays e Decodificação (#53)
+
+- **Data:** 21/06/2026
+- **Desenvolvedor Responsável:** @GabrielMattosA
+- **Métodos Implementados/Auxiliados:** `JString.__init__` (Fatiamentos e Decodificações Dinâmicas)
+- **Ferramenta Utilizada:** Gemini
+- **Prompt Representativo:**
+  "Como gerenciar múltiplos construtores do Java em um único __init__ em Python que precisa aceitar opcionalmente arrays de bytes, slices de inteiros de code points e argumentos de charset?"
+
 ### Módulo: `JString` - Método: `indexOf`
 * **Data:** 21/06/2026
 * **Desenvolvedor Responsável:** @JhonnPA
@@ -290,6 +299,15 @@ Conforme as regras de GCS, a utilização de IA não exime o desenvolvedor da re
 * **Prompt Representativo:**
   > "Unifique split(regex) e split(regex, limit) com limit=0 removendo trailing empty strings (comportamento Java), limit<0 preservando e limit>0 limitando partes. Implemente intern() como stub retornando self."
 * **Observação:** Validei split com limit=0 removendo vazios do final, limit=2 limitando partes e limit=-1 preservando vazios. Confirmei intern() retornando self.
+
+### Módulo: `JString` - Métodos: `Utilitários Estáticos`
+* **Data:** 21/06/2026
+* **Desenvolvedor Responsável:** @rukaaah
+* **Métodos Implementados/Auxiliados:** `valueOf`, `copyValueOf`, `format`, `join`
+* **Ferramenta Utilizada:** Gemini
+* **Prompt Representativo:**
+  > "Como unificar as 9 sobrecargas do método estático String.valueOf do Java em Python sem violar o linter (F811), garantindo os retornos específicos para arrays de char e booleanos (true/false minúsculos)? Como adaptar o String.format e o String.join de forma idiomática utilizando as estruturas dinâmicas do Python (*args)?"
+
 ### Módulo: `JString` - Métodos: `Transformação e Formatação`
 * **Data:** 21/06/2026
 * **Desenvolvedor Responsável:** @rukaaah

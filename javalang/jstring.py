@@ -20,13 +20,54 @@ class JString:
     # ==========================================
     # NÚCLEO BASE E CONSTRUTORES (Issue 1 e 2)
     # ==========================================
-    def __init__(self, original: object = ""):
-        # TODO (Issue 2): Expandir construtor para lidar com byte[], char[], int[] (CodePoints) e StringBuilder
-        if isinstance(original, JString):
-            self._valor = str(getattr(original, '_valor'))
-        else:
-            self._valor = str(original)
+    def __init__(self, *args):
+        if not args:
+            self._valor = ""
+            return
 
+        primeiro = args[0]
+
+        # Suporte da Issue 1 (Núcleo Base)
+        if isinstance(primeiro, JString):
+            self._valor = str(getattr(primeiro, '_valor'))
+            return
+
+        # Suporte da Issue 2: byte[] com slices e charsets
+        if isinstance(primeiro, (bytes, bytearray)):
+            if len(args) == 2 and isinstance(args[1], str):
+                charset = args[1].lower()
+                self._valor = primeiro.decode(charset)
+            elif len(args) == 3 and isinstance(args[1], int) and isinstance(args[2], int):
+                offset, length = args[1], args[2]
+                self._valor = primeiro[offset:offset+length].decode('utf-8')
+            else:
+                self._valor = primeiro.decode('utf-8')
+            return
+
+        # Suporte da Issue 2: char[] e char[] com offset/count
+        if isinstance(primeiro, list):
+            if len(args) == 3 and isinstance(args[1], int) and isinstance(args[2], int):
+                offset, count = args[1], args[2]
+                lista_fatiada = primeiro[offset:offset+count]
+            else:
+                lista_fatiada = primeiro
+
+            # Diferencia Code Points usando o primeiro elemento
+            if lista_fatiada and isinstance(lista_fatiada[0], int):
+                self._valor = "".join(chr(cp) for cp in lista_fatiada)
+            else:
+                self._valor = "".join(str(ch) for ch in lista_fatiada)
+            return
+
+        # Suporte da Issue 2: StringBuilder
+        # Em Python, não implementaremos a classe StringBuilder separada. 
+        # Lançamos NotImplementedError conforme acordado na Issue e documentado na ADR.
+        if type(primeiro).__name__ == "StringBuilder":
+            raise NotImplementedError("Conversão direta de StringBuilder não suportada em Python. Use concatenação ou .join().")
+
+        # Fallback padrão
+        self._valor = str(primeiro)
+        
     def length(self) -> int:
         return len(self._valor)
     
@@ -49,7 +90,7 @@ class JString:
         if h >= 0x80000000:
             h -= 0x100000000
         return h
-
+    
     # ==========================================
     # COMPARAÇÕES E IGUALDADE (Issue 3)
     # (Ex: equals, compareTo, regionMatches)
@@ -302,4 +343,49 @@ class JString:
     # UTILITÁRIOS ESTÁTICOS (Issue 9)
     # (Ex: valueOf, format, join)
     # ==========================================
-    # TODO: Implementações da Issue 9 aqui
+    @staticmethod
+    def valueOf(value) -> 'JString':
+        # Unifica todas as 9 sobrecargas de valueOf do Java (primitivos, Object e char[])
+        if value is None:
+            return JString("null")
+        if isinstance(value, bool):
+            # Java retorna "true"/"false" em minúsculas. Python retorna "True"/"False"
+            return JString("true" if value else "false")
+        if isinstance(value, list):
+            # Simula char[]: junta os elementos da lista numa única string
+            return JString("".join(str(c) for c in value))
+        return JString(str(value))
+
+    @staticmethod
+    def copyValueOf(data: list) -> 'JString':
+        # No Java, copyValueOf(char[]) é semanticamente idêntico a valueOf(char[])
+        return JString.valueOf(data)
+
+    @staticmethod
+    def format(format_str, *args) -> 'JString':
+        # Usa o operador '%' nativo do Python como análogo ao formatador do Java
+        f_str = format_str._valor if isinstance(format_str, JString) else str(format_str)
+        
+        # Desempacota args caso seja passada uma lista/tupla única
+        if len(args) == 1 and isinstance(args[0], (list, tuple)):
+            args_list = args[0]
+        else:
+            args_list = args
+            
+        args_formatados = tuple(
+            a._valor if isinstance(a, JString) else a for a in args_list
+        )
+        return JString(f_str % args_formatados)
+
+    @staticmethod
+    def join(delimiter, *elements) -> 'JString':
+        # Unifica join(CharSequence, CharSequence...) e join(CharSequence, Iterable)
+        delim = delimiter._valor if isinstance(delimiter, JString) else str(delimiter)
+        
+        if len(elements) == 1 and isinstance(elements[0], (list, tuple, set)):
+            lista_elementos = elements[0]
+        else:
+            lista_elementos = elements
+            
+        str_elements = [el._valor if isinstance(el, JString) else str(el) for el in lista_elementos]
+        return JString(delim.join(str_elements))
