@@ -261,3 +261,37 @@ class TestJStringReplaceSequence:
     def test_replace_char_sequence(self):
         s = JString("hello world")
         assert s.replace(JString("world"), JString("there")).toCharArray() == list("hello there")
+
+class TestJStringLastIndexOfEContains:
+    def test_last_index_of_string_from_index(self):
+        s = JString("abcabc")
+        other = JString("abc")
+        assert s.lastIndexOf(other, 2) == 0
+
+    def test_contains_verdadeiro(self):
+        s = JString("hello world")
+        other = JString("world")
+        assert s.contains(other) is True
+
+    def test_contains_falso(self):
+        s = JString("hello world")
+        other = JString("xyz")
+        assert s.contains(other) is False
+
+class TestJStringStartsEndsWith:
+    def test_starts_with(self):
+        s = JString("hello world")
+        assert s.startsWith(JString("hello")) is True
+
+    def test_starts_with_offset(self):
+        s = JString("hello world")
+        assert s.startsWith(JString("world"), 6) is True
+
+    def test_ends_with(self):
+        s = JString("hello world")
+        assert s.endsWith(JString("world")) is True
+
+class TestJStringSubstring:
+    def test_substring_um_argumento(self):
+        s = JString("hello world")
+        assert s.substring(6).toCharArray() == list("world")
