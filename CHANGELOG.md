@@ -9,13 +9,28 @@ e este projeto adere ao [Versionamento Semântico](https://semver.org/lang/pt-BR
 *Equipe: Aqui ficarão as mudanças que a equipe está desenvolvendo na branch main antes de fechar a próxima tag.*
 
 ### Adicionado
-- Integração da lógica de testes iniciais.
-- Documentos de ADRs (Decisões Arquiteturais).
+- Setup das issues para implementação base da classe `JFloat` (Baseline v0.3).
+- Setup das issues para o núcleo de `JString` (Baseline v0.4).
+- Resolução de conflito mapeada na Issue #65.
 
 ---
 
-## [0.1.0] - Baseline Functional - 2026-06-XX
-*(Nota: Substitua os "XX" pela data em que a tag v0.1-functional for criada)*
+## [0.2.0] - Baseline Allocated JInteger - 2026-06-20
+
+### Adicionado
+- Implementação completa da classe `JInteger` (~40 métodos) em conformidade com o contrato Java SE 8.
+- Extensa suíte de testes em `test_jinteger.py` cobrindo limites de 32-bits, operações bitwise, parsing e formatação em múltiplas bases.
+- Simulação algorítmica do *IntegerCache* de -128 a 127 nativo da JVM.
+- Relatório de Status v0.2 (`docs/relatorios/status-v0.2.md`).
+
+### Modificado
+- Ampla atualização do `docs/adaptacoes.md` detalhando decisões sobre bitmasks (`& 0xFFFFFFFF`), ausência de sobrecarga de métodos e uso de precisão arbitrária do Python.
+- Atualização do `README.md` com a Ata de Resolução de Conflito de Merge para auditoria (Issue #62).
+- Adição massiva de logs de *prompts* justificados e métodos implementados no arquivo `docs/uso-de-ia.md`.
+
+---
+
+## [0.1.0] - Baseline Functional - 2026-06-16
 
 ### Adicionado
 - Estrutura base de diretórios e arquivos de configuração (`pyproject.toml`, `.gitignore`).
@@ -24,9 +39,5 @@ e este projeto adere ao [Versionamento Semântico](https://semver.org/lang/pt-BR
 - Templates de Issues (`feature`, `bug`, `decision`) e de Pull Request.
 - Arquivo `docs/itens-de-configuracao.md` catalogando os artefatos base.
 - Arquivo `docs/uso-de-ia.md` preparado para registro de prompts de Inteligência Artificial.
-
-### Modificado
-- N/A
-
-### Removido
-- N/A
+- Decisões Arquiteturais base criadas: ADR 0001 a 0004.
+- Relatório de Status v0.1 (`docs/relatorios/status-v0.1.md`).
