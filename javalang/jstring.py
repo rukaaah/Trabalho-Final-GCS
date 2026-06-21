@@ -261,6 +261,18 @@ class JString:
         suf = suffix._valor if isinstance(suffix, JString) else str(suffix)
         return self._valor.endswith(suf)
 
+    def substring(self, beginIndex: int, endIndex: int = None) -> 'JString':
+        # unifica substring(int beginIndex) e substring(int beginIndex, int endIndex)
+        if endIndex is None:
+            endIndex = len(self._valor)
+            
+        # java: lanca IndexOutOfBoundsException se os limites forem invalidos
+        if beginIndex < 0 or endIndex > len(self._valor) or beginIndex > endIndex:
+            raise IndexError("String index out of range")
+            
+        return JString(self._valor[beginIndex:endIndex])
+
+
     # ==========================================
     # TRANSFORMAÇÕES E FORMATAÇÃO (Issue 7)
     # (Ex: toLowerCase, trim, replace, concat)

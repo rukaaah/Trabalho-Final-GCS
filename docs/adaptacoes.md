@@ -225,3 +225,11 @@ Aritmética Unsigned
 **Assinatura do Método:** `String.trim()`
 * **Motivo da não-implementação:** O método original do Java realiza um corte baseado exclusivamente na tabela ASCII, removendo qualquer caractere cujo código seja menor ou igual a `\u0020` (espaço). Em Python, não temos uma função nativa que faça exatamente esse corte por limite de código ASCII sem a necessidade de varrer a string inteira manualmente com regex ou loops.
 * **Alternativa Proposta:** Optamos por utilizar a função nativa `str.strip()` do Python. Embora o `strip()` remova todos os caracteres considerados como "espaço em branco" pelo Unicode (o que é uma gama ligeiramente diferente e mais ampla do que o `<= \u0020` do Java), ele atende ao propósito semântico de limpeza de strings de forma eficiente e idiomática na linguagem.
+
+**Assinatura do Método:** `String.substring(...)` e `String.startsWith(...)` (Sobrecargas unificadas)
+* **Motivo da não-implementação:** O Python não possui suporte a sobrecarga de métodos (Overloading). Manter múltiplas assinaturas com o mesmo nome causaria a sobrescrita do método e violaria as regras do linter (`Ruff` - F811).
+* **Alternativa Proposta:** Condensamos as múltiplas assinaturas do Java em um único método na classe `JString`, utilizando parâmetros opcionais (`endIndex=None` e `toffset=0`) para rotear a lógica internamente sem quebrar o contrato da API esperada pelo usuário.
+
+**Assinatura do Método:** `String.substring(int beginIndex, int endIndex)`
+* **Motivo da não-implementação:** A JVM possui a exceção explícita `StringIndexOutOfBoundsException` e a lança rigorosamente sempre que um limite de fatiamento é violado. O slicing nativo do Python (ex: `string[a:b]`) é tolerante a falhas e não lança exceções se os índices ultrapassarem os limites da coleção.
+* **Alternativa Proposta:** Para manter a fidelidade ao contrato de falha rápida (fail-fast) do Java, implementamos validações manuais antes do slicing (`if beginIndex < 0 or endIndex > len...`) e mapeamos a exceção do Java para a exceção idiomática mais próxima do Python (`IndexError`).
