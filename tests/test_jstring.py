@@ -67,3 +67,16 @@ class TestJStringValueOf:
 
     def test_value_of_char_array(self):
         assert JString.valueOf(['a', 'b', 'c']).toCharArray() == ['a', 'b', 'c']
+
+class TestJStringCopyValueOfEFormat:
+    def test_copy_value_of(self):
+        assert JString.copyValueOf(['x', 'y', 'z']).toCharArray() == ['x', 'y', 'z']
+
+    def test_format_simples(self):
+        resultado = JString.format("%s tem %d anos", "Ana", 30)
+        assert resultado.toCharArray() == list("Ana tem 30 anos")
+
+    def test_join(self):
+        partes = [JString("a"), JString("b"), JString("c")]
+        resultado = JString.join(JString(","), *partes)
+        assert resultado.toCharArray() == list("a,b,c")
