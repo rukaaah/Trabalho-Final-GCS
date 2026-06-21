@@ -38,6 +38,18 @@ class JString:
             raise IndexError(f"String index out of range: {index}")
         return self._valor[index]
     
+    def toCharArray(self) -> list:
+        return list(self._valor)
+
+    def hashCode(self) -> int:
+        h = 0
+        for char in self._valor:
+            h = (31 * h + ord(char)) & 0xFFFFFFFF
+            
+        if h >= 0x80000000:
+            h -= 0x100000000
+        return h
+    
     def __init__(self):
         # TODO: Implementar múltiplas formas de construção
         pass

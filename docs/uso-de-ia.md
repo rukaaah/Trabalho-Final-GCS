@@ -157,3 +157,12 @@ Conforme as regras de GCS, a utilização de IA não exime o desenvolvedor da re
 * **Prompt Representativo:**
   > "Implemente decode(String) suportando sinal opcional e prefixos 0x/0X/# (hex) e zero líder (octal), retornando via valueOf para herdar o cache."
 * **Observação:** Conferi decode("0x1A")==26, decode("-0x1A")==-26, decode("#1A")==26 e decode("010")==8 contra o javac.
+
+### Módulo: JString - Núcleo Base (#52)
+
+- **Data:** 20/06/2026
+- **Desenvolvedor Responsável:** @GabrielMattosA
+- **Métodos Implementados/Auxiliados:** `JString.__init__`, `JString.charAt`, `JString.hashCode`
+- **Ferramenta Utilizada:** Gemini
+- **Prompt Representativo:**
+  "Como simular exatamente o algoritmo de hashCode da classe String do Java 8 em Python, garantindo que o overflow de inteiros de 32 bits assinalados funcione da mesma forma?"
