@@ -44,38 +44,14 @@ Para guiar as decisões da equipe, as seguintes restrições intrínsecas já es
 **Assinatura do Método:** `public static String toBinaryString(int i)` / `public static String toOctalString(int i)` / `public static String toHexString(int i)`
 * **Motivo da não-implementação:** `bin()`/`oct()`/`hex()` do Python incluem prefixos (`0b`/`0o`/`0x`) que o Java não usa, e convertem o valor **com sinal**, enquanto o Java trata o `int` como padrão de bits **sem sinal** de 32 bits (ex.: `toBinaryString(-1)` produz 32 uns, não `"-1"`).
 * **Alternativa Proposta:** mascaramento com `& 0xFFFFFFFF` antes da conversão (válido porque o `int` do Python representa negativos em complemento de dois "infinito"), com o prefixo removido via slice `[2:]`.
-## JInteger (java.lang.Integer, Java SE 8)
-### Constantes de limite e tamanho
-Assinatura Java:
 
-                public static final int MAX_VALUE = 2147483647
-                public static final int MIN_VALUE =
-                -2147483648
-                public static final int SIZE = 32
-                public static final int BYTES = 4
-Situação: implementadas como constantes de classe, valores idênticos ao Java.
-Adaptação: o int do Python é de precisão arbitrária e não sofre overflow. As
-constantes são informativas e não são aplicadas
-automaticamente — JInteger não impõe a faixa de 32 bits.
+**Assinatura do Método:** `public static final Class<Integer> TYPE`
+* **Motivo da não-implementação:** `TYPE` referencia o objeto `Class` do primitivo `int`. Python não possui tipos primitivos nem um `Class<T>` equivalente para eles.
+* **Alternativa Proposta:** `TYPE = int` (o builtin), análogo idiomático que aponta para o tipo usado internamente pela classe. Não é um `Class<Integer>`; é a aproximação possível na linguagem.
 
-### TYPE
-Assinatura Java: public static final Class<Integer> TYPE
-Motivo da não-implementação: TYPE referencia o objeto Class do primitivo int.
-Python não possui tipos primitivos nem um Class<T> equivalente para eles.
-Alternativa: TYPE = int, análogo idiomático que aponta para o tipo
-usado internamente pela classe. Não é um Class<Integer>; é a aproximação
-possível na linguagem.
-
-### Construtores
-Assinatura Java:
-
-            public Integer(int value)
-            public Integer(String s) throws NumberFormatException
-Situação: Integer(int value) implementado, armazenando o valor recebido. A faixa
-de 32 bits não é imposta — o int do Python é de precisão arbitrária.
-Adaptação: Python não tem sobrecarga de métodos; os dois construtores não podem
-coexistir como assinaturas distintas. Integer(String s) será unificado no mesmo
-__init__ via dispatch por tipo na issue de parsing, delegando a parseInt.
+**Assinatura do Método:** `public Integer(int value)` / `public Integer(String s) throws NumberFormatException`
+* **Motivo da não-implementação:** Python não suporta sobrecarga de métodos; as duas assinaturas não podem coexistir como construtores distintos com o mesmo nome.
+* **Alternativa Proposta:** `__init__` único com dispatch por tipo (`isinstance(value, str)`), delegando a conversão de string para `int(value)`. A faixa de 32 bits não é imposta — decisão da equipe, já que o `int` do Python é de precisão arbitrária.
 
 ### Contagem e Análise de Bits
 
@@ -136,8 +112,21 @@ Aritmética Unsigned
 - **Motivo da não-implementação:** O Python gerencia inteiros com tamanho dinâmico na memória. Operações de reversão de bits estruturais ou inversão de ordem de bytes (*endianness*) exigem delimitação estrita de palavra de máquina (32 bits), caso contrário, os bits seriam invertidos considerando tamanhos indefinidos ou preservando o sinal incorretamente.
 - **Alternativa Proposta:** Para o método `reverse`, extraímos a string binária de 32 bits formatada com `zfill(32)`, invertemos a cadeia de caracteres nativamente e reconfiguramos o valor numérico. Para o `reverseBytes`, aplicamos máscaras de segmentação byte a byte (`0xFF`, `0xFF00`, etc.) combinadas com bit-shifts de reposicionamento simétrico. Em ambos os casos, validamos o bit `0x80000000` para restabelecer o sinal negativo em formato signed de 32 bits.
 
+**Assinatura do Método:** `public static Integer valueOf(int i)` / `public static Integer valueOf(String s)` / `public static Integer valueOf(String s, int radix)`
+* **Motivo da não-implementação:** Python não suporta sobrecarga; as três assinaturas não podem coexistir como métodos estáticos distintos com o mesmo nome.
+* **Alternativa Proposta:** método único `valueOf(value, radix=None)` com dispatch por tipo. O cache do Java (`IntegerCache`, -128 a 127) foi simulado via dicionário no nível do módulo — `JInteger.valueOf(n) is JInteger.valueOf(n)` é `True` para `n` nessa faixa.
+
+**Assinatura do Método:** `public static Integer decode(String nm)`
+* **Motivo da não-implementação:** a gramática do Java rejeita convenções que o `int()` nativo do Python aceita (espaços, `_`, prefixos redundantes).
+* **Alternativa Proposta:** implementado com helper de parsing estrito (`_parseInt_java`), suportando `0x`/`0X`/`#` (hex), zero líder (octal) e decimal. Retorna via `valueOf`, herdando o cache.
+
 ### Módulo JFloat
 *(Nenhuma adaptação registrada até o momento)*
+### Construtores e Conversões de JFloat (#37)
+
+- **Assinatura do Método:** `Float(value)`, `byteValue()`, `shortValue()` e `intValue()`
+- **Motivo da não-implementação:** O Python gerencia valores `float` nativos como dupla precisão de 64 bits (equivalente ao `double` do Java) e carece de suporte nativo a tipos de capacidade reduzida como `byte` (8-bit) e `short` (16-bit), além de não realizar sobrecarga de construtores.
+- **Alternativa Proposta:** Desenvolvemos uma inicialização dinâmica baseada em checagem de tipos (`isinstance`). Emulamos o truncamento de ponto flutuante e o estouro posicionado de tipos de dados menores através de casts explicitados combinados a operações de máscaras bitwise (`& 0xFF`, `& 0xFFFF`, `& 0xFFFFFFFF`) seguidas de checagens de bit de sinal mais significativo para replicar fielmente o comportamento de estouro do Java SE 8.
 
 ### Módulo JString
 *(Nenhuma adaptação registrada até o momento)*

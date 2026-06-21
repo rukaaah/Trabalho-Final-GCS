@@ -130,3 +130,30 @@ Conforme as regras de GCS, a utilização de IA não exime o desenvolvedor da re
 - **Ferramenta Utilizada:** Gemini
 - **Prompt Representativo:**
   "Como implementar os métodos de espelhamento binário reverse e inversão de endianness reverseBytes do Java 8 em Python garantindo o estouro para signed int de 32 bits?"
+
+  ### Módulo: JFloat - Construtores e Conversões Primitivas (#37)
+
+- **Data:** 19/06/2026
+- **Desenvolvedor Responsável:** @GabrielMattosA
+- **Métodos Implementados/Auxiliados:** `JFloat.__init__`, `JFloat.byteValue`, `JFloat.shortValue`, `JFloat.intValue`
+- **Ferramenta Utilizada:** Gemini
+- **Prompt Representativo:**
+  "Como simular o truncamento de float para inteiros limitados a bytes e shorts em Python respeitando a especificação do Java 8?"
+  
+  ### Módulo: `JInteger` - Método: `valueOf`
+* **Data:** 17/06/2026
+* **Desenvolvedor Responsável:** @seu_usuario
+* **Métodos Implementados/Auxiliados:** `JInteger.valueOf`
+* **Ferramenta Utilizada:** `Claude (Anthropic)`
+* **Prompt Representativo:**
+  > "Unifique valueOf(int), valueOf(String) e valueOf(String, radix) do Java num único método estático em Python, simulando o IntegerCache (-128 a 127) com dicionário."
+* **Observação:** Validei que valueOf(100) is valueOf(100) é True e valueOf(200) is valueOf(200) é False, replicando o IntegerCache do Java.
+
+### Módulo: `JInteger` - Método: `decode`
+* **Data:** 17/06/2026
+* **Desenvolvedor Responsável:** @seu_usuario
+* **Métodos Implementados/Auxiliados:** `JInteger.decode`
+* **Ferramenta Utilizada:** `Claude (Anthropic)`
+* **Prompt Representativo:**
+  > "Implemente decode(String) suportando sinal opcional e prefixos 0x/0X/# (hex) e zero líder (octal), retornando via valueOf para herdar o cache."
+* **Observação:** Conferi decode("0x1A")==26, decode("-0x1A")==-26, decode("#1A")==26 e decode("010")==8 contra o javac.
