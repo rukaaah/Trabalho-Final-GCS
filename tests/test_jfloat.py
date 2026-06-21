@@ -22,6 +22,33 @@ from javalang.jfloat import JFloat
 def test_jfloat_is_nan():
     # TODO: Implementar teste com casos de borda do IEEE 754
     pass
+
+class TestJFloatConstantes:
+    def test_positive_infinity(self):
+        assert JFloat.POSITIVE_INFINITY == math.inf
+
+    def test_negative_infinity(self):
+        assert JFloat.NEGATIVE_INFINITY == -math.inf
+
+    def test_nan_e_nan(self):
+        assert math.isnan(JFloat.NaN)
+
+class TestJFloatIsNaN:
+    def test_is_nan_instancia_com_nan(self):
+        numero = JFloat(float('nan'))
+        assert numero.isNaN() is True
+
+    def test_is_nan_estatico(self):
+        assert JFloat.isNaN(float('nan')) is True
+
+
+class TestJFloatIsInfiniteECompare:
+    def test_is_infinite_instancia(self):
+        numero = JFloat(math.inf)
+        assert numero.isInfinite() is True
+
+    def test_is_finite_valor_normal(self):
+        assert JFloat.isFinite(1.0) is True
 class TestJFloatConstrutores:
     def test_construtor_com_float(self):
         numero = JFloat(3.14)
