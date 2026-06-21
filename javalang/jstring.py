@@ -62,7 +62,25 @@ class JString:
     # (Ex: codePointAt, getBytes, getChars)
     # ==========================================
     # TODO: Implementações da Issue 4 aqui
+    def codePointAt(self, index: int) -> int:
+        # java: retorna o codepoint unicode na posicao index
+        # python: ord() ja retorna codepoint correto sem surrogate pairs
+        if index < 0 or index >= len(self._valor):
+            raise IndexError(f"String index out of range: {index}")
+        return ord(self._valor[index])
 
+    def codePointBefore(self, index: int) -> int:
+        # java: retorna o codepoint unicode antes da posicao index
+        if index < 1 or index > len(self._valor):
+            raise IndexError(f"String index out of range: {index - 1}")
+        return ord(self._valor[index - 1])
+
+    def codePointCount(self, beginIndex: int, endIndex: int) -> int:
+        # java: conta codepoints no intervalo [beginIndex, endIndex)
+        # python: sem surrogate pairs, equivale ao numero de caracteres do slice
+        if beginIndex < 0 or endIndex > len(self._valor) or beginIndex > endIndex:
+            raise IndexError("String index out of range")
+        return endIndex - beginIndex
 
     # ==========================================
     # BUSCA BASE (Issue 5)
