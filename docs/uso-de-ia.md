@@ -315,3 +315,11 @@ Conforme as regras de GCS, a utilização de IA não exime o desenvolvedor da re
 * **Ferramenta Utilizada:** Gemini
 * **Prompt Representativo:**
 > "Como implementar os métodos mutacionais da classe String do Java (subSequence, trim, replace, concat) em Python garantindo a imutabilidade (retornando novas instâncias de JString)? Como unificar as sobrecargas do método replace via tipagem dinâmica para evitar a quebra do linter (Ruff) e qual a justificativa técnica para adaptar o trim() utilizando o strip() nativo do Python?"
+
+### Módulo: `JString` - Métodos: `Extração e Busca Complementar`
+* **Data:** 21/06/2026
+* **Desenvolvedor Responsável:** @rukaaah
+* **Métodos Implementados/Auxiliados:** `contains`, `startsWith`, `endsWith`, `substring`
+* **Ferramenta Utilizada:** Gemini
+* **Prompt Representativo:**
+  > "Como unificar as sobrecargas de substring e startsWith da classe String do Java em Python utilizando parâmetros opcionais (None/0)? Como replicar de forma idiomática as validações de IndexOutOfBoundsException do Java ao fatiar strings no Python para evitar erros de off-by-one?"
