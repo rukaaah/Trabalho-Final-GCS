@@ -79,7 +79,19 @@ class JString:
             else:
                 self._valor = primeiro.decode('utf-8')
             return
+        if isinstance(primeiro, list):
+            if len(args) == 3 and isinstance(args[1], int) and isinstance(args[2], int):
+                offset, count = args[1], args[2]
+                lista_fatiada = primeiro[offset:offset+count]
+            else:
+                lista_fatiada = primeiro
 
+            if lista_fatiada and isinstance(lista_fatiada[0], int):
+                self._valor = "".join(chr(cp) for cp in lista_fatiada)
+            else:
+                self._valor = "".join(str(ch) for ch in lista_fatiada)
+            return
+        
         self._valor = str(primeiro)
     # =========================================================================
     # ISSUE #54: Comparações Lexicográficas e Igualdade
