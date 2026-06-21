@@ -84,3 +84,8 @@ class TestJStringTrimEConcat:
     def test_replace_char(self):
         s = JString("hello")
         assert s.replace('l', 'L').toCharArray() == list("heLLo")
+
+class TestJStringReplaceSequence:
+    def test_replace_char_sequence(self):
+        s = JString("hello world")
+        assert s.replace(JString("world"), JString("there")).toCharArray() == list("hello there")
