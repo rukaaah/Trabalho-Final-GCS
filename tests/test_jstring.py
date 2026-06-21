@@ -58,6 +58,35 @@ class TestJStringHashCode:
         b = JString("abc")
         assert a.hashCode() == b.hashCode()
 
+class TestJStringMatchesEReplace:
+    def test_matches_regex_simples(self):
+        s = JString("abc123")
+        assert s.matches(r"[a-z]+\d+") is True
+
+    def test_replace_first(self):
+        s = JString("aaa")
+        assert s.replaceFirst("a", "b").toCharArray() == list("baa")
+
+    def test_replace_all(self):
+        s = JString("aaa")
+        assert s.replaceAll("a", "b").toCharArray() == list("bbb")
+
+class TestJStringSplit:
+    def test_split_simples(self):
+        s = JString("a,b,c")
+        partes = s.split(",")
+        assert [p.toCharArray() for p in partes] == [['a'], ['b'], ['c']]
+
+    def test_split_com_limit(self):
+        s = JString("a,b,c")
+        partes = s.split(",", 2)
+        assert len(partes) == 2
+
+    def test_intern_mesmo_valor(self):
+        a = JString("abc")
+        b = JString("abc")
+        assert a.intern() == b.intern()
+
 class TestJStringConstrutorCharArray:
     def test_construtor_com_char_array_completo(self):
         s = JString(['o', 'l', 'a'])

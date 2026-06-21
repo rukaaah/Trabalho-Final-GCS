@@ -202,6 +202,14 @@ Aritmética Unsigned
 * **Motivo da não-implementação:** Python não suporta sobrecarga; as duas assinaturas não podem coexistir com o mesmo nome.
 * **Alternativa Proposta:** método único `regionMatches(self, toffset, other, ooffset, len_, ignoreCase=False)` com `ignoreCase=False` como default, cobrindo as duas assinaturas Java.
 
+**Assinatura do Método:** `public String[] split(String regex)` / `public String[] split(String regex, int limit)`
+* **Motivo da não-implementação:** Python não suporta sobrecarga; as duas assinaturas não podem coexistir com o mesmo nome.
+* **Alternativa Proposta:** método único `split(self, regex, limit=0)` usando `re.split` com `maxsplit`. `limit=0` remove strings vazias do final (comportamento padrão Java); `limit<0` preserva; `limit>0` limita o número de partes.
+
+**Assinatura do Método:** `public String intern()`
+* **Motivo da não-implementação:** `intern()` retorna uma referência do pool de strings interno da JVM — otimização de runtime sem equivalente no CPython. `sys.intern()` do Python só funciona com `str` nativo, não com objetos customizados.
+* **Alternativa Proposta:** implementado como stub que retorna `self`. Nenhum comportamento de contrato observável é perdido — o pool de strings é uma otimização interna da JVM, não parte do contrato público testável.
+
 **Assinatura do Método:** `String(StringBuilder builder)`
 * **Motivo da não-implementação:** Decisão de escopo orientada pelas diretrizes da disciplina. As classes utilitárias de mutabilidade `StringBuilder` e `StringBuffer` não foram transpostas para o Python. Como dependemos exclusivamente dos tipos primitivos e do nosso wrapper, o construtor focado na conversão direta deste objeto perde a aplicabilidade.
 * **Alternativa Proposta:** O comportamento de construção dinâmica de textos é alcançado de forma idiomática em Python através do agrupamento em listas (`list`) seguido da junção final utilizando `''.join(lista)`. Na nossa implementação da `JString`, caso um objeto `StringBuilder` seja recebido pelo construtor `__init__`, optamos por lançar de forma explícita um `NotImplementedError` instruindo o usuário a utilizar as alternativas nativas do Python.

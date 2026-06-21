@@ -282,6 +282,24 @@ Conforme as regras de GCS, a utilização de IA não exime o desenvolvedor da re
   > "Implemente compareToIgnoreCase(), contentEquals() aceitando str e JString como análogos de CharSequence, e regionMatches unificando as duas sobrecargas Java via ignoreCase=False como default."
 * **Observação:** Validei regionMatches com toffset negativo, trecho além do tamanho e ignoreCase=True. Conferi contentEquals com JString e str puro.
 
+### Módulo: `JString` - Método: `matches, replaceFirst, replaceAll`
+* **Data:** 21/06/2026
+* **Desenvolvedor Responsável:** @JhonnPA
+* **Métodos Implementados/Auxiliados:** `JString.matches`, `JString.replaceFirst`, `JString.replaceAll`
+* **Ferramenta Utilizada:** `Claude (Anthropic)`
+* **Prompt Representativo:**
+  > "Implemente matches() usando re.fullmatch (correspondência completa, fiel ao Java), replaceFirst() com re.sub count=1 e replaceAll() com re.sub sem limite."
+* **Observação:** Validei matches com regex que bate a string inteira vs parcial, e replaceFirst substituindo só a primeira ocorrência.
+
+### Módulo: `JString` - Método: `split, intern`
+* **Data:** 21/06/2026
+* **Desenvolvedor Responsável:** @JhonnPA
+* **Métodos Implementados/Auxiliados:** `JString.split`, `JString.intern`
+* **Ferramenta Utilizada:** `Claude (Anthropic)`
+* **Prompt Representativo:**
+  > "Unifique split(regex) e split(regex, limit) com limit=0 removendo trailing empty strings (comportamento Java), limit<0 preservando e limit>0 limitando partes. Implemente intern() como stub retornando self."
+* **Observação:** Validei split com limit=0 removendo vazios do final, limit=2 limitando partes e limit=-1 preservando vazios. Confirmei intern() retornando self.
+
 ### Módulo: `JString` - Métodos: `Utilitários Estáticos`
 * **Data:** 21/06/2026
 * **Desenvolvedor Responsável:** @rukaaah
