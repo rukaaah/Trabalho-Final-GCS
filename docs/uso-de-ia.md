@@ -290,3 +290,10 @@ Conforme as regras de GCS, a utilização de IA não exime o desenvolvedor da re
 * **Prompt Representativo:**
   > "Unifique split(regex) e split(regex, limit) com limit=0 removendo trailing empty strings (comportamento Java), limit<0 preservando e limit>0 limitando partes. Implemente intern() como stub retornando self."
 * **Observação:** Validei split com limit=0 removendo vazios do final, limit=2 limitando partes e limit=-1 preservando vazios. Confirmei intern() retornando self.
+### Módulo: `JString` - Métodos: `Transformação e Formatação`
+* **Data:** 21/06/2026
+* **Desenvolvedor Responsável:** @rukaaah
+* **Métodos Implementados/Auxiliados:** `subSequence`, `toLowerCase`, `toUpperCase`, `trim`, `concat`, `replace`
+* **Ferramenta Utilizada:** Gemini
+* **Prompt Representativo:**
+> "Como implementar os métodos mutacionais da classe String do Java (subSequence, trim, replace, concat) em Python garantindo a imutabilidade (retornando novas instâncias de JString)? Como unificar as sobrecargas do método replace via tipagem dinâmica para evitar a quebra do linter (Ruff) e qual a justificativa técnica para adaptar o trim() utilizando o strip() nativo do Python?"
