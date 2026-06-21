@@ -70,3 +70,17 @@ class TestJStringSubSequenceECase:
     def test_to_upper_case(self):
         s = JString("hello")
         assert s.toUpperCase().toCharArray() == list("HELLO")
+
+class TestJStringTrimEConcat:
+    def test_trim_remove_espacos(self):
+        s = JString("  hello  ")
+        assert s.trim().toCharArray() == list("hello")
+
+    def test_concat(self):
+        a = JString("hello")
+        b = JString(" world")
+        assert a.concat(b).toCharArray() == list("hello world")
+
+    def test_replace_char(self):
+        s = JString("hello")
+        assert s.replace('l', 'L').toCharArray() == list("heLLo")
