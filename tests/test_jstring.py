@@ -57,3 +57,19 @@ class TestJStringHashCode:
         a = JString("abc")
         b = JString("abc")
         assert a.hashCode() == b.hashCode()
+
+class TestJStringEquals:
+    def test_equals_mesmo_conteudo(self):
+        a = JString("abc")
+        b = JString("abc")
+        assert a.equals(b) is True
+
+    def test_equals_ignore_case(self):
+        a = JString("ABC")
+        b = JString("abc")
+        assert a.equalsIgnoreCase(b) is True
+
+    def test_content_equals(self):
+        a = JString("abc")
+        b = JString("abc")
+        assert a.contentEquals(b) is True
