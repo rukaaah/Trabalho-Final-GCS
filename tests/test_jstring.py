@@ -52,20 +52,6 @@ class TestJStringTamanhoEAcesso:
     def test_char_at_indice_valido(self):
         s = JString("hello")
         assert s.charAt(1) == 'e'
-
-class TestJStringTamanhoEAcesso:
-    def test_length_string_nao_vazia(self):
-        s = JString("abcde")
-        assert s.length() == 5
-
-    def test_is_empty_string_vazia(self):
-        s = JString("")
-        assert s.isEmpty() is True
-
-    def test_char_at_indice_valido(self):
-        s = JString("hello")
-        assert s.charAt(1) == 'e'
-
 class TestJStringHashCode:
     def test_hash_code_consistente(self):
         a = JString("abc")
