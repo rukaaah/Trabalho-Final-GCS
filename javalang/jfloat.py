@@ -131,14 +131,18 @@ class JFloat:
     # (Ex: isNaN, isInfinite, parseFloat)
     # ==========================================
     @classmethod
-    def isNaN(cls, self_ou_v=None) -> bool:
-        if isinstance(self_ou_v, (int, float)):
-            return math.isnan(self_ou_v)
-        if isinstance(self_ou_v, JFloat):
-            return math.isnan(self_ou_v._valor)
-        return math.isnan(self_ou_v)
+    def isNaN(self, v=None) -> bool:
+        if isinstance(self, (int, float)):
+            return math.isnan(self)
+        if v is not None:
+            return math.isnan(v)
+        return math.isnan(self._valor)
     
-    def isInfinite(self) -> bool:
+    def isInfinite(self, v=None) -> bool:
+        if isinstance(self, (int, float)):
+            return math.isinf(self)
+        if v is not None:
+            return math.isinf(v)
         return math.isinf(self._valor)
     
     @staticmethod
