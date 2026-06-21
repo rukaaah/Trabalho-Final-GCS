@@ -281,3 +281,11 @@ Conforme as regras de GCS, a utilização de IA não exime o desenvolvedor da re
 * **Prompt Representativo:**
   > "Implemente compareToIgnoreCase(), contentEquals() aceitando str e JString como análogos de CharSequence, e regionMatches unificando as duas sobrecargas Java via ignoreCase=False como default."
 * **Observação:** Validei regionMatches com toffset negativo, trecho além do tamanho e ignoreCase=True. Conferi contentEquals com JString e str puro.
+
+### Módulo: `JString` - Métodos: `Transformação e Formatação`
+* **Data:** 21/06/2026
+* **Desenvolvedor Responsável:** @rukaaah
+* **Métodos Implementados/Auxiliados:** `subSequence`, `toLowerCase`, `toUpperCase`, `trim`, `concat`, `replace`
+* **Ferramenta Utilizada:** Gemini
+* **Prompt Representativo:**
+> "Como implementar os métodos mutacionais da classe String do Java (subSequence, trim, replace, concat) em Python garantindo a imutabilidade (retornando novas instâncias de JString)? Como unificar as sobrecargas do método replace via tipagem dinâmica para evitar a quebra do linter (Ruff) e qual a justificativa técnica para adaptar o trim() utilizando o strip() nativo do Python?"
