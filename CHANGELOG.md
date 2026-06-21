@@ -10,17 +10,17 @@ e este projeto adere ao [Versionamento Semântico](https://semver.org/lang/pt-BR
 
 ### Adicionado
 - Setup e fragmentação massiva das issues para o núcleo de `JString` (Issues #52 a #61).
-- Débito técnico pendente da classe `JFloat` para parsing estático de strings (Issue #40).
 
 ---
 
 ## [0.3.0] - Baseline Allocated JFloat - 2026-06-21
 
 ### Adicionado
-- Implementação da classe `JFloat` lidando estritamente com o contrato Java SE 8.
+- Implementação completa da classe `JFloat` lidando estritamente com o contrato Java SE 8.
 - Adição de constantes e métodos de validação de estado IEEE 754 (`isNaN`, `isInfinite`, `isFinite`).
-- Implementação de conversões numéricas (`byteValue`, `shortValue`, `intValue`) utilizando lógica de máscaras e complemento de dois manuais para simular overflow.
-- Operações de Object (`equals`, `hashCode`, `compareTo`) e conversões binárias (`floatToIntBits`) implementadas através do módulo nativo `struct` para garantir emulação de precisão de 32-bits e tratamento de `NaN`.
+- Implementação de conversões numéricas (`byteValue`, `shortValue`, `intValue`, `longValue`, `doubleValue`) utilizando lógica de máscaras e complemento de dois manuais para simular overflow.
+- Operações de Object (`equals`, `hashCode`, `compareTo`) e comparações estáticas (`compare`), além de conversões binárias (`floatToIntBits`), implementadas através do módulo nativo `struct` para garantir emulação de precisão de 32-bits e tratamento de `NaN`.
+- Implementação dos métodos estáticos de parsing e formatação de strings (`parseFloat`, `valueOf`, `toString`, `toHexString`).
 - Suíte de testes `test_jfloat.py` avaliando as limitações matemáticas e coerções primitivas.
 - Relatório de Status v0.3 (`docs/relatorios/status-v0.3.md`).
 

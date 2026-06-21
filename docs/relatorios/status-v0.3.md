@@ -24,6 +24,7 @@ A maior parte do escopo da classe `JFloat` foi construída, com as issues dividi
   * **Issue #37:** `feat: [jfloat]: implementar construtores e conversões para inteiros`
   * **Issue #38:** `feat: [jfloat] implementar conversões numéricas, Object e ordenação`
   * **Issue #39:** `feat: [jfloat] implementar comparações e validações de estado IEEE 754`
+  * **Issue #40:** `feat: [jfloat] implementar parsing de strings, instanciação e formatação`
   * **Issue #41:** `feat: [jfloat] implementar manipulação de bits e aritmética`
   * **Issue #47:** `feat: [Float] Padronização de metódos para implementação`
   * **Issue #65:** `decision: comflito de merge 02` (Mapeamento e resolução de conflito no repositório)
