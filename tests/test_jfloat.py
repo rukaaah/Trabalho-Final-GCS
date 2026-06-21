@@ -49,3 +49,34 @@ class TestJFloatIsInfiniteECompare:
 
     def test_is_finite_valor_normal(self):
         assert JFloat.isFinite(1.0) is True
+class TestJFloatConstrutores:
+    def test_construtor_com_float(self):
+        numero = JFloat(3.14)
+        assert numero is not None
+
+    def test_construtor_guarda_valor_internamente(self):
+        numero = JFloat(1.5)
+        assert getattr(numero, '_valor', None) is not None
+
+    def test_construtor_com_string(self):
+        numero = JFloat("3.14")
+        assert numero is not None
+
+class TestJFloatConversoesParte1:
+    def test_int_value_trunca(self):
+        numero = JFloat(3.9)
+        assert numero.intValue() == 3
+
+    def test_int_value_negativo_trunca(self):
+        numero = JFloat(-3.9)
+        assert numero.intValue() == -3
+
+    def test_byte_value_dentro_da_faixa(self):
+        numero = JFloat(100.7)
+        assert numero.byteValue() == 100
+
+
+class TestJFloatConversoesParte2:
+    def test_short_value_dentro_da_faixa(self):
+        numero = JFloat(1000.5)
+        assert numero.shortValue() == 1000
