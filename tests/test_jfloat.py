@@ -23,6 +23,35 @@ def test_jfloat_is_nan():
     # TODO: Implementar teste com casos de borda do IEEE 754
     pass
 
+class TestJFloatParseFloat:
+    def test_parse_float_decimal(self):
+        assert math.isclose(JFloat.parseFloat("3.14"), 3.14, rel_tol=1e-6)
+
+    def test_parse_float_negativo(self):
+        assert math.isclose(JFloat.parseFloat("-1.5"), -1.5, rel_tol=1e-6)
+
+    def test_parse_float_invalido_lanca_exception(self):
+        import pytest
+        with pytest.raises(ValueError):
+            JFloat.parseFloat("abc")
+
+class TestJFloatValueOf:
+    def test_value_of_float(self):
+        numero = JFloat.valueOf(1.5)
+        assert isinstance(numero, JFloat)
+
+    def test_value_of_string(self):
+        numero = JFloat.valueOf("1.5")
+        assert math.isclose(numero.floatValue(), 1.5, rel_tol=1e-6)
+
+
+class TestJFloatToString:
+    def test_to_string_instancia(self):
+        numero = JFloat(1.5)
+        assert numero.toString() == "1.5"
+
+    def test_to_string_estatico(self):
+        assert JFloat.toString(1.5) == "1.5"
 class TestJFloatAritmetica:
     def test_max(self):
         assert JFloat.max(1.0, 2.0) == 2.0
@@ -132,3 +161,6 @@ class TestJFloatCompareTo:
     def test_compare_to_maior(self):
         assert JFloat(2.0).compareTo(JFloat(1.0)) > 0
 
+class TestJFloatToHexString:
+    def test_to_hex_string_um(self):
+        assert JFloat.toHexString(1.0) == "0x1.0p0"
