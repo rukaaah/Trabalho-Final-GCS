@@ -259,4 +259,49 @@ class JString:
     # UTILITÁRIOS ESTÁTICOS (Issue 9)
     # (Ex: valueOf, format, join)
     # ==========================================
-    # TODO: Implementações da Issue 9 aqui
+    @staticmethod
+    def valueOf(value) -> 'JString':
+        # Unifica todas as 9 sobrecargas de valueOf do Java (primitivos, Object e char[])
+        if value is None:
+            return JString("null")
+        if isinstance(value, bool):
+            # Java retorna "true"/"false" em minúsculas. Python retorna "True"/"False"
+            return JString("true" if value else "false")
+        if isinstance(value, list):
+            # Simula char[]: junta os elementos da lista numa única string
+            return JString("".join(str(c) for c in value))
+        return JString(str(value))
+
+    @staticmethod
+    def copyValueOf(data: list) -> 'JString':
+        # No Java, copyValueOf(char[]) é semanticamente idêntico a valueOf(char[])
+        return JString.valueOf(data)
+
+    @staticmethod
+    def format(format_str, *args) -> 'JString':
+        # Usa o operador '%' nativo do Python como análogo ao formatador do Java
+        f_str = format_str._valor if isinstance(format_str, JString) else str(format_str)
+        
+        # Desempacota args caso seja passada uma lista/tupla única
+        if len(args) == 1 and isinstance(args[0], (list, tuple)):
+            args_list = args[0]
+        else:
+            args_list = args
+            
+        args_formatados = tuple(
+            a._valor if isinstance(a, JString) else a for a in args_list
+        )
+        return JString(f_str % args_formatados)
+
+    @staticmethod
+    def join(delimiter, *elements) -> 'JString':
+        # Unifica join(CharSequence, CharSequence...) e join(CharSequence, Iterable)
+        delim = delimiter._valor if isinstance(delimiter, JString) else str(delimiter)
+        
+        if len(elements) == 1 and isinstance(elements[0], (list, tuple, set)):
+            lista_elementos = elements[0]
+        else:
+            lista_elementos = elements
+            
+        str_elements = [el._valor if isinstance(el, JString) else str(el) for el in lista_elementos]
+        return JString(delim.join(str_elements))

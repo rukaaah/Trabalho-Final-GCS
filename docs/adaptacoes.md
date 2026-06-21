@@ -196,6 +196,14 @@ Aritmética Unsigned
 * **Motivo da não-implementação:** Python não suporta sobrecarga; as duas assinaturas não podem coexistir com o mesmo nome.
 * **Alternativa Proposta:** método único `regionMatches(self, toffset, other, ooffset, len_, ignoreCase=False)` com `ignoreCase=False` como default, cobrindo as duas assinaturas Java.
 
+**Assinatura do Método:** `String.valueOf(...)` (Sobrecargas unificadas)
+* **Motivo da não-implementação:** O Python não possui suporte nativo à sobrecarga de métodos por tipagem de argumentos (Overloading). Criar métodos como `valueOfInt`, `valueOfBoolean` ou `valueOfObject` quebraria a nomenclatura original da API do Java exigida no contrato.
+* **Alternativa Proposta:** Implementamos um único método estático `@staticmethod def valueOf(value)` que resolve o tipo dinamicamente em tempo de execução via `isinstance()`. Garantimos a fidelidade à JVM tratando casos específicos, como a conversão de `bool` (garantindo retorno minúsculo "true"/"false") e a união de arrays (`list` atuando como `char[]`).
+
+**Assinatura do Método:** `String.format(String format, Object... args)`
+* **Motivo da não-implementação:** A sintaxe do formatador interno da JVM (usada na classe `Formatter` do Java) possui especificidades complexas relacionadas a Locale e conversões estritas que diferem do motor interno do Python.
+* **Alternativa Proposta:** Utilizamos o operador nativo de interpolação `%` do Python como mecanismo análogo. O comportamento básico para substituição de strings (`%s`), decimais (`%d`) e pontos flutuantes (`%f`) é mantido, transferindo a responsabilidade da formatação avançada para o motor do interpretador Python.
+
 **Assinatura do Método:** `String.trim()`
 * **Motivo da não-implementação:** O método original do Java realiza um corte baseado exclusivamente na tabela ASCII, removendo qualquer caractere cujo código seja menor ou igual a `\u0020` (espaço). Em Python, não temos uma função nativa que faça exatamente esse corte por limite de código ASCII sem a necessidade de varrer a string inteira manualmente com regex ou loops.
 * **Alternativa Proposta:** Optamos por utilizar a função nativa `str.strip()` do Python. Embora o `strip()` remova todos os caracteres considerados como "espaço em branco" pelo Unicode (o que é uma gama ligeiramente diferente e mais ampla do que o `<= \u0020` do Java), ele atende ao propósito semântico de limpeza de strings de forma eficiente e idiomática na linguagem.
