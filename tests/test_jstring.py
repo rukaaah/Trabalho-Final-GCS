@@ -70,3 +70,18 @@ class TestJStringIndexOfChar:
     def test_index_of_nao_encontrado(self):
         s = JString("hello")
         assert s.indexOf(ord('z')) == -1
+
+class TestJStringIndexOfString:
+    def test_index_of_string(self):
+        s = JString("hello world")
+        other = JString("world")
+        assert s.indexOf(other) == 6
+
+    def test_index_of_string_from_index(self):
+        s = JString("abcabc")
+        other = JString("abc")
+        assert s.indexOf(other, 1) == 3
+
+    def test_last_index_of_char(self):
+        s = JString("hello")
+        assert s.lastIndexOf(ord('l')) == 3
