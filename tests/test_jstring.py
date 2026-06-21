@@ -73,3 +73,16 @@ class TestJStringLastIndexOfEContains:
         s = JString("hello world")
         other = JString("xyz")
         assert s.contains(other) is False
+
+class TestJStringStartsEndsWith:
+    def test_starts_with(self):
+        s = JString("hello world")
+        assert s.startsWith(JString("hello")) is True
+
+    def test_starts_with_offset(self):
+        s = JString("hello world")
+        assert s.startsWith(JString("world"), 6) is True
+
+    def test_ends_with(self):
+        s = JString("hello world")
+        assert s.endsWith(JString("world")) is True
