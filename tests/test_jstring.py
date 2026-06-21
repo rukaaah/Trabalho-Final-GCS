@@ -57,3 +57,13 @@ class TestJStringHashCode:
         a = JString("abc")
         b = JString("abc")
         assert a.hashCode() == b.hashCode()
+
+class TestJStringValueOf:
+    def test_value_of_int(self):
+        assert JString.valueOf(42).toCharArray() == list("42")
+
+    def test_value_of_bool(self):
+        assert JString.valueOf(True).toCharArray() == list("true")
+
+    def test_value_of_char_array(self):
+        assert JString.valueOf(['a', 'b', 'c']).toCharArray() == ['a', 'b', 'c']
