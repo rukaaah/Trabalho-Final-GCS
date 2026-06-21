@@ -257,3 +257,16 @@ class JString:
             a._valor if isinstance(a, JString) else a for a in args_list
         )
         return JString(f_str % args_formatados)
+
+    @staticmethod
+    def join(delimiter, *elements) -> 'JString':
+        # Unifica join(CharSequence, CharSequence...) e join(CharSequence, Iterable)
+        delim = delimiter._valor if isinstance(delimiter, JString) else str(delimiter)
+        
+        if len(elements) == 1 and isinstance(elements[0], (list, tuple, set)):
+            lista_elementos = elements[0]
+        else:
+            lista_elementos = elements
+            
+        str_elements = [el._valor if isinstance(el, JString) else str(el) for el in lista_elementos]
+        return JString(delim.join(str_elements))

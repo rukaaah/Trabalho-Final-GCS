@@ -272,3 +272,11 @@ Conforme as regras de GCS, a utilização de IA não exime o desenvolvedor da re
 * **Prompt Representativo:**
   > "Implemente compareToIgnoreCase(), contentEquals() aceitando str e JString como análogos de CharSequence, e regionMatches unificando as duas sobrecargas Java via ignoreCase=False como default."
 * **Observação:** Validei regionMatches com toffset negativo, trecho além do tamanho e ignoreCase=True. Conferi contentEquals com JString e str puro.
+
+### Módulo: `JString` - Métodos: `Utilitários Estáticos`
+* **Data:** 21/06/2026
+* **Desenvolvedor Responsável:** @rukaaah
+* **Métodos Implementados/Auxiliados:** `valueOf`, `copyValueOf`, `format`, `join`
+* **Ferramenta Utilizada:** Gemini
+* **Prompt Representativo:**
+  > "Como unificar as 9 sobrecargas do método estático String.valueOf do Java em Python sem violar o linter (F811), garantindo os retornos específicos para arrays de char e booleanos (true/false minúsculos)? Como adaptar o String.format e o String.join de forma idiomática utilizando as estruturas dinâmicas do Python (*args)?"

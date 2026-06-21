@@ -195,3 +195,11 @@ Aritmética Unsigned
 **Assinatura do Método:** `public boolean regionMatches(int toffset, String other, int ooffset, int len)` / `public boolean regionMatches(boolean ignoreCase, int toffset, String other, int ooffset, int len)`
 * **Motivo da não-implementação:** Python não suporta sobrecarga; as duas assinaturas não podem coexistir com o mesmo nome.
 * **Alternativa Proposta:** método único `regionMatches(self, toffset, other, ooffset, len_, ignoreCase=False)` com `ignoreCase=False` como default, cobrindo as duas assinaturas Java.
+
+**Assinatura do Método:** `String.valueOf(...)` (Sobrecargas unificadas)
+* **Motivo da não-implementação:** O Python não possui suporte nativo à sobrecarga de métodos por tipagem de argumentos (Overloading). Criar métodos como `valueOfInt`, `valueOfBoolean` ou `valueOfObject` quebraria a nomenclatura original da API do Java exigida no contrato.
+* **Alternativa Proposta:** Implementamos um único método estático `@staticmethod def valueOf(value)` que resolve o tipo dinamicamente em tempo de execução via `isinstance()`. Garantimos a fidelidade à JVM tratando casos específicos, como a conversão de `bool` (garantindo retorno minúsculo "true"/"false") e a união de arrays (`list` atuando como `char[]`).
+
+**Assinatura do Método:** `String.format(String format, Object... args)`
+* **Motivo da não-implementação:** A sintaxe do formatador interno da JVM (usada na classe `Formatter` do Java) possui especificidades complexas relacionadas a Locale e conversões estritas que diferem do motor interno do Python.
+* **Alternativa Proposta:** Utilizamos o operador nativo de interpolação `%` do Python como mecanismo análogo. O comportamento básico para substituição de strings (`%s`), decimais (`%d`) e pontos flutuantes (`%f`) é mantido, transferindo a responsabilidade da formatação avançada para o motor do interpretador Python.
