@@ -19,12 +19,9 @@ Um commit não pode conter mais de 3 métodos de teste.
 """
 
 class JString:
-    def __init__(self, original: object = ""):
-        if isinstance(original, JString):
-            self._valor = str(getattr(original, '_valor'))
-        else:
-            self._valor = str(original)
-
+    #=========================================================================
+    # ISSUE #52: Núcleo Base (Construtores Simples e Acesso)
+    #=========================================================================
     def length(self) -> int:
         return len(self._valor)
     
@@ -48,4 +45,93 @@ class JString:
             h -= 0x100000000
         return h
 
-    # TODO: Implementar métodos de acesso, tamanho, comparação, busca e regex
+    #=========================================================================
+    # ISSUE #53: Construtores de Arrays e Decodificação 
+    #=========================================================================
+    def __init__(self, *args):
+        if not args:
+            self._valor = ""
+            return
+
+        primeiro = args[0]
+
+        # Suporte da Issue #52 (Núcleo Base)
+        if isinstance(primeiro, JString):
+            self._valor = primeiro._valor
+            return
+
+        if isinstance(primeiro, list):
+            if len(args) == 3 and isinstance(args[1], int) and isinstance(args[2], int):
+                offset, count = args[1], args[2]
+                lista_fatiada = primeiro[offset:offset+count]
+            else:
+                lista_fatiada = primeiro
+
+            self._valor = "".join(str(ch) for ch in lista_fatiada)
+            return
+        if isinstance(primeiro, (bytes, bytearray)):
+            if len(args) == 2 and isinstance(args[1], str):
+                charset = args[1].lower()
+                self._valor = primeiro.decode(charset)
+            elif len(args) == 3 and isinstance(args[1], int) and isinstance(args[2], int):
+                offset, length = args[1], args[2]
+                self._valor = primeiro[offset:offset+length].decode('utf-8')
+            else:
+                self._valor = primeiro.decode('utf-8')
+            return
+        if isinstance(primeiro, list):
+            if len(args) == 3 and isinstance(args[1], int) and isinstance(args[2], int):
+                offset, count = args[1], args[2]
+                lista_fatiada = primeiro[offset:offset+count]
+            else:
+                lista_fatiada = primeiro
+
+            if lista_fatiada and isinstance(lista_fatiada[0], int):
+                self._valor = "".join(chr(cp) for cp in lista_fatiada)
+            else:
+                self._valor = "".join(str(ch) for ch in lista_fatiada)
+            return
+        
+        self._valor = str(primeiro)
+
+    #=========================================================================
+    # ISSUE #54: Comparações Lexicográficas e Igualdade
+    # (Ex: equals, equalsIgnoreCase, compareTo, compareToIgnoreCase, regionMatches)
+    #=========================================================================
+    pass
+
+    #=========================================================================
+    # ISSUE #55: Tratamento de Unicode e Codificação
+    # (Ex: codePointAt, codePointBefore, codePointCount, offsetByCodePoints, getBytes)
+    #=========================================================================
+    pass
+
+    #=========================================================================
+    # ISSUE #56: Busca Base (indexOf e lastIndexOf Parte 1)
+    # (Ex: indexOf, lastIndexOf com caracteres e substrings básicos)
+    #=========================================================================
+    pass
+
+    #=========================================================================
+    # ISSUE #58: Extração (Substring) e Busca Complementar
+    # (Ex: substring, subSequence, startsWith, endsWith, contains)
+    #=========================================================================
+    pass
+
+    #=========================================================================
+    # ISSUE #59: Transformações e Formatação Base
+    # (Ex: concat, replace, toLowerCase, toUpperCase, trim)
+    #=========================================================================
+    pass
+
+    #=========================================================================
+    # ISSUE #60: Regex, Splits e Controle Interno
+    # (Ex: matches, replaceFirst, replaceAll, split, join, intern)
+    #=========================================================================
+    pass
+
+    #=========================================================================
+    # ISSUE #61: Utilitários Estáticos (valueOf e format)
+    # (Ex: valueOf com primitivos/objetos, copyValueOf, format)
+    #=========================================================================
+    pass
