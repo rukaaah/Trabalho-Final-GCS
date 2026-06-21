@@ -119,7 +119,51 @@ class JString:
     # (Ex: codePointAt, getBytes, getChars)
     # ==========================================
     # TODO: Implementações da Issue 4 aqui
+    def codePointAt(self, index: int) -> int:
+        # java: retorna o codepoint unicode na posicao index
+        # python: ord() ja retorna codepoint correto sem surrogate pairs
+        if index < 0 or index >= len(self._valor):
+            raise IndexError(f"String index out of range: {index}")
+        return ord(self._valor[index])
 
+    def codePointBefore(self, index: int) -> int:
+        # java: retorna o codepoint unicode antes da posicao index
+        if index < 1 or index > len(self._valor):
+            raise IndexError(f"String index out of range: {index - 1}")
+        return ord(self._valor[index - 1])
+
+    def codePointCount(self, beginIndex: int, endIndex: int) -> int:
+        # java: conta codepoints no intervalo [beginIndex, endIndex)
+        # python: sem surrogate pairs, equivale ao numero de caracteres do slice
+        if beginIndex < 0 or endIndex > len(self._valor) or beginIndex > endIndex:
+            raise IndexError("String index out of range")
+        return endIndex - beginIndex
+    
+    def offsetByCodePoints(self, index: int, codePointOffset: int) -> int:
+        # java: retorna o indice deslocado por codePointOffset codepoints a partir de index
+        # python: sem surrogate pairs, deslocamento equivale a soma direta de indices
+        resultado = index + codePointOffset
+        if resultado < 0 or resultado > len(self._valor):
+            raise IndexError("String index out of range")
+        return resultado
+
+    def getChars(self, srcBegin: int, srcEnd: int, dst: list, dstBegin: int) -> None:
+        # java: copia chars de [srcBegin, srcEnd) para dst a partir de dstBegin
+        # python: dst deve ser uma list mutavel (analogo ao char[] do java)
+        if srcBegin < 0 or srcEnd > len(self._valor) or srcBegin > srcEnd:
+            raise IndexError("String index out of range")
+        for i, ch in enumerate(self._valor[srcBegin:srcEnd]):
+            dst[dstBegin + i] = ch
+
+    def getBytes(self, charsetName: str = None) -> bytes:
+        # unifica getBytes() e getBytes(String charsetName)
+        # java: UnsupportedEncodingException -> python: LookupError em charset invalido
+        if charsetName is None:
+            return self._valor.encode("utf-8")
+        try:
+            return self._valor.encode(charsetName)
+        except LookupError:
+            raise LookupError(f"Charset nao suportado: '{charsetName}'")
 
     # ==========================================
     # BUSCA BASE (Issue 5)

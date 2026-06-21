@@ -58,6 +58,34 @@ class TestJStringHashCode:
         b = JString("abc")
         assert a.hashCode() == b.hashCode()
 
+class TestJStringCodePoint:
+    def test_code_point_at(self):
+        s = JString("abc")
+        assert s.codePointAt(0) == ord('a')
+
+    def test_code_point_before(self):
+        s = JString("abc")
+        assert s.codePointBefore(1) == ord('a')
+
+    def test_code_point_count(self):
+        s = JString("abc")
+        assert s.codePointCount(0, 3) == 3
+
+class TestJStringOffsetEGetChars:
+    def test_offset_by_code_points(self):
+        s = JString("abc")
+        assert s.offsetByCodePoints(0, 2) == 2
+
+    def test_get_chars(self):
+        s = JString("hello")
+        dst = [' '] * 5
+        s.getChars(0, 5, dst, 0)
+        assert dst == ['h', 'e', 'l', 'l', 'o']
+
+class TestJStringGetBytes:
+    def test_get_bytes_default(self):
+        s = JString("abc")
+        assert s.getBytes() == b'abc'
 class TestJStringEquals:
     def test_equals_mesmo_conteudo(self):
         a = JString("abc")
