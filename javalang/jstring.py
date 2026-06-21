@@ -47,9 +47,5 @@ class JString:
         if h >= 0x80000000:
             h -= 0x100000000
         return h
-    
-    def __init__(self):
-        # TODO: Implementar múltiplas formas de construção
-        pass
 
     # TODO: Implementar métodos de acesso, tamanho, comparação, busca e regex
