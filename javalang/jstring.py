@@ -82,6 +82,20 @@ class JString:
             alvo = search._valor if isinstance(search, JString) else search
         resultado = self._valor.find(alvo, fromIndex)
         return resultado
+    
+    def lastIndexOf(self, search, fromIndex: int = None) -> int:
+        # unifica lastIndexOf(int ch), lastIndexOf(int ch, int fromIndex),
+        # lastIndexOf(String str) e lastIndexOf(String str, int fromIndex)
+        if isinstance(search, int):
+            alvo = chr(search)
+        else:
+            alvo = search._valor if isinstance(search, JString) else search
+        if fromIndex is None:
+            # sem fromIndex: busca do final da string
+            return self._valor.rfind(alvo)
+        # com fromIndex: busca a partir de fromIndex em direcao ao inicio
+        # java: lastIndexOf com fromIndex busca da posicao fromIndex para tras
+        return self._valor.rfind(alvo, 0, fromIndex + len(alvo))
 
 
     # ==========================================
