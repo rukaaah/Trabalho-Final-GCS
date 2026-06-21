@@ -139,6 +139,15 @@ Conforme as regras de GCS, a utilização de IA não exime o desenvolvedor da re
 - **Ferramenta Utilizada:** Gemini
 - **Prompt Representativo:**
   "Como simular o truncamento de float para inteiros limitados a bytes e shorts em Python respeitando a especificação do Java 8?"
+
+  ### Módulo: JFloat - Conversões e Semântica de Object (#38)
+
+- **Data:** 20/06/2026
+- **Desenvolvedor Responsável:** @GabrielMattosA
+- **Métodos Implementados/Auxiliados:** `JFloat.hashCode`, `JFloat.equals`, `JFloat.compareTo`
+- **Ferramenta Utilizada:** Gemini
+- **Prompt Representativo:**
+  "Como replicar a semântica de ordenação e tabelas hash da classe Float do Java 8 em Python, tratando a igualdade de NaN e diferenciação de zero negativo sem quebrar o linter?"
   
   ### Módulo: `JInteger` - Método: `valueOf`
 * **Data:** 17/06/2026
