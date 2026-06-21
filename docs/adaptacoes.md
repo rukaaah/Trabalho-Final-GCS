@@ -133,5 +133,11 @@ Aritmética Unsigned
 - **Motivo da não-implementação:** O Python gerencia valores `float` nativos como dupla precisão de 64 bits (equivalente ao `double` do Java) e carece de suporte nativo a tipos de capacidade reduzida como `byte` (8-bit) e `short` (16-bit), além de não realizar sobrecarga de construtores.
 - **Alternativa Proposta:** Desenvolvemos uma inicialização dinâmica baseada em checagem de tipos (`isinstance`). Emulamos o truncamento de ponto flutuante e o estouro posicionado de tipos de dados menores através de casts explicitados combinados a operações de máscaras bitwise (`& 0xFF`, `& 0xFFFF`, `& 0xFFFFFFFF`) seguidas de checagens de bit de sinal mais significativo para replicar fielmente o comportamento de estouro do Java SE 8.
 
+### Conversões estruturais e Object de JFloat (#38)
+
+- **Assinatura do Método:** `longValue()`, `floatValue()`, `doubleValue()`, `hashCode()`, `hashCode(float)`, `equals(Object)` e `compareTo(Float)`
+- **Motivo da não-implementação:** O Python não possui sobrecarga nativa de métodos com o mesmo nome (`hashCode`), obrigando o mapeamento do método estático para uma nomenclatura distinta. Além disso, as comparações nativas de igualdade e ordenação do Python tratam `NaN` e `-0.0` de forma puramente matemática, divergindo do contrato de coleções e hashes do Java SE 8.
+- **Alternativa Proposta:** O método estático foi assinado como `hashCode_static`. Para `equals` e `compareTo`, utilizamos o empacotamento IEEE 754 via módulo `struct` para avaliar as sequências de bits cruas dos valores reais. Isso permite isolar os bits de sinal do zero negativo e unificar os estados lógicos de `NaN`, restabelecendo a semântica de ordenação estrita do ecossistema Java.
+
 ### Módulo JString
 *(Nenhuma adaptação registrada até o momento)*
