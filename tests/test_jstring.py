@@ -81,3 +81,8 @@ class TestJStringOffsetEGetChars:
         dst = [' '] * 5
         s.getChars(0, 5, dst, 0)
         assert dst == ['h', 'e', 'l', 'l', 'o']
+
+class TestJStringGetBytes:
+    def test_get_bytes_default(self):
+        s = JString("abc")
+        assert s.getBytes() == b'abc'
