@@ -218,3 +218,21 @@ Conforme as regras de GCS, a utilização de IA não exime o desenvolvedor da re
 * **Prompt Representativo:**
   > "Implemente max(float, float), min(float, float) e sum(float, float) para JFloat, fiéis ao contrato Java."
 * **Observação:** Métodos triviais; validei max(1.5, 2.5)==2.5, min(1.5, 2.5)==1.5 e sum(1.5, 2.5)==4.0.
+
+### Módulo: `JString` - Método: `indexOf`
+* **Data:** 21/06/2026
+* **Desenvolvedor Responsável:** @JhonnPA
+* **Métodos Implementados/Auxiliados:** `JString.indexOf`
+* **Ferramenta Utilizada:** `Claude (Anthropic)`
+* **Prompt Representativo:**
+  > "Unifique indexOf(int ch), indexOf(int ch, int fromIndex), indexOf(String str) e indexOf(String str, int fromIndex) em um único método Python com dispatch por tipo via isinstance."
+* **Observação:** Validei indexOf com char (int), string, fromIndex negativo (deve virar 0) e substring não encontrada (retorna -1).
+
+### Módulo: `JString` - Método: `lastIndexOf`
+* **Data:** 21/06/2026
+* **Desenvolvedor Responsável:** @JhonnPA
+* **Métodos Implementados/Auxiliados:** `JString.lastIndexOf`
+* **Ferramenta Utilizada:** `Claude (Anthropic)`
+* **Prompt Representativo:**
+  > "Unifique as quatro sobrecargas de lastIndexOf em um único método Python com fromIndex=None, usando rfind() e replicando a semântica do Java de busca do fromIndex para trás."
+* **Observação:** Validei lastIndexOf sem fromIndex (busca do final) e com fromIndex (busca para trás a partir da posição). Confirmei comportamento com char e substring.
