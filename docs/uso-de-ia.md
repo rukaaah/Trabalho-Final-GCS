@@ -183,6 +183,24 @@ Conforme as regras de GCS, a utilização de IA não exime o desenvolvedor da re
 - **Ferramenta Utilizada:** Gemini
 - **Prompt Representativo:**
   "Como simular exatamente o algoritmo de hashCode da classe String do Java 8 em Python, garantindo que o overflow de inteiros de 32 bits assinalados funcione da mesma forma?"
+
+### Módulo: `JFloat` - Método: `parseFloat, valueOf, toString`
+* **Data:** 17/06/2026
+* **Desenvolvedor Responsável:** @JhonnPA
+* **Métodos Implementados/Auxiliados:** `JFloat.parseFloat`, `JFloat.valueOf`, `JFloat.toString`
+* **Ferramenta Utilizada:** `Claude (Anthropic)`
+* **Prompt Representativo:**
+  > "Implemente parseFloat(String) rejeitando '_' e aceitando sufixos f/F/d/D do Java, valueOf unificando float e String via dispatch, e toString unificando instância e estático com E maiúsculo fiel ao Java."
+* **Observação:** A IA acelerou a escrita dos três métodos. Validei parseFloat("1.5f")==1.5, parseFloat("abc") lançando ValueError e toString(1.5)=="1.5". Conferi o dispatch de toString para chamada estática JFloat.toString(1.5).
+
+### Módulo: `JFloat` - Método: `toHexString`
+* **Data:** 17/06/2026
+* **Desenvolvedor Responsável:** @JhonnPA
+* **Métodos Implementados/Auxiliados:** `JFloat.toHexString`
+* **Ferramenta Utilizada:** `Claude (Anthropic)`
+* **Prompt Representativo:**
+  > "Implemente toHexString(float) coagindo para float32 e produzindo formato 0x<mantissa>p<exp> com zeros removidos da mantissa, fiel ao Java."
+* **Observação:** Conferi toHexString(3.0)=="0x1.8p1" contra o javac.
 ### Módulo: `JFloat` - Método: `floatToIntBits, floatToRawIntBits, intBitsToFloat`
 * **Data:** 17/06/2026
 * **Desenvolvedor Responsável:** @JhonnPA
