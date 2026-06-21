@@ -83,3 +83,7 @@ class TestJFloatConversoesParte2:
     def test_short_value_dentro_da_faixa(self):
         numero = JFloat(1000.5)
         assert numero.shortValue() == 1000
+
+class TestJFloatToHexString:
+    def test_to_hex_string_um(self):
+        assert JFloat.toHexString(1.0) == "0x1.0p0"
