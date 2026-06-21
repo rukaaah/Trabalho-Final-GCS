@@ -135,6 +135,11 @@ Aritmética Unsigned
 **Assinatura do Método:** `public static float intBitsToFloat(int bits)`
 * **Motivo da não-implementação:** Python não tem float de 32 bits nativo; `float` é sempre 64 bits.
 * **Alternativa Proposta:** `struct.unpack(">f", struct.pack(">I", bits))` reconstrói o float32 a partir do padrão de bits, coagindo para 64 bits no retorno (sem perda para valores representáveis em 32 bits).
+### Conversões estruturais e Object de JFloat (#38)
+
+- **Assinatura do Método:** `longValue()`, `floatValue()`, `doubleValue()`, `hashCode()`, `hashCode(float)`, `equals(Object)` e `compareTo(Float)`
+- **Motivo da não-implementação:** O Python não possui sobrecarga nativa de métodos com o mesmo nome (`hashCode`), obrigando o mapeamento do método estático para uma nomenclatura distinta. Além disso, as comparações nativas de igualdade e ordenação do Python tratam `NaN` e `-0.0` de forma puramente matemática, divergindo do contrato de coleções e hashes do Java SE 8.
+- **Alternativa Proposta:** O método estático foi assinado como `hashCode_static`. Para `equals` e `compareTo`, utilizamos o empacotamento IEEE 754 via módulo `struct` para avaliar as sequências de bits cruas dos valores reais. Isso permite isolar os bits de sinal do zero negativo e unificar os estados lógicos de `NaN`, restabelecendo a semântica de ordenação estrita do ecossistema Java.
 
 ### Módulo JString
 *(Nenhuma adaptação registrada até o momento)*
