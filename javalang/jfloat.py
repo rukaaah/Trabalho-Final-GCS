@@ -19,44 +19,6 @@ Um commit não pode conter mais de 3 métodos de teste.
 import struct
 import math
 
-def _para_float32(valor):
-    # coage um double (64 bits) para precisão simples IEEE 754 (32 bits)
-    return struct.unpack(">f", struct.pack(">f", valor))[0]
-
-def _parse_float_java(s):
-    # replica Float.parseFloat: aceita sufixos f/F/d/D do Java, rejeita '_' (PEP 515)
-    if not isinstance(s, str) or s.strip() == "":
-        raise ValueError("empty String")
-    s = s.strip()
-    if "_" in s:
-        raise ValueError(f'For input string: "{s}"')
-    if s[-1].lower() in ("f", "d"):
-        s = s[:-1]
-    try:
-        resultado = float(s)
-    except ValueError:
-        raise ValueError(f'For input string: "{s}"') from None
-    return _para_float32(resultado)
-
-def _float_para_string(valor):
-    # replica saida de Float.toString: E maiusculo, threshold 1e7/1e-3
-    if math.isnan(valor):
-        return "NaN"
-    if math.isinf(valor):
-        return "Infinity" if valor > 0 else "-Infinity"
-    abs_val = abs(valor)
-    if abs_val != 0 and (abs_val >= 1e7 or abs_val < 1e-3):
-        resultado = f"{valor:.6E}"
-        mantissa, exp = resultado.split("E")
-        mantissa = mantissa.rstrip("0").rstrip(".")
-        if "." not in mantissa:
-            mantissa += ".0"
-        return f"{mantissa}E{int(exp)}"
-    resultado = repr(valor)
-    if "." not in resultado:
-        resultado += ".0"
-    return resultado
-
 class JFloat:
     # ==========================================
     # CONSTANTES 
@@ -72,6 +34,51 @@ class JFloat:
     SIZE = 32
     BYTES = 4
     
+    # ==========================================
+    # HELPERS PRIVADOS
+    # ==========================================
+    @staticmethod
+    def _para_float32(valor):
+        # coage um double (64 bits) para precisão simples IEEE 754 (32 bits)
+        return struct.unpack(">f", struct.pack(">f", valor))[0]
+    
+    @staticmethod
+    def _parse_float_java(s):
+        # replica Float.parseFloat: aceita sufixos f/F/d/D do Java, rejeita '_' (PEP 515)
+        if not isinstance(s, str) or s.strip() == "":
+            raise ValueError("empty String")
+        s = s.strip()
+        if "_" in s:
+            raise ValueError(f'For input string: "{s}"')
+        if s[-1].lower() in ("f", "d"):
+            s = s[:-1]
+        try:
+            resultado = float(s)
+        except ValueError:
+            raise ValueError(f'For input string: "{s}"') from None
+        return JFloat._para_float32(resultado)
+    
+    @staticmethod
+    def _float_para_string(valor):
+        # replica saida de Float.toString: E maiusculo, threshold 1e7/1e-3
+        if math.isnan(valor):
+            return "NaN"
+        if math.isinf(valor):
+            return "Infinity" if valor > 0 else "-Infinity"
+        abs_val = abs(valor)
+        if abs_val != 0 and (abs_val >= 1e7 or abs_val < 1e-3):
+            resultado = f"{valor:.6E}"
+            mantissa, exp = resultado.split("E")
+            mantissa = mantissa.rstrip("0").rstrip(".")
+            if "." not in mantissa:
+                mantissa += ".0"
+            return f"{mantissa}E{int(exp)}"
+        resultado = repr(valor)
+        if "." not in resultado:
+            resultado += ".0"
+        return resultado
+
+
     # ==========================================
     # CONSTRUTORES E CONVERSÃO NUMÉRICA 
     # (Ex: __init__, byteValue, intValue, etc)
@@ -119,8 +126,8 @@ class JFloat:
         # unifica toString() de instancia e toString(float f) estatico
         valor = self._valor if isinstance(self, JFloat) else self
         if f is not None:
-            valor = _para_float32(f)
-        return _float_para_string(valor)   
+            valor = JFloat._para_float32(f)
+        return JFloat._float_para_string(valor)   
     def longValue(self) -> int:
         val_int = int(self._valor)
         resultado = val_int & 0xFFFFFFFFFFFFFFFF
@@ -180,13 +187,13 @@ class JFloat:
     @staticmethod
     def parseFloat(s):
         # java: Float.parseFloat(String) -> float de 32 bits ou NumberFormatException
-        return _parse_float_java(s)
+        return JFloat._parse_float_java(s)
 
     @staticmethod
     def valueOf(value):
         # unifica valueOf(float f) e valueOf(String s) via dispatch por tipo
         if isinstance(value, str):
-            return JFloat(_parse_float_java(value))
+            return JFloat(JFloat._parse_float_java(value))
         return JFloat(value)
     def isNaN(self, v=None) -> bool:
         if isinstance(self, (int, float)):
@@ -238,7 +245,7 @@ class JFloat:
     @staticmethod
     def toHexString(f):
         # java: formato 0x<mantissa_hex>p<expoente>, ex: 0x1.8p1
-        valor = _para_float32(f)
+        valor = JFloat._para_float32(f)
         if math.isnan(valor):
             return "NaN"
         if math.isinf(valor):
