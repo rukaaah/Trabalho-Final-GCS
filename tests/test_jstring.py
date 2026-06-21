@@ -86,3 +86,8 @@ class TestJStringStartsEndsWith:
     def test_ends_with(self):
         s = JString("hello world")
         assert s.endsWith(JString("world")) is True
+
+class TestJStringSubstring:
+    def test_substring_um_argumento(self):
+        s = JString("hello world")
+        assert s.substring(6).toCharArray() == list("world")
