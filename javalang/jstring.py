@@ -218,6 +218,21 @@ class JString:
     # (Ex: matches, split, replaceAll, intern)
     # ==========================================
     # TODO: Implementações da Issue 8 aqui
+    def matches(self, regex: str) -> bool:
+        # java: retorna True se a string inteira bate com o regex
+        # re.fullmatch exige correspondencia completa, identico ao java
+        import re as _re
+        return _re.fullmatch(regex, self._valor) is not None
+
+    def replaceFirst(self, regex: str, replacement: str) -> 'JString':
+        # java: substitui apenas a primeira ocorrencia do regex
+        import re as _re
+        return JString(_re.sub(regex, replacement, self._valor, count=1))
+
+    def replaceAll(self, regex: str, replacement: str) -> 'JString':
+        # java: substitui todas as ocorrencias do regex
+        import re as _re
+        return JString(_re.sub(regex, replacement, self._valor))
 
 
     # ==========================================
