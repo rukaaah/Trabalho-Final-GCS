@@ -65,3 +65,9 @@ class TestJStringTamanhoEAcesso:
     def test_char_at_indice_valido(self):
         s = JString("hello")
         assert s.charAt(1) == 'e'
+
+class TestJStringHashCode:
+    def test_hash_code_consistente(self):
+        a = JString("abc")
+        b = JString("abc")
+        assert a.hashCode() == b.hashCode()
