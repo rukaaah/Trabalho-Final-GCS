@@ -19,6 +19,17 @@ Um commit não pode conter mais de 3 métodos de teste.
 """
 
 class JString:
+    def __init__(self, original: object = ""):
+        if isinstance(original, JString):
+            self._valor = original._valor
+        elif isinstance(original, str):
+            self._valor = original
+        else:
+            self._valor = str(original)
+
+    def length(self) -> int:
+        return len(self._valor)
+    
     def __init__(self):
         # TODO: Implementar múltiplas formas de construção
         pass
