@@ -57,3 +57,16 @@ class TestJStringHashCode:
         a = JString("abc")
         b = JString("abc")
         assert a.hashCode() == b.hashCode()
+
+class TestJStringMatchesEReplace:
+    def test_matches_regex_simples(self):
+        s = JString("abc123")
+        assert s.matches(r"[a-z]+\d+") is True
+
+    def test_replace_first(self):
+        s = JString("aaa")
+        assert s.replaceFirst("a", "b").toCharArray() == list("baa")
+
+    def test_replace_all(self):
+        s = JString("aaa")
+        assert s.replaceAll("a", "b").toCharArray() == list("bbb")
