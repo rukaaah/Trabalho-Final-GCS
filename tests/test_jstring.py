@@ -85,3 +85,8 @@ class TestJStringIndexOfString:
     def test_last_index_of_char(self):
         s = JString("hello")
         assert s.lastIndexOf(ord('l')) == 3
+
+class TestJStringLastIndexOf:
+    def test_last_index_of_char_from_index(self):
+        s = JString("hello")
+        assert s.lastIndexOf(ord('l'), 2) == 2
