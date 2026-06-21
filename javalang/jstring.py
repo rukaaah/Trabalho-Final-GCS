@@ -244,8 +244,22 @@ class JString:
     # EXTRAÇÃO E BUSCA COMPLEMENTAR (Issue 6)
     # (Ex: substring, startsWith, contains)
     # ==========================================
-    # TODO: Implementações da Issue 6 aqui
+    def contains(self, s) -> bool:
+        # java: verifica se a sequencia existe na string
+        alvo = s._valor if isinstance(s, JString) else str(s)
+        return alvo in self._valor
 
+    def startsWith(self, prefix, toffset: int = 0) -> bool:
+        # unifica startsWith(String) e startsWith(String, int toffset)
+        pref = prefix._valor if isinstance(prefix, JString) else str(prefix)
+        if toffset < 0 or toffset > len(self._valor):
+            return False
+        return self._valor.startswith(pref, toffset)
+
+    def endsWith(self, suffix) -> bool:
+        # java: verifica se a string termina com o sufixo
+        suf = suffix._valor if isinstance(suffix, JString) else str(suffix)
+        return self._valor.endswith(suf)
 
     # ==========================================
     # TRANSFORMAÇÕES E FORMATAÇÃO (Issue 7)
