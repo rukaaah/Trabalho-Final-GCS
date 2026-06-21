@@ -133,6 +133,13 @@ Aritmética Unsigned
 - **Motivo da não-implementação:** O Python gerencia valores `float` nativos como dupla precisão de 64 bits (equivalente ao `double` do Java) e carece de suporte nativo a tipos de capacidade reduzida como `byte` (8-bit) e `short` (16-bit), além de não realizar sobrecarga de construtores.
 - **Alternativa Proposta:** Desenvolvemos uma inicialização dinâmica baseada em checagem de tipos (`isinstance`). Emulamos o truncamento de ponto flutuante e o estouro posicionado de tipos de dados menores através de casts explicitados combinados a operações de máscaras bitwise (`& 0xFF`, `& 0xFFFF`, `& 0xFFFFFFFF`) seguidas de checagens de bit de sinal mais significativo para replicar fielmente o comportamento de estouro do Java SE 8.
 
+**Assinatura do Método:** `public static int floatToIntBits(float value)` / `public static int floatToRawIntBits(float value)`
+* **Motivo da não-implementação:** em Java, `floatToIntBits` canonicaliza NaN para `0x7fc00000` enquanto `floatToRawIntBits` preserva o padrão de bits exato do NaN. Em Python não existem múltiplos padrões de NaN acessíveis via `struct` — `struct.pack(">f", float("nan"))` sempre produz `0x7fc00000` no CPython.
+* **Alternativa Proposta:** ambos implementados via `struct.pack/unpack(">f"/">I")`. `floatToIntBits` adiciona verificação explícita de NaN e retorna `0x7fc00000`; `floatToRawIntBits` delega diretamente ao `struct`. Na prática o resultado é idêntico no CPython.
+
+**Assinatura do Método:** `public static float intBitsToFloat(int bits)`
+* **Motivo da não-implementação:** Python não tem float de 32 bits nativo; `float` é sempre 64 bits.
+* **Alternativa Proposta:** `struct.unpack(">f", struct.pack(">I", bits))` reconstrói o float32 a partir do padrão de bits, coagindo para 64 bits no retorno (sem perda para valores representáveis em 32 bits).
 ### Conversões estruturais e Object de JFloat (#38)
 
 - **Assinatura do Método:** `longValue()`, `floatValue()`, `doubleValue()`, `hashCode()`, `hashCode(float)`, `equals(Object)` e `compareTo(Float)`

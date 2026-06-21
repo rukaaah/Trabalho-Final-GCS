@@ -177,4 +177,40 @@ class JFloat:
     # CONVERSÃO BINÁRIA E ARITMÉTICA 
     # (Ex: floatToIntBits, compare, sum)
     # ==========================================
+    @staticmethod
+    def floatToIntBits(value):
+        # java: canonicaliza NaN para 0x7fc00000 antes de extrair os bits
+        # em CPython struct.pack(">f", nan) ja produz 0x7fc00000 — comportamento identico
+        import struct as _s
+        if value != value:  # NaN
+            return 0x7fc00000
+        return _s.unpack(">I", _s.pack(">f", value))[0]
+
+    @staticmethod
+    def floatToRawIntBits(value):
+        # java: preserva o padrao de bits exato, sem canonicalizar NaN
+        # em CPython o resultado e identico a floatToIntBits pois struct canonicaliza NaN
+        import struct as _s
+        return _s.unpack(">I", _s.pack(">f", value))[0]
+
+    @staticmethod
+    def intBitsToFloat(bits):
+        # java: reconstroi um float32 a partir do padrao de bits de 32 bits
+        import struct as _s
+        return _s.unpack(">f", _s.pack(">I", bits))[0]
+    
+    @staticmethod
+    def max(a, b):
+        # java: Float.max(float, float) -> maior valor entre os dois
+        return a if a >= b else b
+
+    @staticmethod
+    def min(a, b):
+        # java: Float.min(float, float) -> menor valor entre os dois
+        return a if a <= b else b
+
+    @staticmethod
+    def sum(a, b):
+        # java: Float.sum(float, float) -> soma simples, equivalente a a + b
+        return a + b
     pass
