@@ -21,8 +21,21 @@ Um Pull Request NÃO pode conter mais do que 7 casos de testes implementados.
 Faça PRs curtos e frequentes!
 Um commit não pode conter mais de 3 métodos de teste.
 """
-# from javalang.jstring import JString
+from javalang.jstring import JString
 
 def test_jstring_char_at():
     # TODO: Implementar teste
     pass
+
+class TestJStringConstrutores:
+    def test_construtor_vazio(self):
+        s = JString()
+        assert s.length() == 0
+
+    def test_construtor_com_string_original(self):
+        s = JString("ola")
+        assert s.length() == 3
+
+    def test_construtor_copia_valor(self):
+        s = JString("teste")
+        assert s.toCharArray() == ['t', 'e', 's', 't', 'e']
