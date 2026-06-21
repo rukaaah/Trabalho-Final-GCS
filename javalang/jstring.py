@@ -20,35 +20,6 @@ class JString:
     # ==========================================
     # NÚCLEO BASE E CONSTRUTORES (Issue 1 e 2)
     # ==========================================
-    def __init__(self, original: object = ""):
-        # TODO (Issue 2): Expandir construtor para lidar com byte[], char[], int[] (CodePoints) e StringBuilder
-        if isinstance(original, JString):
-            self._valor = str(getattr(original, '_valor'))
-        else:
-            self._valor = str(original)
-
-    def length(self) -> int:
-        return len(self._valor)
-    
-    def isEmpty(self) -> bool:
-        return len(self._valor) == 0
-
-    def charAt(self, index: int) -> str:
-        if index < 0 or index >= len(self._valor):
-            raise IndexError(f"String index out of range: {index}")
-        return self._valor[index]
-    
-    def toCharArray(self) -> list:
-        return list(self._valor)
-
-    def hashCode(self) -> int:
-        h = 0
-        for char in self._valor:
-            h = (31 * h + ord(char)) & 0xFFFFFFFF
-            
-        if h >= 0x80000000:
-            h -= 0x100000000
-        return h
     def __init__(self, *args):
         if not args:
             self._valor = ""
@@ -56,21 +27,9 @@ class JString:
 
         primeiro = args[0]
 
+        # Suporte da Issue 1 (Núcleo Base)
         if isinstance(primeiro, JString):
-            self._valor = primeiro._valor
-            return
-
-        if isinstance(primeiro, list):
-            if len(args) == 3 and isinstance(args[1], int) and isinstance(args[2], int):
-                offset, count = args[1], args[2]
-                lista_fatiada = primeiro[offset:offset+count]
-            else:
-                lista_fatiada = primeiro
-
-            self._valor = "".join(str(ch) for ch in lista_fatiada)
-            return
-        if isinstance(primeiro, JString):
-            self._valor = primeiro._valor
+            self._valor = str(getattr(primeiro, '_valor'))
             return
 
         # Suporte da Issue 2: byte[] com slices e charsets
@@ -99,7 +58,33 @@ class JString:
             else:
                 self._valor = "".join(str(ch) for ch in lista_fatiada)
             return
+
+        # Fallback padrão
         self._valor = str(primeiro)
+
+    def length(self) -> int:
+        return len(self._valor)
+    
+    def isEmpty(self) -> bool:
+        return len(self._valor) == 0
+
+    def charAt(self, index: int) -> str:
+        if index < 0 or index >= len(self._valor):
+            raise IndexError(f"String index out of range: {index}")
+        return self._valor[index]
+    
+    def toCharArray(self) -> list:
+        return list(self._valor)
+
+    def hashCode(self) -> int:
+        h = 0
+        for char in self._valor:
+            h = (31 * h + ord(char)) & 0xFFFFFFFF
+            
+        if h >= 0x80000000:
+            h -= 0x100000000
+        return h
+    
     # ==========================================
     # COMPARAÇÕES E IGUALDADE (Issue 3)
     # (Ex: equals, compareTo, regionMatches)
