@@ -68,6 +68,17 @@ Para confirmar se a instalação foi bem-sucedida, rode:
 pytest --version
 ```
 
+## 🧪 Como rodar os testes
+
+Este projeto utiliza o [pytest](https://docs.pytest.org/) como framework de testes.
+
+Como as dependências de desenvolvimento já foram instaladas no passo anterior, o pytest já está devidamente configurado no seu ambiente virtual.
+
+Para executar toda a suíte de testes e verificar a integridade das implementações, certifique-se de estar com o ambiente virtual ativado e rode o comando abaixo na raiz do projeto:
+
+bash
+python -m pytest
+
 ---
 
 ## ⚙️ Fluxo de Trabalho (GitHub Flow)
