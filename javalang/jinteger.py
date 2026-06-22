@@ -57,8 +57,16 @@ def _bits_sem_sinal_32(valor):
     return valor & 0xFFFFFFFF
 
 def _parseInt_java(s, radix=10):
+    # Trata interoperabilidade: se receber JString, extrai o valor real
+    if hasattr(s, '_valor'):
+        s = str(s._valor)
+    elif hasattr(s, 'toString'):
+        s = str(s.toString())
+    else:
+        s = str(s) if s is not None else ""
+
     # replica Integer.parseInt: rejeita '_', espacos e prefixos 0x/0b/0o
-    if not isinstance(s, str) or s == "" or "_" in s or s.strip() != s:
+    if s == "" or "_" in s or s.strip() != s:
         raise ValueError(f'For input string: "{s}"')
     corpo = s[1:] if s[0] in "+-" else s
     if corpo == "" or corpo[:2].lower() in ("0x", "0b", "0o"):
@@ -82,19 +90,15 @@ class JInteger:
     TYPE = int
     @staticmethod
     def sum(a: int, b: int) -> int:
-        # Implementação de soma básica
         return a + b
     @staticmethod
     def max(a: int, b: int) -> int:
-        # Implementação de máximo básico
         return max(a, b)
     @staticmethod
     def min(a: int, b: int) -> int:
-        # Implementação de mínimo básico
         return min(a, b)
     @staticmethod
     def compare(a: int, b: int) -> int:
-        # Implementação de comparação básica
         if a < b:
             return -1
         elif a > b:
@@ -102,18 +106,14 @@ class JInteger:
         return 0
 
     def toString(self, radix=10):
-        # unifica toString(int) e toString(int, radix) estaticos
-        # python permite argumento default; java precisa de sobrecargas para o mesmo efeito
         valor = self._valor if isinstance(self, JInteger) else self
         if radix < 2 or radix > 36:
-            # java: radix invalido (fora de MIN_RADIX..MAX_RADIX) -> fallback silencioso p/ base 10
             radix = 10
         if radix == 10:
             return str(valor)
         return _para_base_assinada(valor, radix)
 
     def toBinaryString(self):
-        # java: trata o int como bits sem sinal de 32 bits (NAO preserva sinal, diferente de toString)
         valor = self._valor if isinstance(self, JInteger) else self
         return bin(_bits_sem_sinal_32(valor))[2:]
     
@@ -124,9 +124,9 @@ class JInteger:
     def toHexString(self):
         valor = self._valor if isinstance(self, JInteger) else self
         return hex(_bits_sem_sinal_32(valor))[2:]
+        
     @staticmethod
     def toUnsignedString(i: int, radix: int = 10) -> str:
-        #Implementa os métodos toUnsignedString(int i) e toUnsignedString(int i, int radix) do Java
         if not(2 <= radix <= 36):
             raise ValueError(f"radix {radix} está fora do intervalo (2, 36)")
         valor_unsigned = i & 0xFFFFFFFF
@@ -142,46 +142,46 @@ class JInteger:
             resultado.append(digitos[valor_unsigned % radix])
             valor_unsigned //= radix
         return "".join(reversed(resultado))
+        
     def doubleValue(self):
-        # java: (double) value -> widening exato; double tem mantissa suficiente para int de 32 bits
         return float(self._valor)
     
     def hashCode(self):
-        # java: Integer.hashCode() devolve o proprio valor encapsulado, nao um hash derivado
         return self._valor
     
     def equals(self, other):
-        # java: Integer.equals so retorna True se other for Integer com mesmo valor
         if not isinstance(other, JInteger):
             return False
         return self._valor == other._valor
 
     def compareTo(self, other):
-        # java: Integer.compareTo -> negativo/zero/positivo por comparacao numerica
         return (self._valor > other._valor) - (self._valor < other._valor)
     
     @staticmethod
-    def parseInt(s: str, radix: int = 10) -> int:
-        #Implementa os métodos parseInt com e sem radix
+    def parseInt(s, radix: int = 10) -> int:
         if not (2 <= radix <= 36):
             raise ValueError(f"radix {radix} está fora do intervalo válido (2-36)")
-        try:
-            return int(s, radix)
-        except ValueError:
-            raise ValueError(f"Formato inválido: '{s}' com radix {radix}")
+        return _parseInt_java(s, radix)
         
     @staticmethod
-    def parseUnsignedInt(s: str, radix: int = 10) -> int:
-        #Implementa os métodos parseUnsignedInt com e sem radix
+    def parseUnsignedInt(s, radix: int = 10) -> int:
         if not (2 <= radix <= 36):
             raise ValueError(f"radix {radix} está fora do intervalo válido (2-36)")
-        s_clean =s.strip()
+            
+        if hasattr(s, '_valor'):
+            s_str = str(s._valor)
+        elif hasattr(s, 'toString'):
+            s_str = str(s.toString())
+        else:
+            s_str = str(s) if s is not None else ""
+            
+        s_clean = s_str.strip()
         if s_clean.startswith('-'):
-            raise ValueError(f"Número negativo não permitido: '{s}'")
+            raise ValueError(f"Número negativo não permitido: '{s_str}'")
         try:
             return int(s_clean, radix)
         except ValueError:
-            raise ValueError(f"Formato inválido: '{s}' com radix {radix}")
+            raise ValueError(f"Formato inválido: '{s_str}' com radix {radix}")
 
     @staticmethod
     def bitCount(i: int) -> int:
@@ -243,6 +243,7 @@ class JInteger:
         if divisor_unsigned == 0:
             raise ZeroDivisionError("Divisão por zero")
         return dividend_unsigned % divisor_unsigned
+        
     @staticmethod
     def numberOfLeadingZeros(i: int) -> int:
         i_unsigned = i & 0xFFFFFFFF
@@ -314,35 +315,27 @@ class JInteger:
             self._valor = value
 
     def intValue(self):
-        # java: Integer.intValue() devolve o int encapsulado diretamente
         return self._valor
 
     def byteValue(self):
-        # java: (byte) value -> 8 bits baixos como signed; trunca/faz wrap, nunca lança
         return _para_int8(self._valor & 0xFF)
 
     def shortValue(self):
-        # java: (short) value -> 16 bits baixos como signed; trunca/faz wrap, nunca lança
         return _para_int16(self._valor & 0xFFFF)
 
     def longValue(self):
-        # java: (long) value -> widening para long; numericamente idêntico
         return self._valor
 
     def floatValue(self):
-        # java: (float) value -> widening para float de 32 bits (precisão simples)
         return _para_float32(self._valor)
     
     @staticmethod
     def valueOf(value, radix=None):
-        # unifica valueOf(int), valueOf(String) e valueOf(String, radix)
-        # python nao tem sobrecarga; dispatch por tipo cobre as tres assinaturas Java
         if isinstance(value, str):
             valor = _parseInt_java(value, radix if radix is not None else 10)
         else:
             valor = value
         if -128 <= valor <= 127:
-            # simula o IntegerCache do java: mesma instancia para o mesmo valor na faixa
             if valor not in _cache_valueof:
                 _cache_valueof[valor] = JInteger(valor)
             return _cache_valueof[valor]
@@ -350,7 +343,6 @@ class JInteger:
     
     @staticmethod
     def decode(nm):
-        # java: sinal opcional + prefixo 0x/0X/# (hex), zero lider (octal), sem prefixo (decimal)
         if not isinstance(nm, str) or nm == "":
             raise ValueError(f'For input string: "{nm}"')
         negativo = nm[0] == "-"
