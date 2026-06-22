@@ -19,10 +19,25 @@ Um Pull Request NÃO pode conter mais do que 7 casos de testes implementados.
 Faça PRs curtos e frequentes!
 Um commit não pode conter mais de 3 métodos de teste.
 """
-# from javalang.jinteger import JInteger
-# from javalang.jfloat import JFloat
-# from javalang.jstring import JString
+from javalang.jinteger import JInteger
+from javalang.jfloat import JFloat
+from javalang.jstring import JString
 
 def test_conversao_cruzada():
     # TODO: Implementar testes que conectam as 3 classes
     pass
+
+class TestInteropParsingEIgualdade:
+    def test_parse_int_recebendo_jstring_radix_hex(self):
+        s = JString("ff")
+        assert JInteger.parseInt(s, 16) == 255
+
+    def test_jstring_equals_isolamento_de_tipo(self):
+        s = JString("123")
+        i = JInteger(123)
+        assert s.equals(i) is False
+
+    def test_jstring_concat_recebendo_jinteger(self):
+        s = JString("valor: ")
+        i = JInteger(42)
+        assert s.concat(i).toCharArray() == list("valor: 42")
