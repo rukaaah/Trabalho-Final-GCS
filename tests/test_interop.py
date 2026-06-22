@@ -41,3 +41,17 @@ class TestInteropParsingEIgualdade:
         s = JString("valor: ")
         i = JInteger(42)
         assert s.concat(i).toCharArray() == list("valor: 42")
+
+class TestInteropFormatacaoEBusca:
+    def test_jinteger_to_string_formatacao_limpa(self):
+        i = JInteger(42)
+        assert i.toString() == "42"
+
+    def test_jfloat_to_string_formatacao_limpa(self):
+        f = JFloat(3.14)
+        assert f.toString() == "3.14"
+
+    def test_jstring_contains_recebendo_jinteger(self):
+        s = JString("valor: 42")
+        i = JInteger(42)
+        assert s.contains(i) is True
