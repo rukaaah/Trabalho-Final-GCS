@@ -161,8 +161,12 @@ class JInteger:
         return (self._valor > other._valor) - (self._valor < other._valor)
     
     @staticmethod
-    def parseInt(s: str, radix: int = 10) -> int:
-        #Implementa os métodos parseInt com e sem radix
+    def parseInt(s, radix: int = 10) -> int:
+        # Extrai o valor interno caso o argumento seja uma JString
+        if type(s).__name__ == 'JString':
+            s = s._valor
+            
+        # Implementa os métodos parseInt com e sem radix
         if not (2 <= radix <= 36):
             raise ValueError(f"radix {radix} está fora do intervalo válido (2-36)")
         try:

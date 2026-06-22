@@ -245,8 +245,11 @@ class JString:
     # (Ex: substring, startsWith, contains)
     # ==========================================
     def contains(self, s) -> bool:
-        # java: verifica se a sequencia existe na string
-        alvo = s._valor if isinstance(s, JString) else str(s)
+        # java: verifica se a sequencia existe na string (com suporte a interoperabilidade)
+        if hasattr(s, 'toString') and callable(getattr(s, 'toString')) and type(s).__name__ != 'JString':
+            alvo = s.toString()
+        else:
+            alvo = s._valor if isinstance(s, JString) else str(s)
         return alvo in self._valor
 
     def startsWith(self, prefix, toffset: int = 0) -> bool:
@@ -296,7 +299,11 @@ class JString:
         return JString(self._valor.strip())
 
     def concat(self, str_) -> 'JString':
-        outro = str_._valor if isinstance(str_, JString) else str(str_)
+        # com suporte a invocação do toString() de objetos Java-like
+        if hasattr(str_, 'toString') and callable(getattr(str_, 'toString')) and type(str_).__name__ != 'JString':
+            outro = str_.toString()
+        else:
+            outro = str_._valor if isinstance(str_, JString) else str(str_)
         return JString(self._valor + outro)
 
     def replace(self, target, replacement) -> 'JString':
@@ -405,7 +412,7 @@ class JString:
 
     @staticmethod
     def join(delimiter, *elements) -> 'JString':
-        # Unifica join(CharSequence, CharSequence...) e join(CharSequence, Iterable)
+        # Unifica join com suporte a conversão de objetos via toString()
         delim = delimiter._valor if isinstance(delimiter, JString) else str(delimiter)
         
         if len(elements) == 1 and isinstance(elements[0], (list, tuple, set)):
@@ -413,5 +420,12 @@ class JString:
         else:
             lista_elementos = elements
             
-        str_elements = [el._valor if isinstance(el, JString) else str(el) for el in lista_elementos]
+        str_elements = []
+        for el in lista_elementos:
+            if isinstance(el, JString):
+                str_elements.append(el._valor)
+            elif hasattr(el, 'toString') and callable(getattr(el, 'toString')):
+                str_elements.append(el.toString())
+            else:
+                str_elements.append(str(el))
         return JString(delim.join(str_elements))
