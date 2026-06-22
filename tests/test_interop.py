@@ -55,3 +55,9 @@ class TestInteropFormatacaoEBusca:
         s = JString("valor: 42")
         i = JInteger(42)
         assert s.contains(i) is True
+
+class TestInteropJoin:
+    def test_join_com_lista_mista(self):
+        partes = [JString("a"), JInteger(1), JFloat(2.5)]
+        resultado = JString.join(JString("-"), *partes)
+        assert resultado.toCharArray() == list("a-1-2.5")
