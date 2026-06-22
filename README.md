@@ -8,6 +8,9 @@ O princípio orientador deste projeto é: *"o código é o pretexto; a prática 
 
 ---
 
+## Vídeo Apresentação
+[https://drive.google.com/file/d/1qOtc9kvFMtVMf1OmZ0luE4oNyb5pBj4Q/view?usp=sharing](https://drive.google.com/file/d/1qOtc9kvFMtVMf1OmZ0luE4oNyb5pBj4Q/view?usp=sharing)
+
 ## 👥 Equipe e Papéis
 
 Conforme estabelecido no processo de GCS do projeto, a equipe de 3 a 6 alunos possui seus papéis formais distribuídos da seguinte forma:
